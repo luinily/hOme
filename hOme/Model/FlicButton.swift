@@ -195,14 +195,14 @@ extension FlicButton: CloudKitObject {
 		var data = [String]()
 		_actions.forEach {
 			(actionType, command) in
-				data.append(command.fullName)
+				data.append(command.internalName)
 		}
 		record["name"] = _name
 		record["flicName"] = _flicName
 		
-		record["pressAction"] = _actions[ButtonActionType.press]?.fullName
-		record["doublePressAction"] = _actions[ButtonActionType.doublePress]?.fullName
-		record["longPressAction"] = _actions[ButtonActionType.longPress]?.fullName
+		record["pressAction"] = _actions[ButtonActionType.press]?.internalName
+		record["doublePressAction"] = _actions[ButtonActionType.doublePress]?.internalName
+		record["longPressAction"] = _actions[ButtonActionType.longPress]?.internalName
 	}
 	
 	func getCKRecordType() -> String {
