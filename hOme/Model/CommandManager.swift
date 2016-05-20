@@ -142,7 +142,7 @@ extension CommandManager: CloudKitObject {
 					if let device = getDevice(internalName: deviceInternalName) {
 						commandExecutionNotifier = device.notifyCommandExecution
 						
-						self.addOnOffCommand(deviceInternalName, getDevice: getDevice)
+						self.addOnOffCommand(deviceInternalName, getDevice: getDevice) //Adds the command only if it does not exist already
 					}
 					
 					var command: DeviceCommand? = nil
