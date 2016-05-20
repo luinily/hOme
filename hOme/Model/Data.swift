@@ -317,7 +317,8 @@ extension Data {
 	}
 	
 	func handleOpenURL(url: NSURL) -> Bool {
-		return _buttonManager.handleOpenURL(url)
+//		return _buttonManager.handleOpenURL(url)
+		return true
 	}
 }
 

@@ -1,0 +1,6 @@
+[submodule "Alamofire"]
+	path = Alamofire
+	url = https://github.com/Alamofire/Alamofire.git
+[submodule "fliclib-ios"]
+	path = fliclib-ios
+	url = https://github.com/50ButtonsEach/fliclib-ios.git

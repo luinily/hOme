@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8F00EE021CCFB4660097EF8D /* fliclib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F00EE011CCFB4660097EF8D /* fliclib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F00EE041CD2F32F0097EF8D /* NewDeviceNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00EE031CD2F32F0097EF8D /* NewDeviceNameCell.swift */; };
 		8F037E541C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F037E531C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift */; };
 		8F0FD4B01C65E8C000B0C412 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4AF1C65E8C000B0C412 /* AppDelegate.swift */; };
@@ -38,8 +37,6 @@
 		8F0FD50B1C65E8D300B0C412 /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F61C65E8D300B0C412 /* Sequence.swift */; };
 		8F0FD50C1C65E8D300B0C412 /* SequenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F71C65E8D300B0C412 /* SequenceManager.swift */; };
 		8F0FD50D1C65E8D300B0C412 /* TemperatureCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F81C65E8D300B0C412 /* TemperatureCondition.swift */; };
-		8F0FD5271C65E8F000B0C412 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F0FD5261C65E8F000B0C412 /* Alamofire.framework */; };
-		8F0FD5281C65E8F000B0C412 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F0FD5261C65E8F000B0C412 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F0FD52D1C664B3100B0C412 /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD52C1C664B3100B0C412 /* DevicesViewController.swift */; };
 		8F20F1E81CDBB66400D31DE4 /* NameEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F20F1E71CDBB66400D31DE4 /* NameEditCell.swift */; };
 		8F24850B1C8C35B200914675 /* InputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24850A1C8C35B200914675 /* InputProtocol.swift */; };
@@ -60,6 +57,12 @@
 		8F87C86D1CDDDDD200777324 /* NewSequenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F87C86C1CDDDDD200777324 /* NewSequenceViewController.swift */; };
 		8F87C86F1CDDE1C000777324 /* NameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F87C86E1CDDE1C000777324 /* NameCell.swift */; };
 		8FACED071CED598E002665C5 /* MathUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FACED061CED598E002665C5 /* MathUtilsTests.swift */; };
+		8FACED261CEF59B2002665C5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED251CEF59B2002665C5 /* Alamofire.framework */; };
+		8FACED271CEF59B2002665C5 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED251CEF59B2002665C5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8FACED291CEF59C5002665C5 /* fliclib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED281CEF59C5002665C5 /* fliclib.framework */; };
+		8FACED2A1CEF59C5002665C5 /* fliclib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED281CEF59C5002665C5 /* fliclib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8FACED2D1CEF5AD7002665C5 /* SCLFlicButtonSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FACED2B1CEF5AD7002665C5 /* SCLFlicButtonSimulator.m */; };
+		8FACED2E1CEF5AD8002665C5 /* SCLFlicManagerSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FACED2C1CEF5AD7002665C5 /* SCLFlicManagerSimulator.m */; };
 		8FBD12371C8F033D002BAEA7 /* FlicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD12361C8F033D002BAEA7 /* FlicButton.swift */; };
 		8FBD12391C8F0538002BAEA7 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD12381C8F0538002BAEA7 /* Button.swift */; };
 		8FBD123B1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD123A1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift */; };
@@ -117,8 +120,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8F00EE021CCFB4660097EF8D /* fliclib.framework in Embed Frameworks */,
-				8F0FD5281C65E8F000B0C412 /* Alamofire.framework in Embed Frameworks */,
+				8FACED2A1CEF59C5002665C5 /* fliclib.framework in Embed Frameworks */,
+				8FACED271CEF59B2002665C5 /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,7 +129,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8F00EE011CCFB4660097EF8D /* fliclib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = fliclib.framework; path = "../../fliclib-ios-master/fliclib.framework"; sourceTree = "<group>"; };
 		8F00EE031CD2F32F0097EF8D /* NewDeviceNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeviceNameCell.swift; sourceTree = "<group>"; };
 		8F037E531C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewIRKitCommandViewController.swift; sourceTree = "<group>"; };
 		8F0FD4AC1C65E8C000B0C412 /* hOme.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hOme.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,7 +166,6 @@
 		8F0FD4F71C65E8D300B0C412 /* SequenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceManager.swift; sourceTree = "<group>"; };
 		8F0FD4F81C65E8D300B0C412 /* TemperatureCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureCondition.swift; sourceTree = "<group>"; };
 		8F0FD5231C65E8DF00B0C412 /* hOme.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = hOme.entitlements; sourceTree = "<group>"; };
-		8F0FD5261C65E8F000B0C412 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Alamofire.framework; path = "/Users/yoann/Library/Developer/Xcode/DerivedData/hOme-cweeioglazklpzaoszikvmkyuomn/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<absolute>"; };
 		8F0FD52C1C664B3100B0C412 /* DevicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevicesViewController.swift; sourceTree = "<group>"; };
 		8F20F1E71CDBB66400D31DE4 /* NameEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameEditCell.swift; sourceTree = "<group>"; };
 		8F24850A1C8C35B200914675 /* InputProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputProtocol.swift; sourceTree = "<group>"; };
@@ -186,6 +187,10 @@
 		8F87C86C1CDDDDD200777324 /* NewSequenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSequenceViewController.swift; sourceTree = "<group>"; };
 		8F87C86E1CDDE1C000777324 /* NameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameCell.swift; sourceTree = "<group>"; };
 		8FACED061CED598E002665C5 /* MathUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathUtilsTests.swift; sourceTree = "<group>"; };
+		8FACED251CEF59B2002665C5 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Alamofire.framework; path = "/Users/yoann/Library/Developer/Xcode/DerivedData/hOme-cweeioglazklpzaoszikvmkyuomn/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<absolute>"; };
+		8FACED281CEF59C5002665C5 /* fliclib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = fliclib.framework; path = "fliclib-ios/fliclib.framework"; sourceTree = "<group>"; };
+		8FACED2B1CEF5AD7002665C5 /* SCLFlicButtonSimulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SCLFlicButtonSimulator.m; path = "fliclib-ios/simulator-wrapper/SCLFlicButtonSimulator.m"; sourceTree = "<group>"; };
+		8FACED2C1CEF5AD7002665C5 /* SCLFlicManagerSimulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SCLFlicManagerSimulator.m; path = "fliclib-ios/simulator-wrapper/SCLFlicManagerSimulator.m"; sourceTree = "<group>"; };
 		8FBD12361C8F033D002BAEA7 /* FlicButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlicButton.swift; sourceTree = "<group>"; };
 		8FBD12381C8F0538002BAEA7 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		8FBD123A1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonsTableDelegate.swift; sourceTree = "<group>"; };
@@ -224,8 +229,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FACED291CEF59C5002665C5 /* fliclib.framework in Frameworks */,
 				8FCFA76C1CBA4C1D00F3A8FD /* CloudKit.framework in Frameworks */,
-				8F0FD5271C65E8F000B0C412 /* Alamofire.framework in Frameworks */,
+				8FACED261CEF59B2002665C5 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,9 +265,11 @@
 		8F0FD4A31C65E8C000B0C412 = {
 			isa = PBXGroup;
 			children = (
-				8F00EE011CCFB4660097EF8D /* fliclib.framework */,
+				8FACED281CEF59C5002665C5 /* fliclib.framework */,
+				8FACED251CEF59B2002665C5 /* Alamofire.framework */,
 				8FCFA76B1CBA4C1D00F3A8FD /* CloudKit.framework */,
-				8F0FD5261C65E8F000B0C412 /* Alamofire.framework */,
+				8FACED2B1CEF5AD7002665C5 /* SCLFlicButtonSimulator.m */,
+				8FACED2C1CEF5AD7002665C5 /* SCLFlicManagerSimulator.m */,
 				8F0FD4AE1C65E8C000B0C412 /* hOme */,
 				8F0FD4C61C65E8C000B0C412 /* hOmeTests */,
 				8F0FD4D11C65E8C000B0C412 /* hOmeUITests */,
@@ -657,7 +665,6 @@
 					};
 					8F0FD4C21C65E8C000B0C412 = {
 						CreatedOnToolsVersion = 7.2.1;
-						TestTargetID = 8F0FD4AB1C65E8C000B0C412;
 					};
 					8F0FD4CD1C65E8C000B0C412 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -813,6 +820,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FACED2D1CEF5AD7002665C5 /* SCLFlicButtonSimulator.m in Sources */,
+				8FACED2E1CEF5AD8002665C5 /* SCLFlicManagerSimulator.m in Sources */,
 				8F0FD4C81C65E8C000B0C412 /* hOmeTests.swift in Sources */,
 				8F60DC621CEB655700807D34 /* CommandTimeTests.swift in Sources */,
 				8FACED071CED598E002665C5 /* MathUtilsTests.swift in Sources */,
@@ -957,7 +966,11 @@
 				CODE_SIGN_ENTITLEMENTS = hOme/hOme.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/fliclib-ios",
+				);
 				INFOPLIST_FILE = hOme/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
@@ -983,7 +996,11 @@
 				CODE_SIGN_ENTITLEMENTS = hOme/hOme.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/fliclib-ios",
+				);
 				INFOPLIST_FILE = hOme/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
@@ -1001,11 +1018,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = hOmeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YoannColdefy.hOmeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hOme.app/hOme";
 			};
 			name = Debug;
 		};
@@ -1013,11 +1030,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = hOmeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YoannColdefy.hOmeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hOme.app/hOme";
 			};
 			name = Release;
 		};
@@ -1025,6 +1042,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = hOmeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YoannColdefy.hOmeUITests;
@@ -1038,6 +1056,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = hOmeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YoannColdefy.hOmeUITests;

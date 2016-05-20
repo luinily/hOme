@@ -9,6 +9,6 @@
 #ifndef hOme_Bridging_Header_h
 #define hOme_Bridging_Header_h
 
-#import <fliclib/fliclib.h>
+#import "../../fliclib-ios/simulator-wrapper/fliclibWrapper.h"
 
 #endif /* hOme_Bridging_Header_h */

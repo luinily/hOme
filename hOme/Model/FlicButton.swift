@@ -11,7 +11,6 @@ import CloudKit
 
 class FlicButton: NSObject, SCLFlicButtonDelegate {
 	private var _button: SCLFlicButton?
-	private var _url: NSURL
 	private let _actionTypes: Set<ButtonActionType> = [ButtonActionType.press, ButtonActionType.doublePress, ButtonActionType.longPress]
 	private var _actions = [ButtonActionType: CommandProtocol]()
 	private var _flicName: String = "flic"
@@ -23,11 +22,11 @@ class FlicButton: NSObject, SCLFlicButtonDelegate {
 	
 	var button: SCLFlicButton? {return _button}
 	
-	init(button: SCLFlicButton?, url: NSURL) {
+	init(button: SCLFlicButton?) {
 		let newButton = button != nil
 		
 		_button = button
-		_url = url
+		_identifier = button?.buttonIdentifier
 		if let button = button {
 			_name = button.name
 			_flicName = button.name
@@ -137,14 +136,7 @@ extension FlicButton: Button {
 //MARK: - CloudKitObject
 extension FlicButton: CloudKitObject {
 	
-	convenience init (ckRecord: CKRecord, getCommandOfUniqueName: (uniqueName: String) -> CommandProtocol?, flicManager: FlicManager) throws {
-		guard let urlString = ckRecord["url"] as? String else {
-			throw CommandClassError.NoDeviceNameInCKRecord
-		}
-		
-		guard let url = NSURL(string: urlString) else {
-			throw CommandClassError.NoDeviceNameInCKRecord
-		}
+	convenience init (ckRecord: CKRecord, getCommandOfUniqueName: (uniqueName: String) -> CommandProtocol?, getButtonOfIdentifier: (identifier: NSUUID) -> SCLFlicButton?) throws {
 
 		guard let name = ckRecord["name"] as? String else {
 			throw CommandClassError.NoDeviceNameInCKRecord
@@ -154,7 +146,7 @@ extension FlicButton: CloudKitObject {
 			throw CommandClassError.NoDeviceNameInCKRecord
 		}
 		
-		self.init(button: nil, url: url)
+		self.init(button: nil)
 		_name = name
 		_flicName = flicName
 		
@@ -176,7 +168,7 @@ extension FlicButton: CloudKitObject {
 		_currentCKRecordName = ckRecord.recordID.recordName
 		
 		if let identifier = _identifier {
-			_button = flicManager.getButtonOfIdentifier(identifier)
+			_button = getButtonOfIdentifier(identifier: identifier)
 			_button?.delegate = self
 			_button?.triggerBehavior = SCLFlicButtonTriggerBehavior.ClickAndDoubleClickAndHold
 			_button?.connect()
@@ -197,7 +189,6 @@ extension FlicButton: CloudKitObject {
 	
 	func setUpCKRecord(record: CKRecord) {
 		record["type"] = FlicButton.getButtonType().rawValue
-		record["url"] = _url.absoluteString
 		record["identifier"] = _identifier?.UUIDString
 
 		

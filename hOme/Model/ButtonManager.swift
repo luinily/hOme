@@ -40,6 +40,9 @@ class ButtonManager {
 	}
 	
 	func deleteButton(button: Button) {
+		if let flic = button as? FlicButton {
+			_flicManager.deleteButton(flic)
+		}
 		_buttons[button.internalName] = nil
 	}
 	
@@ -48,9 +51,9 @@ class ButtonManager {
 	}
 	
 	
-	func handleOpenURL(url: NSURL) -> Bool {
-		return _flicManager.handleOpenURL(url)
-	}
+//	func handleOpenURL(url: NSURL) -> Bool {
+//		return _flicManager.handleOpenURL(url)
+//	}
 }
 
 //MARK - flic functions
@@ -93,7 +96,7 @@ extension ButtonManager: CloudKitObject {
 							
 							switch buttonType {
 							case .flic:
-								button = try FlicButton(ckRecord: record, getCommandOfUniqueName: getCommandOfUniqueName, flicManager: self._flicManager)
+								button = try FlicButton(ckRecord: record, getCommandOfUniqueName: getCommandOfUniqueName, getButtonOfIdentifier: self._flicManager.getButtonOfIdentifier)
 							}
 							
 							if let button = button {
