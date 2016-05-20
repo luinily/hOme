@@ -141,7 +141,11 @@ extension IRKitCommand: CloudKitObject {
 			_deviceInternalName = deviceInternalName
 		}
 		
-		_name = Name(name: name, internalName: _deviceInternalName + name)
+		if let internalName = ckRecord["internalName"] as? String {
+			_name = Name(name: name, internalName: internalName)
+		} else {
+			_name = Name(name: name, internalName: _deviceInternalName + name)
+		}
 		
 		_irSignal.format = format
 		_irSignal.frequence = frequence
