@@ -119,7 +119,7 @@ extension Application {
 }
 
 //MARK: - Devices
-extension Application {
+extension Application: DeviceStore {
 	func createNewDeviceOfName(name: String, connector: Connector) -> DeviceProtocol {
 		let device = _data.createAndAddNewDeviceOfName(name, connector: connector)
 		_data.createAndAddNewCommand(device, name: "OnOffCommand", commandType: .onOffCommand)
@@ -133,6 +133,11 @@ extension Application {
 	
 	func getDevices() -> [DeviceProtocol] {
 		return _data.getDevices()
+	}
+	
+	func fetchDevices(completionHandler: (devices: [DeviceProtocol]) -> Void) {
+		let devices = _data.getDevices()
+		completionHandler(devices: devices)
 	}
 	
 	func getDeviceOfInternalName(internalName: String) -> DeviceProtocol? {

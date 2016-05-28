@@ -710,7 +710,7 @@
         <!--Devices-->
         <scene sceneID="Xu5-UB-62j">
             <objects>
-                <tableViewController id="mOC-MF-ADj" customClass="DevicesViewController" customModule="hOme" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="DevicesViewController" id="mOC-MF-ADj" customClass="DevicesViewController" customModule="hOme" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="FKD-vr-94P">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -760,9 +760,6 @@
                         </prototypes>
                     </tableView>
                     <navigationItem key="navigationItem" title="Devices" id="Spo-gc-5a7"/>
-                    <connections>
-                        <outlet property="devicesTable" destination="FKD-vr-94P" id="6aP-Yz-acv"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ieB-ee-BT2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1145,7 +1142,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V0j-OW-ZY7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1119" y="803"/>
+            <point key="canvasLocation" x="1101" y="823"/>
         </scene>
         <!--New IRKitCommand-->
         <scene sceneID="NAl-iZ-bJl">
@@ -1343,7 +1340,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BwG-Ti-G7Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1140" y="1638"/>
+            <point key="canvasLocation" x="1126" y="1646"/>
         </scene>
         <!--Select Connector-->
         <scene sceneID="6r7-5k-iah">
@@ -1386,7 +1383,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8RI-Qx-BTy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="250" y="1616"/>
+            <point key="canvasLocation" x="454" y="1766"/>
         </scene>
         <!--IRKit Command-->
         <scene sceneID="fqi-Nh-Jjc">
@@ -1519,7 +1516,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6IB-zN-uly" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1860" y="1664"/>
+            <point key="canvasLocation" x="1790" y="1646"/>
         </scene>
         <!--Command On Off Setting View Controller-->
         <scene sceneID="mj5-HN-sni">
@@ -1611,7 +1608,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cnT-iu-4Vb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="231" y="84"/>
+            <point key="canvasLocation" x="76" y="214"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PEn-Qv-AtZ">
@@ -2006,7 +2003,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Lo5-BW-e4V"/>
+        <segue reference="LDo-57-f9I"/>
         <segue reference="hyj-tM-weM"/>
-        <segue reference="d9O-6Q-nUM"/>
     </inferredMetricsTieBreakers>
 </document>

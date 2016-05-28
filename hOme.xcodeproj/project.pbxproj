@@ -15,6 +15,17 @@
 		8F0231E71CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231E41CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift */; };
 		8F0231E81CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231E51CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift */; };
 		8F0231E91CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231E61CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift */; };
+		8F0231F21CF9EC6000DAA5E9 /* DevicesConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231EB1CF9EC6000DAA5E9 /* DevicesConfigurator.swift */; };
+		8F0231F31CF9EC6000DAA5E9 /* DevicesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231EC1CF9EC6000DAA5E9 /* DevicesInteractor.swift */; };
+		8F0231F41CF9EC6000DAA5E9 /* DevicesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231ED1CF9EC6000DAA5E9 /* DevicesModels.swift */; };
+		8F0231F51CF9EC6000DAA5E9 /* DevicesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231EE1CF9EC6000DAA5E9 /* DevicesPresenter.swift */; };
+		8F0231F61CF9EC6000DAA5E9 /* DevicesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231EF1CF9EC6000DAA5E9 /* DevicesRouter.swift */; };
+		8F0231F71CF9EC6000DAA5E9 /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231F01CF9EC6000DAA5E9 /* DevicesViewController.swift */; };
+		8F0231F81CF9EC6000DAA5E9 /* DevicesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231F11CF9EC6000DAA5E9 /* DevicesWorker.swift */; };
+		8F0231FD1CF9ED3800DAA5E9 /* DevicesInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231F91CF9ED3800DAA5E9 /* DevicesInteractorTests.swift */; };
+		8F0231FE1CF9ED3800DAA5E9 /* DevicesPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231FA1CF9ED3800DAA5E9 /* DevicesPresenterTests.swift */; };
+		8F0231FF1CF9ED3800DAA5E9 /* DevicesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231FB1CF9ED3800DAA5E9 /* DevicesViewControllerTests.swift */; };
+		8F0232001CF9ED3800DAA5E9 /* DevicesWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231FC1CF9ED3800DAA5E9 /* DevicesWorkerTests.swift */; };
 		8F037E541C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F037E531C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift */; };
 		8F0FD4B01C65E8C000B0C412 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4AF1C65E8C000B0C412 /* AppDelegate.swift */; };
 		8F0FD4B51C65E8C000B0C412 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F0FD4B31C65E8C000B0C412 /* Main.storyboard */; };
@@ -43,7 +54,6 @@
 		8F0FD50B1C65E8D300B0C412 /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F61C65E8D300B0C412 /* Sequence.swift */; };
 		8F0FD50C1C65E8D300B0C412 /* SequenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F71C65E8D300B0C412 /* SequenceManager.swift */; };
 		8F0FD50D1C65E8D300B0C412 /* TemperatureCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F81C65E8D300B0C412 /* TemperatureCondition.swift */; };
-		8F0FD52D1C664B3100B0C412 /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD52C1C664B3100B0C412 /* DevicesViewController.swift */; };
 		8F20F1E81CDBB66400D31DE4 /* NameEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F20F1E71CDBB66400D31DE4 /* NameEditCell.swift */; };
 		8F24850B1C8C35B200914675 /* InputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24850A1C8C35B200914675 /* InputProtocol.swift */; };
 		8F24850D1C8C35D400914675 /* FlicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24850C1C8C35D400914675 /* FlicManager.swift */; };
@@ -101,6 +111,7 @@
 		8FD77E901C784DB4009FFEB0 /* IRKitConnectorEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD77E8F1C784DB4009FFEB0 /* IRKitConnectorEditor.swift */; };
 		8FD77E951C79A228009FFEB0 /* IRKitDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD77E941C79A228009FFEB0 /* IRKitDataViewController.swift */; };
 		8FD77E991C79A402009FFEB0 /* IRKitCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD77E981C79A402009FFEB0 /* IRKitCommandViewController.swift */; };
+		8FFA75A41CFA016B00C5163D /* DeviceMemStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75A31CFA016B00C5163D /* DeviceMemStore.swift */; };
 		8FFEA15E1C971C60000C21A9 /* FlicButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFEA15D1C971C60000C21A9 /* FlicButtonViewController.swift */; };
 		8FFEA1621C971C77000C21A9 /* SelectCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFEA1611C971C77000C21A9 /* SelectCommandViewController.swift */; };
 		8FFEA1681C9E607E000C21A9 /* SelectDeviceCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFEA1671C9E607E000C21A9 /* SelectDeviceCommandViewController.swift */; };
@@ -148,6 +159,17 @@
 		8F0231E41CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateDeviceInteractorTests.swift; sourceTree = "<group>"; };
 		8F0231E51CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateDevicePresenterTests.swift; sourceTree = "<group>"; };
 		8F0231E61CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateDeviceViewControllerTests.swift; sourceTree = "<group>"; };
+		8F0231EB1CF9EC6000DAA5E9 /* DevicesConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesConfigurator.swift; path = Scenes/Devices/DevicesConfigurator.swift; sourceTree = "<group>"; };
+		8F0231EC1CF9EC6000DAA5E9 /* DevicesInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesInteractor.swift; path = Scenes/Devices/DevicesInteractor.swift; sourceTree = "<group>"; };
+		8F0231ED1CF9EC6000DAA5E9 /* DevicesModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesModels.swift; path = Scenes/Devices/DevicesModels.swift; sourceTree = "<group>"; };
+		8F0231EE1CF9EC6000DAA5E9 /* DevicesPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesPresenter.swift; path = Scenes/Devices/DevicesPresenter.swift; sourceTree = "<group>"; };
+		8F0231EF1CF9EC6000DAA5E9 /* DevicesRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesRouter.swift; path = Scenes/Devices/DevicesRouter.swift; sourceTree = "<group>"; };
+		8F0231F01CF9EC6000DAA5E9 /* DevicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesViewController.swift; path = Scenes/Devices/DevicesViewController.swift; sourceTree = "<group>"; };
+		8F0231F11CF9EC6000DAA5E9 /* DevicesWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesWorker.swift; path = Scenes/Devices/DevicesWorker.swift; sourceTree = "<group>"; };
+		8F0231F91CF9ED3800DAA5E9 /* DevicesInteractorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesInteractorTests.swift; path = Devices/DevicesInteractorTests.swift; sourceTree = "<group>"; };
+		8F0231FA1CF9ED3800DAA5E9 /* DevicesPresenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesPresenterTests.swift; path = Devices/DevicesPresenterTests.swift; sourceTree = "<group>"; };
+		8F0231FB1CF9ED3800DAA5E9 /* DevicesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesViewControllerTests.swift; path = Devices/DevicesViewControllerTests.swift; sourceTree = "<group>"; };
+		8F0231FC1CF9ED3800DAA5E9 /* DevicesWorkerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesWorkerTests.swift; path = Devices/DevicesWorkerTests.swift; sourceTree = "<group>"; };
 		8F037E531C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewIRKitCommandViewController.swift; sourceTree = "<group>"; };
 		8F0FD4AC1C65E8C000B0C412 /* hOme.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hOme.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0FD4AF1C65E8C000B0C412 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -183,7 +205,6 @@
 		8F0FD4F71C65E8D300B0C412 /* SequenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceManager.swift; sourceTree = "<group>"; };
 		8F0FD4F81C65E8D300B0C412 /* TemperatureCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureCondition.swift; sourceTree = "<group>"; };
 		8F0FD5231C65E8DF00B0C412 /* hOme.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = hOme.entitlements; sourceTree = "<group>"; };
-		8F0FD52C1C664B3100B0C412 /* DevicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevicesViewController.swift; sourceTree = "<group>"; };
 		8F20F1E71CDBB66400D31DE4 /* NameEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameEditCell.swift; sourceTree = "<group>"; };
 		8F24850A1C8C35B200914675 /* InputProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputProtocol.swift; sourceTree = "<group>"; };
 		8F24850C1C8C35D400914675 /* FlicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlicManager.swift; sourceTree = "<group>"; };
@@ -241,6 +262,7 @@
 		8FD77E8F1C784DB4009FFEB0 /* IRKitConnectorEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRKitConnectorEditor.swift; sourceTree = "<group>"; };
 		8FD77E941C79A228009FFEB0 /* IRKitDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRKitDataViewController.swift; sourceTree = "<group>"; };
 		8FD77E981C79A402009FFEB0 /* IRKitCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRKitCommandViewController.swift; sourceTree = "<group>"; };
+		8FFA75A31CFA016B00C5163D /* DeviceMemStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceMemStore.swift; sourceTree = "<group>"; };
 		8FFEA15D1C971C60000C21A9 /* FlicButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlicButtonViewController.swift; sourceTree = "<group>"; };
 		8FFEA1611C971C77000C21A9 /* SelectCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectCommandViewController.swift; sourceTree = "<group>"; };
 		8FFEA1671C9E607E000C21A9 /* SelectDeviceCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectDeviceCommandViewController.swift; sourceTree = "<group>"; };
@@ -282,6 +304,31 @@
 				8F87C86E1CDDE1C000777324 /* NameCell.swift */,
 			);
 			name = "Common Cells";
+			sourceTree = "<group>";
+		};
+		8F0231EA1CF9EC2400DAA5E9 /* DevicesScene */ = {
+			isa = PBXGroup;
+			children = (
+				8F0231EB1CF9EC6000DAA5E9 /* DevicesConfigurator.swift */,
+				8F0231EC1CF9EC6000DAA5E9 /* DevicesInteractor.swift */,
+				8F0231ED1CF9EC6000DAA5E9 /* DevicesModels.swift */,
+				8F0231EE1CF9EC6000DAA5E9 /* DevicesPresenter.swift */,
+				8F0231EF1CF9EC6000DAA5E9 /* DevicesRouter.swift */,
+				8F0231F01CF9EC6000DAA5E9 /* DevicesViewController.swift */,
+				8F0231F11CF9EC6000DAA5E9 /* DevicesWorker.swift */,
+			);
+			name = DevicesScene;
+			sourceTree = "<group>";
+		};
+		8F0232011CF9F60B00DAA5E9 /* DevicesScene */ = {
+			isa = PBXGroup;
+			children = (
+				8F0231F91CF9ED3800DAA5E9 /* DevicesInteractorTests.swift */,
+				8F0231FA1CF9ED3800DAA5E9 /* DevicesPresenterTests.swift */,
+				8F0231FB1CF9ED3800DAA5E9 /* DevicesViewControllerTests.swift */,
+				8F0231FC1CF9ED3800DAA5E9 /* DevicesWorkerTests.swift */,
+			);
+			name = DevicesScene;
 			sourceTree = "<group>";
 		};
 		8F0FD4A31C65E8C000B0C412 = {
@@ -336,6 +383,7 @@
 				8FACED061CED598E002665C5 /* MathUtilsTests.swift */,
 				8F60DC611CEB655700807D34 /* CommandTimeTests.swift */,
 				8F0FD4C91C65E8C000B0C412 /* Info.plist */,
+				8F0232011CF9F60B00DAA5E9 /* DevicesScene */,
 			);
 			path = hOmeTests;
 			sourceTree = "<group>";
@@ -384,7 +432,6 @@
 			isa = PBXGroup;
 			children = (
 				8FCFA7741CC3C22800F3A8FD /* DeviceCell.swift */,
-				8F0FD52C1C664B3100B0C412 /* DevicesViewController.swift */,
 			);
 			name = DevicesTable;
 			sourceTree = "<group>";
@@ -401,6 +448,7 @@
 		8F2BEE711CF03ED0005C8D50 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				8F0231EA1CF9EC2400DAA5E9 /* DevicesScene */,
 				8F2BEE721CF03EE0005C8D50 /* CreateDeviceScene */,
 			);
 			name = Scenes;
@@ -425,6 +473,7 @@
 			children = (
 				8F0FD4F01C65E8D300B0C412 /* DeviceManager.swift */,
 				8FCFA75E1CB69E1B00F3A8FD /* DeviceProtocol.swift */,
+				8FFA75A31CFA016B00C5163D /* DeviceMemStore.swift */,
 				8F0FD4EE1C65E8D300B0C412 /* Device.swift */,
 			);
 			name = Device;
@@ -795,23 +844,28 @@
 				8FD77E791C66F9D8009FFEB0 /* ConnectorsViewController.swift in Sources */,
 				8FBD123D1C8F0CCA002BAEA7 /* ButtonsViewController.swift in Sources */,
 				8F7D7C241C66F81000271601 /* SequencesViewController.swift in Sources */,
-				8F0FD52D1C664B3100B0C412 /* DevicesViewController.swift in Sources */,
 				8F20F1E81CDBB66400D31DE4 /* NameEditCell.swift in Sources */,
 				8FCFA7611CB6ADEF00F3A8FD /* IRKitNameCell.swift in Sources */,
 				8F0FD4FE1C65E8D300B0C412 /* Connector.swift in Sources */,
 				8F24850B1C8C35B200914675 /* InputProtocol.swift in Sources */,
 				8F2BEE7A1CF03F08005C8D50 /* CreateDeviceConfigurator.swift in Sources */,
 				8FCFA7631CB8E0C800F3A8FD /* IRKitDataCell.swift in Sources */,
+				8F0231F41CF9EC6000DAA5E9 /* DevicesModels.swift in Sources */,
 				8FCFA7771CC3D83800F3A8FD /* ApplicationUser.swift in Sources */,
 				8F5E81D11CB4210400A88CDE /* SequenceSelectCommandCell.swift in Sources */,
 				8F0FD4F91C65E8D300B0C412 /* Application.swift in Sources */,
+				8F0231F21CF9EC6000DAA5E9 /* DevicesConfigurator.swift in Sources */,
+				8F0231F61CF9EC6000DAA5E9 /* DevicesRouter.swift in Sources */,
 				8F0231DE1CF9751000DAA5E9 /* SCLFlicButtonSimulator.m in Sources */,
+				8F0231F51CF9EC6000DAA5E9 /* DevicesPresenter.swift in Sources */,
+				8FFA75A41CFA016B00C5163D /* DeviceMemStore.swift in Sources */,
 				8F0FD4FD1C65E8D300B0C412 /* CommandProtocol.swift in Sources */,
 				8F0FD5011C65E8D300B0C412 /* ConnectorManager.swift in Sources */,
 				8F0FD5031C65E8D300B0C412 /* Device.swift in Sources */,
 				8F24850D1C8C35D400914675 /* FlicManager.swift in Sources */,
 				8FFEA16D1CA1ACE0000C21A9 /* OnOffCommand.swift in Sources */,
 				8F87C86F1CDDE1C000777324 /* NameCell.swift in Sources */,
+				8F0231F71CF9EC6000DAA5E9 /* DevicesViewController.swift in Sources */,
 				8F037E541C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift in Sources */,
 				8F0FD50B1C65E8D300B0C412 /* Sequence.swift in Sources */,
 				8F0FD4FB1C65E8D300B0C412 /* CloudKitHelper.swift in Sources */,
@@ -834,6 +888,7 @@
 				8F0FD4B01C65E8C000B0C412 /* AppDelegate.swift in Sources */,
 				8FD77E801C679262009FFEB0 /* DeviceViewController.swift in Sources */,
 				8F2BEE7D1CF03F08005C8D50 /* CreateDevicePresenter.swift in Sources */,
+				8F0231F81CF9EC6000DAA5E9 /* DevicesWorker.swift in Sources */,
 				8F0FD5051C65E8D300B0C412 /* DeviceManager.swift in Sources */,
 				8FCFA7651CB8E19400F3A8FD /* IRKitDeviceOnOffSettingCell.swift in Sources */,
 				8FCFA77E1CC6894C00F3A8FD /* DeviceCommandCell.swift in Sources */,
@@ -855,6 +910,7 @@
 				8F2BEE7F1CF03F08005C8D50 /* CreateDeviceViewController.swift in Sources */,
 				8F0FD5021C65E8D300B0C412 /* Data.swift in Sources */,
 				8FBD12371C8F033D002BAEA7 /* FlicButton.swift in Sources */,
+				8F0231F31CF9EC6000DAA5E9 /* DevicesInteractor.swift in Sources */,
 				8FD77E991C79A402009FFEB0 /* IRKitCommandViewController.swift in Sources */,
 				8FD77E7E1C673A16009FFEB0 /* NewDeviceViewController.swift in Sources */,
 				8F0FD5041C65E8D300B0C412 /* DeviceCommand.swift in Sources */,
@@ -887,9 +943,13 @@
 			files = (
 				8F0231E81CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift in Sources */,
 				8F0FD4C81C65E8C000B0C412 /* hOmeTests.swift in Sources */,
+				8F0231FD1CF9ED3800DAA5E9 /* DevicesInteractorTests.swift in Sources */,
 				8F0231E91CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift in Sources */,
+				8F0231FE1CF9ED3800DAA5E9 /* DevicesPresenterTests.swift in Sources */,
 				8F60DC621CEB655700807D34 /* CommandTimeTests.swift in Sources */,
 				8F0231E71CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift in Sources */,
+				8F0232001CF9ED3800DAA5E9 /* DevicesWorkerTests.swift in Sources */,
+				8F0231FF1CF9ED3800DAA5E9 /* DevicesViewControllerTests.swift in Sources */,
 				8FACED071CED598E002665C5 /* MathUtilsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

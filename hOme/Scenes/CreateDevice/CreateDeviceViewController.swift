@@ -104,7 +104,7 @@ class CreateDeviceViewController: UITableViewController {
 		super.viewDidLoad()
 		connectorPicker.dataSource = self
 		connectorPicker.delegate = self
-		doSomethingOnLoad()
+		configureConnectorPickerOnLoad()
 	}
 	
 	private func configurePicker() {
@@ -113,7 +113,7 @@ class CreateDeviceViewController: UITableViewController {
 	
 	// MARK: Event handling
 	
-	func doSomethingOnLoad() {
+	func configureConnectorPickerOnLoad() {
 		// NOTE: Ask the Interactor to do some work
 		
 		output.prepareConnectorInformation()

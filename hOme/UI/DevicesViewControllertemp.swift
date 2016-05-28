@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class DevicesViewController: UITableViewController {
+class DevicesViewControllertemp: UITableViewController {
 	
 	@IBOutlet weak var devicesTable: UITableView!
 	private let _sectionDevices = 0
