@@ -8,7 +8,6 @@
 
 import XCTest
 @testable import hOme
-//@testable import temp
 
 extension UIViewController {
 	//this is here to allow the view to be loaded and testable

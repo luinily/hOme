@@ -8,7 +8,6 @@
 
 import XCTest
 @testable import hOme
-//@testable import temp
 
 class CreateDevicePresenterTests: XCTestCase {
 	
