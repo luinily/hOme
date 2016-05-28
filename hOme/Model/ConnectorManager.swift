@@ -16,9 +16,7 @@ enum CommunicatorManagerClassError: ErrorType {
     case CouldNotFindCommunicatorInCK
 }
 
-enum ConnectorType: Int {
-	case irKit = 1
-}
+
 
 class ConnectorManager {
     private var _connectors: [String: Connector]
@@ -61,8 +59,31 @@ class ConnectorManager {
     func deleteConnector(connector: Connector) {
 		_connectors[connector.name] = nil
 		updateCloudKit()
-		CloudKitHelper.sharedHelper.remove(connector)
+		if let connector = connector as? CloudKitObject {
+			CloudKitHelper.sharedHelper.remove(connector)
+		}
     }
+	
+	func getConnectorsTypes() -> [ConnectorType] {
+		var connectorsTypes = [ConnectorType]()
+		for connector in _connectors.values {
+			if !connectorsTypes.contains(connector.connectorType) {
+				connectorsTypes.append(connector.connectorType)
+			}
+		}
+		return connectorsTypes
+	}
+	
+	func getConnectorsByType() -> [ConnectorType: [Connector]] {
+		var connectorsByType = [ConnectorType: [Connector]]()
+		
+		let connectorsTypes = getConnectorsTypes()
+		for type in connectorsTypes {
+			connectorsByType[type] = getConnectorsOfType(type)
+		}
+		
+		return connectorsByType
+	}
 	
 	func getConnectorsOfType(type: ConnectorType) -> [Connector] {
 		return _connectors.values.filter() {
@@ -143,14 +164,16 @@ extension ConnectorManager: CloudKitObject {
 	}
 	
 	func setUpCKRecord(record: CKRecord) {
-		var communicatorRecordsNames = [String]()
+		var connectorRecordsNames = [String]()
 		
 		_connectors.forEach({
-			(communicatorName, communicator) in
-			communicatorRecordsNames.append(communicator.getNewCKRecordName())
+			(connectorName, connector) in
+			if let connector = connector as? CloudKitObject {
+				connectorRecordsNames.append(connector.getNewCKRecordName())
+			}
 		})
 		
-		record["communicatorRecordsNames"] = communicatorRecordsNames
+		record["communicatorRecordsNames"] = connectorRecordsNames
 	}
 	
 	func updateCloudKit() {

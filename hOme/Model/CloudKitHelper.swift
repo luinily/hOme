@@ -9,16 +9,7 @@
 import Foundation
 import CloudKit
 
-protocol CloudKitObject {
-	//each class implementing this protocol should 
-	//save each new instance imediately 
-	//save the instance each time it's saved values are changed
-    func getNewCKRecordName() -> String
-	func getCurrentCKRecordName() -> String?
-    func getCKRecordType() -> String
-    func setUpCKRecord(record: CKRecord)
-	func updateCloudKit()
-}
+
 
 protocol CloudKitDatabase {
 	func saveRecord(record: CKRecord, completionHandler: (CKRecord?, NSError?) -> Void)

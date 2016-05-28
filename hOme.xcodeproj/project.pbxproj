@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		8F00EE041CD2F32F0097EF8D /* NewDeviceNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F00EE031CD2F32F0097EF8D /* NewDeviceNameCell.swift */; };
+		8F0231DE1CF9751000DAA5E9 /* SCLFlicButtonSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231DC1CF9751000DAA5E9 /* SCLFlicButtonSimulator.m */; };
+		8F0231DF1CF9751000DAA5E9 /* SCLFlicManagerSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231DD1CF9751000DAA5E9 /* SCLFlicManagerSimulator.m */; };
+		8F0231E21CF9776A00DAA5E9 /* CommandTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231E01CF9776A00DAA5E9 /* CommandTime.swift */; };
+		8F0231E31CF9776A00DAA5E9 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231E11CF9776A00DAA5E9 /* MathUtils.swift */; };
+		8F0231E71CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231E41CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift */; };
+		8F0231E81CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231E51CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift */; };
+		8F0231E91CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0231E61CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift */; };
 		8F037E541C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F037E531C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift */; };
 		8F0FD4B01C65E8C000B0C412 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4AF1C65E8C000B0C412 /* AppDelegate.swift */; };
 		8F0FD4B51C65E8C000B0C412 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F0FD4B31C65E8C000B0C412 /* Main.storyboard */; };
@@ -15,7 +22,6 @@
 		8F0FD4BA1C65E8C000B0C412 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F0FD4B91C65E8C000B0C412 /* Assets.xcassets */; };
 		8F0FD4BD1C65E8C000B0C412 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F0FD4BB1C65E8C000B0C412 /* LaunchScreen.storyboard */; };
 		8F0FD4C81C65E8C000B0C412 /* hOmeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4C71C65E8C000B0C412 /* hOmeTests.swift */; };
-		8F0FD4D31C65E8C000B0C412 /* hOmeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4D21C65E8C000B0C412 /* hOmeUITests.swift */; };
 		8F0FD4F91C65E8D300B0C412 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4E41C65E8D300B0C412 /* Application.swift */; };
 		8F0FD4FA1C65E8D300B0C412 /* BonjourHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4E51C65E8D300B0C412 /* BonjourHelper.swift */; };
 		8F0FD4FB1C65E8D300B0C412 /* CloudKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4E61C65E8D300B0C412 /* CloudKitHelper.swift */; };
@@ -41,6 +47,17 @@
 		8F20F1E81CDBB66400D31DE4 /* NameEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F20F1E71CDBB66400D31DE4 /* NameEditCell.swift */; };
 		8F24850B1C8C35B200914675 /* InputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24850A1C8C35B200914675 /* InputProtocol.swift */; };
 		8F24850D1C8C35D400914675 /* FlicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24850C1C8C35D400914675 /* FlicManager.swift */; };
+		8F24C18A1CF08FD3005592F8 /* ConnectorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24C1891CF08FD3005592F8 /* ConnectorType.swift */; };
+		8F24C1901CF09046005592F8 /* CommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24C18F1CF09046005592F8 /* CommandType.swift */; };
+		8F24C1941CF0906E005592F8 /* CloudKitObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24C1931CF0906E005592F8 /* CloudKitObject.swift */; };
+		8F24C19C1CF09265005592F8 /* ConnectorUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24C19B1CF09265005592F8 /* ConnectorUser.swift */; };
+		8F2BEE7A1CF03F08005C8D50 /* CreateDeviceConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BEE731CF03F08005C8D50 /* CreateDeviceConfigurator.swift */; };
+		8F2BEE7B1CF03F08005C8D50 /* CreateDeviceInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BEE741CF03F08005C8D50 /* CreateDeviceInteractor.swift */; };
+		8F2BEE7C1CF03F08005C8D50 /* CreateDeviceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BEE751CF03F08005C8D50 /* CreateDeviceModels.swift */; };
+		8F2BEE7D1CF03F08005C8D50 /* CreateDevicePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BEE761CF03F08005C8D50 /* CreateDevicePresenter.swift */; };
+		8F2BEE7E1CF03F08005C8D50 /* CreateDeviceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BEE771CF03F08005C8D50 /* CreateDeviceRouter.swift */; };
+		8F2BEE7F1CF03F08005C8D50 /* CreateDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BEE781CF03F08005C8D50 /* CreateDeviceViewController.swift */; };
+		8F2BEE801CF03F08005C8D50 /* GetConnectorsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2BEE791CF03F08005C8D50 /* GetConnectorsWorker.swift */; };
 		8F4548F11C86004100B3DF00 /* EditNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4548F01C86004100B3DF00 /* EditNameViewController.swift */; };
 		8F5E81C31CB17C6A00A88CDE /* SequenceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5E81C21CB17C6A00A88CDE /* SequenceCell.swift */; };
 		8F5E81C51CB28A1B00A88CDE /* SequenceCommandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5E81C41CB28A1B00A88CDE /* SequenceCommandCell.swift */; };
@@ -50,19 +67,13 @@
 		8F5E81CF1CB420DE00A88CDE /* SequenceCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5E81CE1CB420DE00A88CDE /* SequenceCommandViewController.swift */; };
 		8F5E81D11CB4210400A88CDE /* SequenceSelectCommandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5E81D01CB4210400A88CDE /* SequenceSelectCommandCell.swift */; };
 		8F5E81D31CB4210C00A88CDE /* SequenceTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5E81D21CB4210C00A88CDE /* SequenceTimeCell.swift */; };
-		8F60DC601CE95EC900807D34 /* CommandTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60DC5F1CE95EC900807D34 /* CommandTime.swift */; };
 		8F60DC621CEB655700807D34 /* CommandTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60DC611CEB655700807D34 /* CommandTimeTests.swift */; };
-		8F60DCAC1CEB7C8C00807D34 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60DCAB1CEB7C8C00807D34 /* MathUtils.swift */; };
 		8F7D7C241C66F81000271601 /* SequencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7D7C231C66F81000271601 /* SequencesViewController.swift */; };
 		8F87C86D1CDDDDD200777324 /* NewSequenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F87C86C1CDDDDD200777324 /* NewSequenceViewController.swift */; };
 		8F87C86F1CDDE1C000777324 /* NameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F87C86E1CDDE1C000777324 /* NameCell.swift */; };
 		8FACED071CED598E002665C5 /* MathUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FACED061CED598E002665C5 /* MathUtilsTests.swift */; };
 		8FACED261CEF59B2002665C5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED251CEF59B2002665C5 /* Alamofire.framework */; };
 		8FACED271CEF59B2002665C5 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED251CEF59B2002665C5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8FACED291CEF59C5002665C5 /* fliclib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED281CEF59C5002665C5 /* fliclib.framework */; };
-		8FACED2A1CEF59C5002665C5 /* fliclib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED281CEF59C5002665C5 /* fliclib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8FACED2D1CEF5AD7002665C5 /* SCLFlicButtonSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FACED2B1CEF5AD7002665C5 /* SCLFlicButtonSimulator.m */; };
-		8FACED2E1CEF5AD8002665C5 /* SCLFlicManagerSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FACED2C1CEF5AD7002665C5 /* SCLFlicManagerSimulator.m */; };
 		8FBD12371C8F033D002BAEA7 /* FlicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD12361C8F033D002BAEA7 /* FlicButton.swift */; };
 		8FBD12391C8F0538002BAEA7 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD12381C8F0538002BAEA7 /* Button.swift */; };
 		8FBD123B1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD123A1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift */; };
@@ -120,7 +131,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8FACED2A1CEF59C5002665C5 /* fliclib.framework in Embed Frameworks */,
 				8FACED271CEF59B2002665C5 /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -130,6 +140,14 @@
 
 /* Begin PBXFileReference section */
 		8F00EE031CD2F32F0097EF8D /* NewDeviceNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewDeviceNameCell.swift; sourceTree = "<group>"; };
+		8F0231DB1CF9751000DAA5E9 /* fliclibWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fliclibWrapper.h; path = "fliclib-ios/simulator-wrapper/fliclibWrapper.h"; sourceTree = "<group>"; };
+		8F0231DC1CF9751000DAA5E9 /* SCLFlicButtonSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCLFlicButtonSimulator.m; path = "fliclib-ios/simulator-wrapper/SCLFlicButtonSimulator.m"; sourceTree = "<group>"; };
+		8F0231DD1CF9751000DAA5E9 /* SCLFlicManagerSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SCLFlicManagerSimulator.m; path = "fliclib-ios/simulator-wrapper/SCLFlicManagerSimulator.m"; sourceTree = "<group>"; };
+		8F0231E01CF9776A00DAA5E9 /* CommandTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandTime.swift; sourceTree = "<group>"; };
+		8F0231E11CF9776A00DAA5E9 /* MathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
+		8F0231E41CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateDeviceInteractorTests.swift; sourceTree = "<group>"; };
+		8F0231E51CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateDevicePresenterTests.swift; sourceTree = "<group>"; };
+		8F0231E61CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateDeviceViewControllerTests.swift; sourceTree = "<group>"; };
 		8F037E531C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewIRKitCommandViewController.swift; sourceTree = "<group>"; };
 		8F0FD4AC1C65E8C000B0C412 /* hOme.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hOme.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0FD4AF1C65E8C000B0C412 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,7 +160,6 @@
 		8F0FD4C71C65E8C000B0C412 /* hOmeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hOmeTests.swift; sourceTree = "<group>"; };
 		8F0FD4C91C65E8C000B0C412 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F0FD4CE1C65E8C000B0C412 /* hOmeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hOmeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F0FD4D21C65E8C000B0C412 /* hOmeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hOmeUITests.swift; sourceTree = "<group>"; };
 		8F0FD4D41C65E8C000B0C412 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F0FD4E41C65E8D300B0C412 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		8F0FD4E51C65E8D300B0C412 /* BonjourHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BonjourHelper.swift; sourceTree = "<group>"; };
@@ -170,7 +187,18 @@
 		8F20F1E71CDBB66400D31DE4 /* NameEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameEditCell.swift; sourceTree = "<group>"; };
 		8F24850A1C8C35B200914675 /* InputProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputProtocol.swift; sourceTree = "<group>"; };
 		8F24850C1C8C35D400914675 /* FlicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlicManager.swift; sourceTree = "<group>"; };
-		8F2485181C8C968000914675 /* hOme-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hOme-Bridging-Header.h"; sourceTree = "<group>"; };
+		8F2485181C8C968000914675 /* hOme-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hOme-Bridging-Header.h"; path = "../hOme-Bridging-Header.h"; sourceTree = "<group>"; };
+		8F24C1891CF08FD3005592F8 /* ConnectorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectorType.swift; sourceTree = "<group>"; };
+		8F24C18F1CF09046005592F8 /* CommandType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandType.swift; sourceTree = "<group>"; };
+		8F24C1931CF0906E005592F8 /* CloudKitObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitObject.swift; sourceTree = "<group>"; };
+		8F24C19B1CF09265005592F8 /* ConnectorUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectorUser.swift; sourceTree = "<group>"; };
+		8F2BEE731CF03F08005C8D50 /* CreateDeviceConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateDeviceConfigurator.swift; path = Scenes/CreateDevice/CreateDeviceConfigurator.swift; sourceTree = "<group>"; };
+		8F2BEE741CF03F08005C8D50 /* CreateDeviceInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateDeviceInteractor.swift; path = Scenes/CreateDevice/CreateDeviceInteractor.swift; sourceTree = "<group>"; };
+		8F2BEE751CF03F08005C8D50 /* CreateDeviceModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateDeviceModels.swift; path = Scenes/CreateDevice/CreateDeviceModels.swift; sourceTree = "<group>"; };
+		8F2BEE761CF03F08005C8D50 /* CreateDevicePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateDevicePresenter.swift; path = Scenes/CreateDevice/CreateDevicePresenter.swift; sourceTree = "<group>"; };
+		8F2BEE771CF03F08005C8D50 /* CreateDeviceRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateDeviceRouter.swift; path = Scenes/CreateDevice/CreateDeviceRouter.swift; sourceTree = "<group>"; };
+		8F2BEE781CF03F08005C8D50 /* CreateDeviceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateDeviceViewController.swift; path = Scenes/CreateDevice/CreateDeviceViewController.swift; sourceTree = "<group>"; };
+		8F2BEE791CF03F08005C8D50 /* GetConnectorsWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetConnectorsWorker.swift; path = Scenes/CreateDevice/GetConnectorsWorker.swift; sourceTree = "<group>"; };
 		8F4548F01C86004100B3DF00 /* EditNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditNameViewController.swift; sourceTree = "<group>"; };
 		8F5E81C21CB17C6A00A88CDE /* SequenceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceCell.swift; sourceTree = "<group>"; };
 		8F5E81C41CB28A1B00A88CDE /* SequenceCommandCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceCommandCell.swift; sourceTree = "<group>"; };
@@ -180,17 +208,12 @@
 		8F5E81CE1CB420DE00A88CDE /* SequenceCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceCommandViewController.swift; sourceTree = "<group>"; };
 		8F5E81D01CB4210400A88CDE /* SequenceSelectCommandCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceSelectCommandCell.swift; sourceTree = "<group>"; };
 		8F5E81D21CB4210C00A88CDE /* SequenceTimeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceTimeCell.swift; sourceTree = "<group>"; };
-		8F60DC5F1CE95EC900807D34 /* CommandTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandTime.swift; sourceTree = "<group>"; };
 		8F60DC611CEB655700807D34 /* CommandTimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandTimeTests.swift; sourceTree = "<group>"; };
-		8F60DCAB1CEB7C8C00807D34 /* MathUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
 		8F7D7C231C66F81000271601 /* SequencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequencesViewController.swift; sourceTree = "<group>"; };
 		8F87C86C1CDDDDD200777324 /* NewSequenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSequenceViewController.swift; sourceTree = "<group>"; };
 		8F87C86E1CDDE1C000777324 /* NameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameCell.swift; sourceTree = "<group>"; };
 		8FACED061CED598E002665C5 /* MathUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathUtilsTests.swift; sourceTree = "<group>"; };
 		8FACED251CEF59B2002665C5 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Alamofire.framework; path = "/Users/yoann/Library/Developer/Xcode/DerivedData/hOme-cweeioglazklpzaoszikvmkyuomn/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<absolute>"; };
-		8FACED281CEF59C5002665C5 /* fliclib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = fliclib.framework; path = "fliclib-ios/fliclib.framework"; sourceTree = "<group>"; };
-		8FACED2B1CEF5AD7002665C5 /* SCLFlicButtonSimulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SCLFlicButtonSimulator.m; path = "fliclib-ios/simulator-wrapper/SCLFlicButtonSimulator.m"; sourceTree = "<group>"; };
-		8FACED2C1CEF5AD7002665C5 /* SCLFlicManagerSimulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SCLFlicManagerSimulator.m; path = "fliclib-ios/simulator-wrapper/SCLFlicManagerSimulator.m"; sourceTree = "<group>"; };
 		8FBD12361C8F033D002BAEA7 /* FlicButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlicButton.swift; sourceTree = "<group>"; };
 		8FBD12381C8F0538002BAEA7 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		8FBD123A1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonsTableDelegate.swift; sourceTree = "<group>"; };
@@ -206,7 +229,7 @@
 		8FCFA76D1CBBD05E00F3A8FD /* Name.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Name.swift; sourceTree = "<group>"; };
 		8FCFA76F1CBD455C00F3A8FD /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		8FCFA7741CC3C22800F3A8FD /* DeviceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceCell.swift; sourceTree = "<group>"; };
-		8FCFA7761CC3D83800F3A8FD /* ApplicationUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationUser.swift; sourceTree = "<group>"; };
+		8FCFA7761CC3D83800F3A8FD /* ApplicationUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ApplicationUser.swift; path = ../ApplicationUser.swift; sourceTree = "<group>"; };
 		8FCFA7781CC6817C00F3A8FD /* SelectConectorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectConectorCell.swift; sourceTree = "<group>"; };
 		8FCFA77B1CC6839100F3A8FD /* CommandOnOffCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandOnOffCell.swift; sourceTree = "<group>"; };
 		8FCFA77D1CC6894C00F3A8FD /* DeviceCommandCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceCommandCell.swift; sourceTree = "<group>"; };
@@ -229,7 +252,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FACED291CEF59C5002665C5 /* fliclib.framework in Frameworks */,
 				8FCFA76C1CBA4C1D00F3A8FD /* CloudKit.framework in Frameworks */,
 				8FACED261CEF59B2002665C5 /* Alamofire.framework in Frameworks */,
 			);
@@ -265,11 +287,11 @@
 		8F0FD4A31C65E8C000B0C412 = {
 			isa = PBXGroup;
 			children = (
-				8FACED281CEF59C5002665C5 /* fliclib.framework */,
+				8F0231DB1CF9751000DAA5E9 /* fliclibWrapper.h */,
+				8F0231DC1CF9751000DAA5E9 /* SCLFlicButtonSimulator.m */,
+				8F0231DD1CF9751000DAA5E9 /* SCLFlicManagerSimulator.m */,
 				8FACED251CEF59B2002665C5 /* Alamofire.framework */,
 				8FCFA76B1CBA4C1D00F3A8FD /* CloudKit.framework */,
-				8FACED2B1CEF5AD7002665C5 /* SCLFlicButtonSimulator.m */,
-				8FACED2C1CEF5AD7002665C5 /* SCLFlicManagerSimulator.m */,
 				8F0FD4AE1C65E8C000B0C412 /* hOme */,
 				8F0FD4C61C65E8C000B0C412 /* hOmeTests */,
 				8F0FD4D11C65E8C000B0C412 /* hOmeUITests */,
@@ -292,9 +314,9 @@
 			children = (
 				8F0FD5231C65E8DF00B0C412 /* hOme.entitlements */,
 				8F0FD4AF1C65E8C000B0C412 /* AppDelegate.swift */,
-				8FCFA7761CC3D83800F3A8FD /* ApplicationUser.swift */,
 				8F0FD4E01C65E8D300B0C412 /* Model */,
 				8F31ACF21CA6BDD800BBB8F6 /* UI */,
+				8F2BEE711CF03ED0005C8D50 /* Scenes */,
 				8F0FD4B31C65E8C000B0C412 /* Main.storyboard */,
 				8F0FD4B91C65E8C000B0C412 /* Assets.xcassets */,
 				8F0FD4BB1C65E8C000B0C412 /* LaunchScreen.storyboard */,
@@ -307,6 +329,9 @@
 		8F0FD4C61C65E8C000B0C412 /* hOmeTests */ = {
 			isa = PBXGroup;
 			children = (
+				8F0231E41CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift */,
+				8F0231E51CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift */,
+				8F0231E61CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift */,
 				8F0FD4C71C65E8C000B0C412 /* hOmeTests.swift */,
 				8FACED061CED598E002665C5 /* MathUtilsTests.swift */,
 				8F60DC611CEB655700807D34 /* CommandTimeTests.swift */,
@@ -318,7 +343,6 @@
 		8F0FD4D11C65E8C000B0C412 /* hOmeUITests */ = {
 			isa = PBXGroup;
 			children = (
-				8F0FD4D21C65E8C000B0C412 /* hOmeUITests.swift */,
 				8F0FD4D41C65E8C000B0C412 /* Info.plist */,
 			);
 			path = hOmeUITests;
@@ -327,15 +351,18 @@
 		8F0FD4E01C65E8D300B0C412 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8F0231E01CF9776A00DAA5E9 /* CommandTime.swift */,
+				8F0231E11CF9776A00DAA5E9 /* MathUtils.swift */,
+				8FCFA7761CC3D83800F3A8FD /* ApplicationUser.swift */,
+				8F24C19B1CF09265005592F8 /* ConnectorUser.swift */,
 				8F0FD4E41C65E8D300B0C412 /* Application.swift */,
 				8F0FD4E51C65E8D300B0C412 /* BonjourHelper.swift */,
 				8F0FD4E61C65E8D300B0C412 /* CloudKitHelper.swift */,
+				8F24C1931CF0906E005592F8 /* CloudKitObject.swift */,
 				8F0FD4ED1C65E8D300B0C412 /* Data.swift */,
 				8FCFA76D1CBBD05E00F3A8FD /* Name.swift */,
 				8FCFA75C1CB69C2D00F3A8FD /* Nameable.swift */,
 				8FCFA76F1CBD455C00F3A8FD /* Manager.swift */,
-				8F60DCAB1CEB7C8C00807D34 /* MathUtils.swift */,
-				8F60DC5F1CE95EC900807D34 /* CommandTime.swift */,
 				8F31ACEB1CA2D13700BBB8F6 /* Command */,
 				8F31ACEC1CA2D14400BBB8F6 /* Connector */,
 				8F31ACEA1CA2D12B00BBB8F6 /* Device */,
@@ -371,6 +398,28 @@
 			name = NewDevice;
 			sourceTree = "<group>";
 		};
+		8F2BEE711CF03ED0005C8D50 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				8F2BEE721CF03EE0005C8D50 /* CreateDeviceScene */,
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		8F2BEE721CF03EE0005C8D50 /* CreateDeviceScene */ = {
+			isa = PBXGroup;
+			children = (
+				8F2BEE731CF03F08005C8D50 /* CreateDeviceConfigurator.swift */,
+				8F2BEE741CF03F08005C8D50 /* CreateDeviceInteractor.swift */,
+				8F2BEE751CF03F08005C8D50 /* CreateDeviceModels.swift */,
+				8F2BEE761CF03F08005C8D50 /* CreateDevicePresenter.swift */,
+				8F2BEE771CF03F08005C8D50 /* CreateDeviceRouter.swift */,
+				8F2BEE781CF03F08005C8D50 /* CreateDeviceViewController.swift */,
+				8F2BEE791CF03F08005C8D50 /* GetConnectorsWorker.swift */,
+			);
+			name = CreateDeviceScene;
+			sourceTree = "<group>";
+		};
 		8F31ACEA1CA2D12B00BBB8F6 /* Device */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +434,7 @@
 			isa = PBXGroup;
 			children = (
 				8F0FD4E71C65E8D300B0C412 /* CommandManager.swift */,
+				8F24C18F1CF09046005592F8 /* CommandType.swift */,
 				8F0FD4F71C65E8D300B0C412 /* SequenceManager.swift */,
 				8FFEA16C1CA1ACE0000C21A9 /* OnOffCommand.swift */,
 				8F0FD4E81C65E8D300B0C412 /* CommandProtocol.swift */,
@@ -398,6 +448,7 @@
 			isa = PBXGroup;
 			children = (
 				8F0FD4EC1C65E8D300B0C412 /* ConnectorManager.swift */,
+				8F24C1891CF08FD3005592F8 /* ConnectorType.swift */,
 				8F0FD4E91C65E8D300B0C412 /* Connector.swift */,
 			);
 			name = Connector;
@@ -665,6 +716,7 @@
 					};
 					8F0FD4C21C65E8C000B0C412 = {
 						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = 8F0FD4AB1C65E8C000B0C412;
 					};
 					8F0FD4CD1C65E8C000B0C412 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -748,10 +800,12 @@
 				8FCFA7611CB6ADEF00F3A8FD /* IRKitNameCell.swift in Sources */,
 				8F0FD4FE1C65E8D300B0C412 /* Connector.swift in Sources */,
 				8F24850B1C8C35B200914675 /* InputProtocol.swift in Sources */,
+				8F2BEE7A1CF03F08005C8D50 /* CreateDeviceConfigurator.swift in Sources */,
 				8FCFA7631CB8E0C800F3A8FD /* IRKitDataCell.swift in Sources */,
 				8FCFA7771CC3D83800F3A8FD /* ApplicationUser.swift in Sources */,
 				8F5E81D11CB4210400A88CDE /* SequenceSelectCommandCell.swift in Sources */,
 				8F0FD4F91C65E8D300B0C412 /* Application.swift in Sources */,
+				8F0231DE1CF9751000DAA5E9 /* SCLFlicButtonSimulator.m in Sources */,
 				8F0FD4FD1C65E8D300B0C412 /* CommandProtocol.swift in Sources */,
 				8F0FD5011C65E8D300B0C412 /* ConnectorManager.swift in Sources */,
 				8F0FD5031C65E8D300B0C412 /* Device.swift in Sources */,
@@ -761,37 +815,44 @@
 				8F037E541C81A2B300F1E8D5 /* NewIRKitCommandViewController.swift in Sources */,
 				8F0FD50B1C65E8D300B0C412 /* Sequence.swift in Sources */,
 				8F0FD4FB1C65E8D300B0C412 /* CloudKitHelper.swift in Sources */,
+				8F0231DF1CF9751000DAA5E9 /* SCLFlicManagerSimulator.m in Sources */,
 				8FBD12391C8F0538002BAEA7 /* Button.swift in Sources */,
 				8FD77E8A1C6B6918009FFEB0 /* SelectConnectorViewController.swift in Sources */,
 				8FD77E851C6A4E93009FFEB0 /* SequenceViewController.swift in Sources */,
 				8F87C86D1CDDDDD200777324 /* NewSequenceViewController.swift in Sources */,
 				8F5E81C31CB17C6A00A88CDE /* SequenceCell.swift in Sources */,
+				8F24C1901CF09046005592F8 /* CommandType.swift in Sources */,
 				8F0FD5061C65E8D300B0C412 /* IRKitCommand.swift in Sources */,
 				8F5E81D31CB4210C00A88CDE /* SequenceTimeCell.swift in Sources */,
 				8F5E81CB1CB4071A00A88CDE /* CommandSelectorDeviceCell.swift in Sources */,
 				8FCFA7751CC3C22800F3A8FD /* DeviceCell.swift in Sources */,
 				8FFEA15E1C971C60000C21A9 /* FlicButtonViewController.swift in Sources */,
 				8F0FD4B81C65E8C000B0C412 /* hOme.xcdatamodeld in Sources */,
+				8F2BEE801CF03F08005C8D50 /* GetConnectorsWorker.swift in Sources */,
 				8FBD123B1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift in Sources */,
 				8F0FD50D1C65E8D300B0C412 /* TemperatureCondition.swift in Sources */,
 				8F0FD4B01C65E8C000B0C412 /* AppDelegate.swift in Sources */,
 				8FD77E801C679262009FFEB0 /* DeviceViewController.swift in Sources */,
+				8F2BEE7D1CF03F08005C8D50 /* CreateDevicePresenter.swift in Sources */,
 				8F0FD5051C65E8D300B0C412 /* DeviceManager.swift in Sources */,
 				8FCFA7651CB8E19400F3A8FD /* IRKitDeviceOnOffSettingCell.swift in Sources */,
 				8FCFA77E1CC6894C00F3A8FD /* DeviceCommandCell.swift in Sources */,
 				8F0FD5071C65E8D300B0C412 /* IRKitConnector.swift in Sources */,
+				8F0231E21CF9776A00DAA5E9 /* CommandTime.swift in Sources */,
+				8F0231E31CF9776A00DAA5E9 /* MathUtils.swift in Sources */,
+				8F24C18A1CF08FD3005592F8 /* ConnectorType.swift in Sources */,
 				8FD77E901C784DB4009FFEB0 /* IRKitConnectorEditor.swift in Sources */,
 				8FCFA75F1CB69E1B00F3A8FD /* DeviceProtocol.swift in Sources */,
 				8F5E81C51CB28A1B00A88CDE /* SequenceCommandCell.swift in Sources */,
 				8F0FD50A1C65E8D300B0C412 /* ScheduleCommand.swift in Sources */,
 				8FCFA77C1CC6839100F3A8FD /* CommandOnOffCell.swift in Sources */,
 				8F5E81CD1CB40E0C00A88CDE /* CommandSelectorSequenceCell.swift in Sources */,
-				8F60DCAC1CEB7C8C00807D34 /* MathUtils.swift in Sources */,
 				8F4548F11C86004100B3DF00 /* EditNameViewController.swift in Sources */,
 				8F5E81CF1CB420DE00A88CDE /* SequenceCommandViewController.swift in Sources */,
 				8FCFA7701CBD455C00F3A8FD /* Manager.swift in Sources */,
+				8F2BEE7C1CF03F08005C8D50 /* CreateDeviceModels.swift in Sources */,
 				8F0FD5081C65E8D300B0C412 /* IRKitSignal.swift in Sources */,
-				8F60DC601CE95EC900807D34 /* CommandTime.swift in Sources */,
+				8F2BEE7F1CF03F08005C8D50 /* CreateDeviceViewController.swift in Sources */,
 				8F0FD5021C65E8D300B0C412 /* Data.swift in Sources */,
 				8FBD12371C8F033D002BAEA7 /* FlicButton.swift in Sources */,
 				8FD77E991C79A402009FFEB0 /* IRKitCommandViewController.swift in Sources */,
@@ -804,14 +865,18 @@
 				8F0FD4FA1C65E8D300B0C412 /* BonjourHelper.swift in Sources */,
 				8FFEA1681C9E607E000C21A9 /* SelectDeviceCommandViewController.swift in Sources */,
 				8FCFA76A1CB9014200F3A8FD /* CommandOnOffSettingViewController.swift in Sources */,
+				8F2BEE7B1CF03F08005C8D50 /* CreateDeviceInteractor.swift in Sources */,
 				8F0FD4FC1C65E8D300B0C412 /* CommandManager.swift in Sources */,
 				8FFEA1621C971C77000C21A9 /* SelectCommandViewController.swift in Sources */,
 				8F5E81C91CB3FE4200A88CDE /* SelectDeviceCommandCell.swift in Sources */,
 				8F0FD4FF1C65E8D300B0C412 /* Condition.swift in Sources */,
 				8F0FD5091C65E8D300B0C412 /* Schedule.swift in Sources */,
 				8F00EE041CD2F32F0097EF8D /* NewDeviceNameCell.swift in Sources */,
+				8F24C1941CF0906E005592F8 /* CloudKitObject.swift in Sources */,
 				8F0FD50C1C65E8D300B0C412 /* SequenceManager.swift in Sources */,
+				8F24C19C1CF09265005592F8 /* ConnectorUser.swift in Sources */,
 				8FCFA75D1CB69C2D00F3A8FD /* Nameable.swift in Sources */,
+				8F2BEE7E1CF03F08005C8D50 /* CreateDeviceRouter.swift in Sources */,
 				8F0FD5001C65E8D300B0C412 /* ConditionalCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -820,10 +885,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FACED2D1CEF5AD7002665C5 /* SCLFlicButtonSimulator.m in Sources */,
-				8FACED2E1CEF5AD8002665C5 /* SCLFlicManagerSimulator.m in Sources */,
+				8F0231E81CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift in Sources */,
 				8F0FD4C81C65E8C000B0C412 /* hOmeTests.swift in Sources */,
+				8F0231E91CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift in Sources */,
 				8F60DC621CEB655700807D34 /* CommandTimeTests.swift in Sources */,
+				8F0231E71CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift in Sources */,
 				8FACED071CED598E002665C5 /* MathUtilsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -832,7 +898,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F0FD4D31C65E8C000B0C412 /* hOmeUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -969,16 +1034,15 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/fliclib-ios",
 				);
 				INFOPLIST_FILE = hOme/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YoannColdefy.hOme1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "hOme/Model/hOme-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "hOme/hOme-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = " ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -999,16 +1063,15 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/fliclib-ios",
 				);
 				INFOPLIST_FILE = hOme/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YoannColdefy.hOme1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "hOme/Model/hOme-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "hOme/hOme-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = " ";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -1018,11 +1081,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = hOmeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YoannColdefy.hOmeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hOme.app/hOme";
 			};
 			name = Debug;
 		};
@@ -1030,11 +1095,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = hOmeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YoannColdefy.hOmeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hOme.app/hOme";
 			};
 			name = Release;
 		};

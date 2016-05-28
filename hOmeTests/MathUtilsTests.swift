@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import hOme
+//@testable import temp
 
 class CommandMathUtilsTests: XCTestCase {
 	override func setUp() {

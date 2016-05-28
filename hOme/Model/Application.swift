@@ -145,7 +145,7 @@ extension Application {
 }
 
 //MARK: - Connectors
-extension Application {
+extension Application: ConnectorUser {
 	func createAndAddNewConnector(type: ConnectorType, name: String, internalName: String) -> Connector? {
 		return _data.createAndAddNewConnector(type, name: name, internalName: internalName)
 	}
@@ -164,6 +164,14 @@ extension Application {
 	
 	func getConnectors() -> [Connector] {
 		return _data.getConnectors()
+	}
+	
+	func getConnectorsTypes() -> [ConnectorType] {
+		return _data.getConnectorsTypes()
+	}
+	
+	func getConnectorsByType() -> [ConnectorType: [Connector]] {
+		return _data.getConnectorsByType()
 	}
 	
 	func getConnectorsOfType(type: ConnectorType) -> [Connector] {

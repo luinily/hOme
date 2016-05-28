@@ -9,10 +9,6 @@
 import Foundation
 import CloudKit
 
-enum CommandType: Int {
-	case irkitCommand = 1
-	case onOffCommand = 2
-}
 enum CommandManagerClassError: ErrorType {
 	case CouldNotFindCommandDataInCK
 	case ClouldNotFindCommunicator

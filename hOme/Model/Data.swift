@@ -233,6 +233,14 @@ extension Data {
 		return _connectorManager.connectors
 	}
 	
+	func getConnectorsTypes() -> [ConnectorType] {
+		return _connectorManager.getConnectorsTypes()
+	}
+	
+	func getConnectorsByType() -> [ConnectorType: [Connector]] {
+		return _connectorManager.getConnectorsByType()
+	}
+	
 	func getConnectorsOfType(type: ConnectorType) -> [Connector] {
 		return _connectorManager.getConnectorsOfType(type)
 	}
