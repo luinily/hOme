@@ -64,6 +64,14 @@ class DevicesViewControllerTests: XCTestCase {
 			fetchDevicesCalled = true
 		}
 	}
+	
+	class DevicesTableSpy: UITableView {
+		var reloadDataCalled = false
+		
+		override func reloadData() {
+			reloadDataCalled = true
+		}
+	}
 
 	// MARK: Tests
 	
@@ -80,4 +88,109 @@ class DevicesViewControllerTests: XCTestCase {
 			XCTAssertTrue(devicesViewControllerOutputSpy.fetchDevicesCalled, "devices should be fetched")
 		}
 	}
+	
+	func testShouldDisplayFetchedDevices() {
+		if let viewController = sut {
+			// Given
+			let spy = DevicesTableSpy()
+			viewController.tableView = spy
+			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			// When
+			viewController.displayFetchedDevices(viewModel)
+			
+			// Then
+			XCTAssertTrue(spy.reloadDataCalled, "table reloadData() should be called")
+		}
+	}
+	
+	func testNumberOfSectionsInTableShouldAlwaysBeTwo() {
+		// Given
+		if let tableView = sut?.tableView {
+			
+			// When
+			let numberOfSections = sut?.numberOfSectionsInTableView(tableView)
+			
+			// Then
+			XCTAssertEqual(numberOfSections, 2)
+		}
+	}
+	
+	func testNumberOfRowsInFirstSection_shouldBeTwo() {
+		if let viewController = sut {
+			// Given
+			let tableView = viewController.tableView
+			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			
+			// When
+			viewController.displayFetchedDevices(viewModel)
+			let numberOfRows = viewController.tableView(tableView, numberOfRowsInSection: 0)
+		
+			// Then
+			XCTAssertEqual(numberOfRows, 2)
+		}
+	}
+	
+	func testNumberOfRowsIn2ndSectionShouldAlwaysBeOne() {
+		if let viewController = sut {
+			// Given
+			let tableView = viewController.tableView
+			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			
+			// When
+			viewController.displayFetchedDevices(viewModel)
+			let numberOfRows = viewController.tableView(tableView, numberOfRowsInSection: 1)
+			
+			// Then
+			XCTAssertEqual(numberOfRows, 1)
+		}
+	}
+	
+	func testDeviceCellShouldBeConfigured() {
+		if let viewController = sut {
+			// Given
+			let tableView = viewController.tableView
+			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			
+			// When
+			viewController.displayFetchedDevices(viewModel)
+			let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+			let cell = tableView.cellForRowAtIndexPath(indexPath)
+			
+			// Then
+			XCTAssertEqual(cell?.textLabel?.text, "Device1")
+		}
+	}
+	
+	func testNewDeviceCellShouldBeConfigured() {
+		if let viewController = sut {
+			// Given
+			let tableView = viewController.tableView
+			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			
+			// When
+			viewController.displayFetchedDevices(viewModel)
+			let indexPath = NSIndexPath(forRow: 0, inSection: 1)
+			let cell = tableView.cellForRowAtIndexPath(indexPath)
+			
+			// Then
+			XCTAssertEqual(cell?.textLabel?.text, "Create New Device...")
+		}
+	}
+
+	
 }

@@ -6,7 +6,6 @@
 //  Copyright © 2016年 YoannColdefy. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class DeviceViewController: UITableViewController {

@@ -12,18 +12,20 @@
 import UIKit
 
 protocol DevicesViewControllerInput {
-	
 	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel)
 }
 
 protocol DevicesViewControllerOutput {
 	func fetchDevices(request: Devices_FetchDevices_Request)
-//	func doSomething(request: DevicesRequest)
 }
 
 class DevicesViewController: UITableViewController {
 	var output: DevicesViewControllerOutput!
 	var router: DevicesRouter!
+	
+	private let _devicesSection = 0
+	private let _newDeviceSection = 1
+	private var _displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
 	
 	// MARK: Object lifecycle
 	
@@ -47,14 +49,72 @@ class DevicesViewController: UITableViewController {
 	}
 	
 	// MARK: Display logic
-	
+	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel) {
+		_displayDevices = viewModel.displayedDevices
+		tableView.reloadData()
+	}
 	
 }
 
 extension DevicesViewController: DevicesViewControllerInput {
-	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel) {
-		// NOTE: Display the result from the Presenter
-		
-		// nameTextField.text = viewModel.name
+	
+}
+
+// MARK: UITableDataSource
+extension DevicesViewController {
+	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+		return 2
 	}
+	
+	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		switch section {
+		case _devicesSection: return _displayDevices.count
+		case _newDeviceSection: return 1
+		default: return 0
+		}
+	}
+	
+	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+		if indexPath.section == _devicesSection {
+		 return makeDeviceCellForRow(indexPath.row)
+		}
+		
+		//other cases (create new device)
+		return makeNewDeviceCell()
+		
+	}
+	
+	private func makeDeviceCellForRow(row: Int) -> UITableViewCell {
+		func setupCell(cell: UITableViewCell) {
+			let device = _displayDevices[row]
+			cell.textLabel?.text = device.name
+		}
+		
+		if let cell = tableView.dequeueReusableCellWithIdentifier("DeviceCell") {
+			setupCell(cell)
+			return cell
+		}
+		
+		let cell = UITableViewCell(style: .Default, reuseIdentifier: "DeviceCell")
+		cell.accessoryType = .DetailButton
+		setupCell(cell)
+		return cell
+	}
+	
+	private func makeNewDeviceCell() -> UITableViewCell {
+		func setupCell(cell: UITableViewCell) {
+			cell.textLabel?.text = "Create New Device..."
+		}
+		
+		if let cell = tableView.dequeueReusableCellWithIdentifier("NewDeviceCell") {
+			setupCell(cell)
+			return cell
+		}
+		
+		let cell = UITableViewCell(style: .Default, reuseIdentifier: "NewDeviceCell")
+		setupCell(cell)
+		
+		return cell
+	}
+	
 }

@@ -716,7 +716,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DeviceCell" textLabel="V7q-Hp-rC9" style="IBUITableViewCellStyleDefault" id="QUD-gh-kjh" customClass="DeviceCell" customModule="hOme" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DeviceCell" textLabel="V7q-Hp-rC9" style="IBUITableViewCellStyleDefault" id="QUD-gh-kjh">
                                 <rect key="frame" x="0.0" y="113.5" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QUD-gh-kjh" id="yJa-GT-Fv9">
@@ -733,7 +733,6 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="label" destination="V7q-Hp-rC9" id="8Bu-NT-2gM"/>
                                     <segue destination="oJG-1R-dKK" kind="show" id="pIN-1e-kOj"/>
                                 </connections>
                             </tableViewCell>
@@ -758,6 +757,10 @@
                                 </connections>
                             </tableViewCell>
                         </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="mOC-MF-ADj" id="JN0-v2-elv"/>
+                            <outlet property="delegate" destination="mOC-MF-ADj" id="HJE-8q-goJ"/>
+                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Devices" id="Spo-gc-5a7"/>
                 </tableViewController>
@@ -2002,8 +2005,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Lo5-BW-e4V"/>
-        <segue reference="LDo-57-f9I"/>
+        <segue reference="HcO-ec-qTb"/>
         <segue reference="hyj-tM-weM"/>
+        <segue reference="LDo-57-f9I"/>
     </inferredMetricsTieBreakers>
 </document>
