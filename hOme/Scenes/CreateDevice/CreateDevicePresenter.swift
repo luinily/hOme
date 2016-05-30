@@ -44,13 +44,14 @@ class CreateDevicePresenter: CreateDevicePresenterInput {
 		return connectorTypesNames
 	}
 	
-	private func formatConnectors(connectorsByType: [ConnectorType: [Connector]]) -> [[String]] {
-		var connectorNamesByType = [[String]]()
+	private func formatConnectors(connectorsByType: [ConnectorType: [Connector]]) -> [[CreateDevice_GetConnectors_ViewModel.connectorName]] {
+		var connectorNamesByType: [[CreateDevice_GetConnectors_ViewModel.connectorName]] = []
 		for connectorType in connectorsByType.keys {
-			var connectorsNames = [String]()
+			var connectorsNames: [CreateDevice_GetConnectors_ViewModel.connectorName] = []
 			if let connectorsOfType = connectorsByType[connectorType] {
 				for connector in connectorsOfType {
-					connectorsNames.append(connector.name)
+					let connectorName = CreateDevice_GetConnectors_ViewModel.connectorName(name: connector.name, internalName: connector.internalName)
+					connectorsNames.append(connectorName)
 				}
 			}
 			connectorNamesByType.append(connectorsNames)

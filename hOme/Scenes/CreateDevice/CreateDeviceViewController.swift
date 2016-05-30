@@ -50,7 +50,7 @@ extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelega
 	func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
 		switch component {
 		case 0: return _connectorsTypes[row]
-		case 1: return _connectors[_currentConnectorTypeRow][row]
+		case 1: return _connectors[_currentConnectorTypeRow][row].name
 		default: return "Error"
 		}
 	}
@@ -60,7 +60,7 @@ extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelega
 		case 0:
 			_currentConnectorTypeRow = row
 		case 1:
-			connectorTextField.text = _connectors[_currentConnectorTypeRow][row]
+			connectorTextField.text = _connectors[_currentConnectorTypeRow][row].name
 		default:
 			return
 		}
@@ -87,7 +87,7 @@ class CreateDeviceViewController: UITableViewController {
 	private let _nameCellPath = NSIndexPath(forRow: 0, inSection: 0)
 	private let _connectorCellPath = NSIndexPath(forRow: 1, inSection: 0)
 	private var _connectorsTypes = [String]()
-	private var _connectors = [[String]]()
+	private var _connectors: [[CreateDevice_GetConnectors_ViewModel.connectorName]] = []
 	
 	private var _currentConnectorTypeRow: Int = 0
 	

@@ -48,9 +48,24 @@ class CreateDevicePresenterTests: XCTestCase {
 			return false
 		}
 		
-		func verifyDidFormatConnectorsAs(expectedConnectorStrings: [[String]]) -> Bool {
+		func verifyDidFormatConnectorsAs(expectedConnectorStrings: [[CreateDevice_GetConnectors_ViewModel.connectorName]]) -> Bool {
 			if let resultConnector = _connectorsInfoViewModel?.connectors {
-				return resultConnector == expectedConnectorStrings
+				if resultConnector.count != expectedConnectorStrings.count {
+					return false
+				}
+				for i in 0...resultConnector.count - 1 {
+					if resultConnector[i].count != expectedConnectorStrings[i].count {
+						return false
+					}
+					
+					for j in 0...resultConnector[i].count - 1 {
+						if !resultConnector[i][j].Equal(expectedConnectorStrings[i][j]) {
+							return false
+						}
+					}
+					
+				}
+				return true
 			}
 			return false
 		}
@@ -126,7 +141,10 @@ class CreateDevicePresenterTests: XCTestCase {
 		_createDevicePresenter.presentConnectors(response)
 		
 		//then
-		let expectedConnectorStrings = [["A", "B", "C"]]
+		let expectedConnectorA = CreateDevice_GetConnectors_ViewModel.connectorName(name: "A", internalName: "AInternalName")
+		let expectedConnectorB = CreateDevice_GetConnectors_ViewModel.connectorName(name: "B", internalName: "BInternalName")
+		let expectedConnectorC = CreateDevice_GetConnectors_ViewModel.connectorName(name: "C", internalName: "CInternalName")
+		let expectedConnectorStrings = [[expectedConnectorA, expectedConnectorB, expectedConnectorC]]
 		
 		XCTAssertTrue(createDevicePresenterMock.verifyDidFormatConnectorsAs(expectedConnectorStrings))
 	}

@@ -44,6 +44,5 @@ class CreateDeviceInteractorTests: XCTestCase {
 		//then
 		XCTAssertTrue(createDeviceInteractorSpy.hasPresentConnectorsCalled, "Preparing the connector information should ask presenter to format it")
 	}
-	
     
 }

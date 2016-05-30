@@ -13,7 +13,7 @@ import UIKit
 
 struct CreateDeviceRequest {
 	var name: String
-	var connectorName: String
+	var connectorInternalName: String
 }
 
 struct CreateDevice_GetConnectors_Response {
@@ -22,6 +22,14 @@ struct CreateDevice_GetConnectors_Response {
 }
 
 struct CreateDevice_GetConnectors_ViewModel {
+	struct connectorName {
+		var name: String
+		var internalName: String
+		
+		func Equal(other: connectorName) -> Bool {
+			return (name == other.name) && (internalName == other.internalName)
+		}
+	}
 	var connectorsTypes: [String]
-	var connectors: [[String]]
+	var connectors: [[connectorName]]
 }

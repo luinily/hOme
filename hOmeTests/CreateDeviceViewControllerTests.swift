@@ -43,12 +43,24 @@ class CreateDeviceViewControllerTests: XCTestCase {
 	}
 	
 
+	private func make_IRKit_ABC_Imaginary_DE_viewModel() -> CreateDevice_GetConnectors_ViewModel {
+		let connectortypes = ["IRKit", "Imaginary"]
+		let connectorA = CreateDevice_GetConnectors_ViewModel.connectorName(name: "A", internalName: "AInternalName")
+		let connectorB = CreateDevice_GetConnectors_ViewModel.connectorName(name: "B", internalName: "BInternalName")
+		let connectorC = CreateDevice_GetConnectors_ViewModel.connectorName(name: "C", internalName: "CInternalName")
+		let connectorD = CreateDevice_GetConnectors_ViewModel.connectorName(name: "D", internalName: "DInternalName")
+		let connectorE = CreateDevice_GetConnectors_ViewModel.connectorName(name: "E", internalName: "EInternalName")
+		
+		let connectors = [[connectorA, connectorB, connectorC], [connectorD, connectorE]]
+		
+		return CreateDevice_GetConnectors_ViewModel(connectorsTypes: connectortypes, connectors: connectors)
+		
+	}
+	
     func testShouldHave2ConnectorTypesInPicker() {
 		if let viewController = _createDeviceViewController {
 			// Given
-			let connectortypes = ["IRKit", "Imaginary"]
-			let connectors = [["A", "B", "C"], ["D", "E"]]
-			let viewModel = CreateDevice_GetConnectors_ViewModel(connectorsTypes: connectortypes, connectors: connectors)
+			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
 			let pickerView = viewController.connectorPicker
@@ -66,9 +78,7 @@ class CreateDeviceViewControllerTests: XCTestCase {
 	func testPickerShouldHave2RowsIn1stComponent() {
 		if let viewController = _createDeviceViewController {
 			// Given
-			let connectortypes = ["IRKit", "Imaginary"]
-			let connectors = [["A", "B", "C"], ["D", "E"]]
-			let viewModel = CreateDevice_GetConnectors_ViewModel(connectorsTypes: connectortypes, connectors: connectors)
+			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
 			let pickerView = viewController.connectorPicker
@@ -86,9 +96,7 @@ class CreateDeviceViewControllerTests: XCTestCase {
 	func testPickerShouldHave3RowsIn2ndComponent() {
 		if let viewController = _createDeviceViewController {
 			// Given
-			let connectortypes = ["IRKit", "Imaginary"]
-			let connectors = [["A", "B", "C"], ["D", "E"]]
-			let viewModel = CreateDevice_GetConnectors_ViewModel(connectorsTypes: connectortypes, connectors: connectors)
+			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
 			let pickerView = viewController.connectorPicker
@@ -106,9 +114,7 @@ class CreateDeviceViewControllerTests: XCTestCase {
 	func testPicker1stComponentName() {
 		if let viewController = _createDeviceViewController {
 			// Given
-			let connectortypes = ["IRKit", "Imaginary"]
-			let connectors = [["A", "B", "C"], ["D", "E"]]
-			let viewModel = CreateDevice_GetConnectors_ViewModel(connectorsTypes: connectortypes, connectors: connectors)
+			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
 			let pickerView = viewController.connectorPicker
@@ -131,9 +137,7 @@ class CreateDeviceViewControllerTests: XCTestCase {
 	func testPicker2ndComponentName() {
 		if let viewController = _createDeviceViewController {
 			// Given
-			let connectortypes = ["IRKit"]
-			let connectors = [["A", "B", "C"]]
-			let viewModel = CreateDevice_GetConnectors_ViewModel(connectorsTypes: connectortypes, connectors: connectors)
+			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
 			let pickerView = viewController.connectorPicker
@@ -156,9 +160,7 @@ class CreateDeviceViewControllerTests: XCTestCase {
 	func testPickerSelectedConnector() {
 		if let viewController = _createDeviceViewController {
 			// Given
-			let connectortypes = ["IRKit", "Imaginary"]
-			let connectors = [["A", "B", "C"], ["D", "E"]]
-			let viewModel = CreateDevice_GetConnectors_ViewModel(connectorsTypes: connectortypes, connectors: connectors)
+			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
 			let pickerView = viewController.connectorPicker
