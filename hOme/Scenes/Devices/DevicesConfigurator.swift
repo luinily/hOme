@@ -13,18 +13,6 @@ import UIKit
 
 // MARK: Connect View, Interactor, and Presenter
 
-extension DevicesViewController: DevicesPresenterOutput {
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-		router.passDataToNextScene(segue)
-	}
-}
-
-extension DevicesInteractor: DevicesViewControllerOutput {
-}
-
-extension DevicesPresenter: DevicesInteractorOutput {
-}
-
 class DevicesConfigurator {
 	// MARK: Object lifecycle
 	
@@ -57,3 +45,15 @@ class DevicesConfigurator {
 		viewController.router = router
 	}
 }
+
+extension DevicesInteractor: DevicesViewControllerOutput {
+}
+
+extension DevicesPresenter: DevicesInteractorOutput {
+}
+
+//extension DevicesViewController: DevicesPresenterOutput {
+//	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//		router.passDataToNextScene(segue)
+//	}
+//}

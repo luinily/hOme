@@ -6,13 +6,9 @@
 //  Copyright © 2016年 YoannColdefy. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class SelectConnectorViewController: UITableViewController {
-	
-	@IBOutlet var table: UITableView!
-	
 	private var _selectedConnector: Connector?
 	private var _parentReloadData: (() -> Void)?
 	private var _connectorType: ConnectorType = .irKit

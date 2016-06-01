@@ -1380,9 +1380,6 @@
                             <outlet property="delegate" destination="q9I-Ee-EkH" id="EJ4-i2-Vyt"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <outlet property="table" destination="T6V-fE-4Ph" id="V2i-hy-8A2"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8RI-Qx-BTy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

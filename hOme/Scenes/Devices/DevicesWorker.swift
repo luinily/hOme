@@ -12,7 +12,7 @@
 import UIKit
 
 protocol DeviceStore {
-	func fetchDevices(completionHandler: (devices: [DeviceProtocol]) -> Void)
+	func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void)
 }
 
 class DevicesWorker {
@@ -25,7 +25,7 @@ class DevicesWorker {
 		_deviceStore = deviceStore
 	}
 	
-	func fetchDevices(completionHandler: (devices: [DeviceProtocol]) -> Void) {
+	func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
 		_deviceStore.fetchDevices(completionHandler)
 	}
 }

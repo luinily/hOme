@@ -21,7 +21,7 @@ protocol DevicesInteractorOutput {
 
 class DevicesInteractor: DevicesInteractorInput {
 	var output: DevicesInteractorOutput!
-	var worker: DevicesWorker = DevicesWorker(deviceStore: DeviceMemStore())
+	var worker: DevicesWorker = DevicesWorker(deviceStore: DeviceCloudKitStore())
 	
 	// MARK: Business logic
 	

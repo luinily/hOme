@@ -39,7 +39,7 @@ class DevicesWorkerTests: XCTestCase {
 	class DeviceStoreSpy: DeviceStore {
 		var fetchedDevicesCalled = false
 		
-		func fetchDevices(completionHandler: (devices: [DeviceProtocol]) -> Void) {
+		func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
 			fetchedDevicesCalled = true
 			let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
 			dispatch_after(oneSecond, dispatch_get_main_queue()) {

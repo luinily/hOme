@@ -15,7 +15,7 @@ struct Devices_FetchDevices_Request {
 }
 
 struct Devices_FetchedDevices_Response {
-	var devices: [DeviceProtocol]
+	var devices: [DeviceInfo]
 }
 
 struct Devices_FetchDevices_ViewModel {

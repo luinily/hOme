@@ -47,67 +47,6 @@ class DevicesPresenterTests: XCTestCase {
 		}
 	}
 	
-	class DeviceMoch: DeviceProtocol { //that might be too much things to import...
-		var name: String {
-			get {return "deviceName"}
-			set {}
-		}
-		
-		var fullName: String {
-			get {return name}
-		}
-		
-		var internalName: String {
-			get {return "deviceID"}
-		}
-		
-		var connector: Connector? {return nil}
-		var commandType: CommandType? {return nil}
-		var isOn: Bool {return false}
-		var onCommand: DeviceCommand? {return nil}
-		var offCommand: DeviceCommand? {return nil}
-		
-		func setConnector(connector: Connector) {
-			
-		}
-		
-		func setOnCommand(command: DeviceCommand) {
-			
-		}
-		
-		func setOffCommand(command: DeviceCommand) {
-			
-		}
-		
-		func switchOn() {
-			
-		}
-		
-		func switchOff() {
-			
-		}
-		
-		func notifyCommandExecution(sender: DeviceCommand) {
-			
-		}
-		
-		func getNewCKRecordName() -> String {
-			return ""
-		}
-		func getCurrentCKRecordName() -> String? {
-			return nil
-		}
-		func getCKRecordType() -> String {
-			return ""
-		}
-		func setUpCKRecord(record: CKRecord) {
-			
-		}
-		func updateCloudKit() {
-			
-		}
-	}
-	
 	// MARK: Tests
 	
 	func testPresentFetchDevicesShouldCallOutputDisplayFetchedDevices() {
@@ -128,8 +67,9 @@ class DevicesPresenterTests: XCTestCase {
 		// Given
 		let spy = DevicesPresenterOutputSpy()
 		sut.output = spy
-		let deviceMoch = DeviceMoch()
-		let response = Devices_FetchedDevices_Response(devices: [deviceMoch])
+		let name = Name(name: "deviceName", internalName: "internalDeviceName")
+		let deviceInfo = DeviceInfo(name: name, communicatorInternalName: "Communicator", offCommandInternalName: "off", onCommandInternalName: "on")
+		let response = Devices_FetchedDevices_Response(devices: [deviceInfo])
 		
 		// When
 		

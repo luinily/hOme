@@ -27,8 +27,8 @@ class DevicesPresenter: DevicesPresenterInput {
 	func presentFetchedDevices(response: Devices_FetchedDevices_Response) {
 		var displayedDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
 		for device in response.devices {
-			let name = device.name
-			let internalName = device.internalName
+			let name = device.name.name
+			let internalName = device.name.internalName
 			let displayDevice = Devices_FetchDevices_ViewModel.DisplayDevice(internalName: internalName, name: name)
 			displayedDevices.append(displayDevice)
 		}
