@@ -59,7 +59,6 @@ class DevicesViewControllerTests: XCTestCase {
 	
 	class DevicesViewControllerOutputSpy: DevicesViewControllerOutput {
 		var fetchDevicesCalled = false
-		
 		func fetchDevices(request: Devices_FetchDevices_Request) {
 			fetchDevicesCalled = true
 		}
@@ -67,9 +66,11 @@ class DevicesViewControllerTests: XCTestCase {
 	
 	class DevicesTableSpy: UITableView {
 		var reloadDataCalled = false
-		
+		var expectation: XCTestExpectation?
 		override func reloadData() {
+			super.reloadData()
 			reloadDataCalled = true
+			expectation?.fulfill()
 		}
 	}
 
@@ -100,9 +101,13 @@ class DevicesViewControllerTests: XCTestCase {
 			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
 			// When
 			viewController.displayFetchedDevices(viewModel)
-			
+			let expectation = expectationWithDescription("displayDevices should reload the table data in the main thread")
+			spy.expectation = expectation
 			// Then
-			XCTAssertTrue(spy.reloadDataCalled, "table reloadData() should be called")
+			waitForExpectationsWithTimeout(1.1) {
+				(error: NSError?) -> Void in
+				XCTAssertTrue(spy.reloadDataCalled, "table reloadData() should be called")
+			}
 		}
 	}
 	
@@ -136,58 +141,67 @@ class DevicesViewControllerTests: XCTestCase {
 		}
 	}
 	
+	
 	func testNumberOfRowsIn2ndSectionShouldAlwaysBeOne() {
 		if let viewController = sut {
-			// Given
+			// Arrange
 			let tableView = viewController.tableView
 			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
 			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
 			
-			// When
+			// Act
 			viewController.displayFetchedDevices(viewModel)
 			let numberOfRows = viewController.tableView(tableView, numberOfRowsInSection: 1)
 			
-			// Then
+			// Assert
 			XCTAssertEqual(numberOfRows, 1)
 		}
 	}
 	
 	func testDeviceCellShouldBeConfigured() {
 		if let viewController = sut {
-			// Given
+			// Arrange
 			let tableView = viewController.tableView
+			let spy = DevicesTableSpy()
+			viewController.tableView = spy
+			
 			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
 			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
 			
-			// When
+			// Act
 			viewController.displayFetchedDevices(viewModel)
 			let indexPath = NSIndexPath(forRow: 0, inSection: 0)
 			let cell = tableView.cellForRowAtIndexPath(indexPath)
-			
-			// Then
-			XCTAssertEqual(cell?.textLabel?.text, "Device1")
+			let expectation = expectationWithDescription("displayDevices should reload the table data in the main thread")
+			spy.expectation = expectation
+
+			// Assert
+			waitForExpectationsWithTimeout(1.1) {
+				(error: NSError?) -> Void in
+				XCTAssertEqual(cell?.textLabel?.text, "Device1")
+			}
 		}
 	}
 	
 	func testNewDeviceCellShouldBeConfigured() {
 		if let viewController = sut {
-			// Given
+			// Arrange
 			let tableView = viewController.tableView
 			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
 			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
 			
-			// When
+			// Act
 			viewController.displayFetchedDevices(viewModel)
 			let indexPath = NSIndexPath(forRow: 0, inSection: 1)
 			let cell = tableView.cellForRowAtIndexPath(indexPath)
 			
-			// Then
+			// Assert
 			XCTAssertEqual(cell?.textLabel?.text, "Create New Device...")
 		}
 	}

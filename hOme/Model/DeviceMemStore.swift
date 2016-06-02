@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CloudKit
 
 //class DeviceMemStore: DeviceStore {
 //	func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
@@ -21,75 +20,41 @@ import CloudKit
 
 //extension DeviceMemStore: ApplicationUser { }
 
-struct DeviceInfo {
-	var name: Name
-	var communicatorInternalName: String
-	var offCommandInternalName: String
-	var onCommandInternalName: String
-}
-
 class DeviceCloudKitStore: DeviceStore {
-	private var _container: CKContainer
-	private var _dataBase: CKDatabase
+	private var cloudKitWrapper: CloudKitWrapperProtocol
+	
+	init(cloudKitWrapper: CloudKitWrapperProtocol) {
+		self.cloudKitWrapper = cloudKitWrapper
+	}
 	
 	init() {
-		_container = CKContainer(identifier: "iCloud.com.YoannColdefy.IRKitApp")
-		_dataBase = _container.privateCloudDatabase
+		self.cloudKitWrapper = CloudKitWrapper()
 	}
 	
 	func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
-		let query = createQueryForRecordType("Device")
-		_dataBase.performQuery(query, inZoneWithID: nil) {
-			(records, error) in
-			self.receivedRecordsFromCloudkit(records, error: error, completionHandler: completionHandler)
-		}
-	}
-
-	private func receivedRecordsFromCloudkit(records: [CKRecord]?, error: NSError?, completionHandler: (devices: [DeviceInfo]) -> Void) {
-		if let records = records {
-			let devices = convertRecordsToDevice(records)
+		cloudKitWrapper.fetchRecordsOfType("Device") {
+			records in
+			let devices = self.convertRecordsToDeviceInfo(records)
 			completionHandler(devices: devices)
-		} else {
-			print(error)
-			completionHandler(devices: [])
 		}
 	}
 	
-	private func convertRecordsToDevice(records: [CKRecord]) -> [DeviceInfo] {
+	private func convertRecordsToDeviceInfo(records: [[String: Any]]) -> [DeviceInfo] {
 		var result = [DeviceInfo]()
 		for record in records {
-			let device = convertRecordToDevice(record)
-			if let device = device {
-				result.append(device)
+			if let deviceInfo = convertRecordToDeviceInfo(record) {
+				result.append(deviceInfo)
 			}
 		}
 		return result
 	}
 	
-	private func convertRecordToDevice(record: CKRecord) -> DeviceInfo? {
-		guard let name = record["Name"] as? String else {
+	private func convertRecordToDeviceInfo(record: [String: Any]) -> DeviceInfo? {
+		do {
+			return try DeviceInfo(record: record)
+		} catch {
 			return nil
 		}
-		guard let internalName = record["internalName"] as? String else {
-			return nil
-		}
-		guard let communicatorInternalName = record["CommunicatorName"] as? String else {
-			return nil
-		}
-		guard let offCommandInternalName = record["OffCommand"] as? String else {
-			return nil
-		}
-		guard let onCommandInternalName = record["OnCommand"] as? String else {
-			return nil
-		}
-		let deviceName = Name(name: name, internalName: internalName)
-		
-		return DeviceInfo(name: deviceName, communicatorInternalName: communicatorInternalName, offCommandInternalName: offCommandInternalName, onCommandInternalName: onCommandInternalName)
-	}
-	
-	private func createQueryForRecordType(recordType: String) -> CKQuery {
-		let predicate = NSPredicate(value: true)
-		return CKQuery(recordType: "Device", predicate: predicate)
 	}
 
 }

@@ -18,40 +18,44 @@ protocol DevicesViewControllerOutput {
 
 
 class DevicesViewController: UITableViewController {
-		var output: DevicesViewControllerOutput!
-		var router: DevicesRouter!
+	var output: DevicesViewControllerOutput!
+	var router: DevicesRouter!
 	
-		private let _devicesSection = 0
-		private let _newDeviceSection = 1
-		private var _displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
+	private let _devicesSection = 0
+	private let _newDeviceSection = 1
+	private var _displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
 	
-		// MARK: Object lifecycle
+	// MARK: Object lifecycle
 	
-		override func awakeFromNib() {
-			super.awakeFromNib()
-			DevicesConfigurator.sharedInstance.configure(self)
-		}
+	override func awakeFromNib() {
+		super.awakeFromNib()
+		DevicesConfigurator.sharedInstance.configure(self)
+	}
 	
-		// MARK: View lifecycle
+	// MARK: View lifecycle
 	
-		override func viewDidLoad() {
-			super.viewDidLoad()
-			fetchDevices()
-		}
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		fetchDevices()
+	}
 	
-		// MARK: Event handling
+	// MARK: Event handling
 	
-		func fetchDevices() {
-			let request = Devices_FetchDevices_Request()
-			output.fetchDevices(request)
-		}
+	func fetchDevices() {
+		let request = Devices_FetchDevices_Request()
+		output.fetchDevices(request)
+	}
 	
-		// MARK: Display logic
-		func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel) {
-			_displayDevices = viewModel.displayedDevices
-			tableView.reloadData()
-		}
+	// MARK: Display logic
+	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel) {
+		_displayDevices = viewModel.displayedDevices
+		//need to do the reload on the main thread or it gets very slow
+		reloadTableDataInMainThread()
+	}
 	
+	func reloadTableDataInMainThread() {
+		dispatch_async(dispatch_get_main_queue(), tableView.reloadData)
+	}
 }
 
 extension DevicesViewController: DevicesViewControllerInput { }

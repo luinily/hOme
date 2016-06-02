@@ -113,6 +113,11 @@
 		8FFA75A61CFC6DD200C5163D /* fliclib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FFA75A51CFC6DD200C5163D /* fliclib.framework */; };
 		8FFA75A71CFC6DD200C5163D /* fliclib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FFA75A51CFC6DD200C5163D /* fliclib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8FFA75A91CFC7C8B00C5163D /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75A81CFC7C8B00C5163D /* DevicesViewController.swift */; };
+		8FFA75AF1D006EA900C5163D /* CloudKitWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75AE1D006EA900C5163D /* CloudKitWrapperTests.swift */; };
+		8FFA75B11D0070D300C5163D /* CloudKitWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75B01D0070D300C5163D /* CloudKitWrapper.swift */; };
+		8FFA75B31D007C6500C5163D /* DeviceCloudKitStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75B21D007C6500C5163D /* DeviceCloudKitStoreTests.swift */; };
+		8FFA75B51D00894100C5163D /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75B41D00894100C5163D /* DeviceInfo.swift */; };
+		8FFA75B71D00897900C5163D /* DeviceInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75B61D00897900C5163D /* DeviceInfoTests.swift */; };
 		8FFEA15E1C971C60000C21A9 /* FlicButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFEA15D1C971C60000C21A9 /* FlicButtonViewController.swift */; };
 		8FFEA1621C971C77000C21A9 /* SelectCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFEA1611C971C77000C21A9 /* SelectCommandViewController.swift */; };
 		8FFEA1681C9E607E000C21A9 /* SelectDeviceCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFEA1671C9E607E000C21A9 /* SelectDeviceCommandViewController.swift */; };
@@ -265,6 +270,11 @@
 		8FFA75A31CFA016B00C5163D /* DeviceMemStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceMemStore.swift; sourceTree = "<group>"; };
 		8FFA75A51CFC6DD200C5163D /* fliclib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = fliclib.framework; path = "fliclib-ios/fliclib.framework"; sourceTree = "<group>"; };
 		8FFA75A81CFC7C8B00C5163D /* DevicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DevicesViewController.swift; path = Scenes/Devices/DevicesViewController.swift; sourceTree = "<group>"; };
+		8FFA75AE1D006EA900C5163D /* CloudKitWrapperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitWrapperTests.swift; sourceTree = "<group>"; };
+		8FFA75B01D0070D300C5163D /* CloudKitWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitWrapper.swift; sourceTree = "<group>"; };
+		8FFA75B21D007C6500C5163D /* DeviceCloudKitStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceCloudKitStoreTests.swift; sourceTree = "<group>"; };
+		8FFA75B41D00894100C5163D /* DeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		8FFA75B61D00897900C5163D /* DeviceInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfoTests.swift; sourceTree = "<group>"; };
 		8FFEA15D1C971C60000C21A9 /* FlicButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlicButtonViewController.swift; sourceTree = "<group>"; };
 		8FFEA1611C971C77000C21A9 /* SelectCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectCommandViewController.swift; sourceTree = "<group>"; };
 		8FFEA1671C9E607E000C21A9 /* SelectDeviceCommandViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectDeviceCommandViewController.swift; sourceTree = "<group>"; };
@@ -388,6 +398,9 @@
 				8F60DC611CEB655700807D34 /* CommandTimeTests.swift */,
 				8F0FD4C91C65E8C000B0C412 /* Info.plist */,
 				8F0232011CF9F60B00DAA5E9 /* DevicesScene */,
+				8FFA75AE1D006EA900C5163D /* CloudKitWrapperTests.swift */,
+				8FFA75B21D007C6500C5163D /* DeviceCloudKitStoreTests.swift */,
+				8FFA75B61D00897900C5163D /* DeviceInfoTests.swift */,
 			);
 			path = hOmeTests;
 			sourceTree = "<group>";
@@ -428,6 +441,7 @@
 				8FBD12341C8F0314002BAEA7 /* IRKit */,
 				8FBD12351C8F0323002BAEA7 /* Flic */,
 				8F2485181C8C968000914675 /* hOme-Bridging-Header.h */,
+				8FFA75B01D0070D300C5163D /* CloudKitWrapper.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -478,6 +492,7 @@
 				8FCFA75E1CB69E1B00F3A8FD /* DeviceProtocol.swift */,
 				8FFA75A31CFA016B00C5163D /* DeviceMemStore.swift */,
 				8F0FD4EE1C65E8D300B0C412 /* Device.swift */,
+				8FFA75B41D00894100C5163D /* DeviceInfo.swift */,
 			);
 			name = Device;
 			sourceTree = "<group>";
@@ -908,10 +923,12 @@
 				8F5E81CF1CB420DE00A88CDE /* SequenceCommandViewController.swift in Sources */,
 				8FCFA7701CBD455C00F3A8FD /* Manager.swift in Sources */,
 				8F2BEE7C1CF03F08005C8D50 /* CreateDeviceModels.swift in Sources */,
+				8FFA75B11D0070D300C5163D /* CloudKitWrapper.swift in Sources */,
 				8F0FD5081C65E8D300B0C412 /* IRKitSignal.swift in Sources */,
 				8F2BEE7F1CF03F08005C8D50 /* CreateDeviceViewController.swift in Sources */,
 				8F0FD5021C65E8D300B0C412 /* Data.swift in Sources */,
 				8FBD12371C8F033D002BAEA7 /* FlicButton.swift in Sources */,
+				8FFA75B51D00894100C5163D /* DeviceInfo.swift in Sources */,
 				8F0231F31CF9EC6000DAA5E9 /* DevicesInteractor.swift in Sources */,
 				8FD77E991C79A402009FFEB0 /* IRKitCommandViewController.swift in Sources */,
 				8FD77E7E1C673A16009FFEB0 /* NewDeviceViewController.swift in Sources */,
@@ -945,14 +962,17 @@
 			files = (
 				8F0231E81CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift in Sources */,
 				8F0FD4C81C65E8C000B0C412 /* hOmeTests.swift in Sources */,
+				8FFA75B71D00897900C5163D /* DeviceInfoTests.swift in Sources */,
 				8F0231FD1CF9ED3800DAA5E9 /* DevicesInteractorTests.swift in Sources */,
 				8F0231E91CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift in Sources */,
 				8F0231FE1CF9ED3800DAA5E9 /* DevicesPresenterTests.swift in Sources */,
 				8F60DC621CEB655700807D34 /* CommandTimeTests.swift in Sources */,
 				8F0231E71CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift in Sources */,
 				8F0232001CF9ED3800DAA5E9 /* DevicesWorkerTests.swift in Sources */,
+				8FFA75B31D007C6500C5163D /* DeviceCloudKitStoreTests.swift in Sources */,
 				8F0231FF1CF9ED3800DAA5E9 /* DevicesViewControllerTests.swift in Sources */,
 				8FACED071CED598E002665C5 /* MathUtilsTests.swift in Sources */,
+				8FFA75AF1D006EA900C5163D /* CloudKitWrapperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
