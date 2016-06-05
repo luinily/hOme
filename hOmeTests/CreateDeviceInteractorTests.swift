@@ -38,7 +38,9 @@ extension CreateDeviceInteractorTests {
 	class CreateDeviceInteractorSpy: CreateDeviceInteractorOutput {
 		var hasPresentConnectorsCalled = false
 		var hasSetDoneButtonStateCalled = false
-		var response: CreateDevice_ValidateDoneButtonState_Response?
+		var validateButtonStateResponse: CreateDevice_ValidateDoneButtonState_Response?
+		var hasPresentIfDeviceHasBeenCreatedCalled = false
+		var createDeviceResponse: CreateDevice_CreateDevice_Response?
 		
 		func presentConnectors(response: CreateDevice_GetConnectors_Response) {
 			hasPresentConnectorsCalled = true
@@ -46,9 +48,49 @@ extension CreateDeviceInteractorTests {
 		
 		func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response) {
 			hasSetDoneButtonStateCalled = true
-			self.response = response
+			validateButtonStateResponse = response
 		}
 		
+		func prensentCouldCreateDevice(response: CreateDevice_CreateDevice_Response) {
+			hasPresentIfDeviceHasBeenCreatedCalled = true
+			createDeviceResponse = response
+		}
+	}
+	
+	class DevicesWorkerSpy: DevicesWorker {
+		var fetchDevicesCalled = false
+		var createDeviceCalled = false
+		
+		override func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
+			fetchDevicesCalled = true
+			completionHandler(devices: [])
+		}
+		
+		override func createDevice(name: String, connectorInternalName: String, completionHandler: (device: DeviceInfo?) -> Void) {
+			createDeviceCalled = true
+			completionHandler(device: nil)
+		}
+	}
+	
+	class DeviceStoreSpy: DeviceStore {
+		var fetchedDevicesCalled = false
+		var createDeviceCalled = false
+		
+		func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
+			fetchedDevicesCalled = true
+			let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
+			dispatch_after(oneSecond, dispatch_get_main_queue()) {
+				completionHandler(devices: [])
+			}
+		}
+		
+		func createDevice(name: String, connectorInternalName: String, completionHandler: (device: DeviceInfo?) -> Void) {
+			createDeviceCalled = true
+			let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
+			dispatch_after(oneSecond, dispatch_get_main_queue()) {
+				completionHandler(device: nil)
+			}
+		}
 	}
 }
 
@@ -87,7 +129,7 @@ extension CreateDeviceInteractorTests {
 		_createDeviceInteractor.validateDoneButtonState(request)
 		
 		//then
-		if let response = createDeviceInteractorSpy.response {
+		if let response = createDeviceInteractorSpy.validateButtonStateResponse {
 			XCTAssertFalse(response.doneButtonEnabled)
 		} else {
 			XCTAssert(false)
@@ -103,7 +145,7 @@ extension CreateDeviceInteractorTests {
 		_createDeviceInteractor.validateDoneButtonState(request)
 		
 		//then
-		if let response = createDeviceInteractorSpy.response {
+		if let response = createDeviceInteractorSpy.validateButtonStateResponse {
 			XCTAssertFalse(response.doneButtonEnabled)
 		} else {
 			XCTAssert(false)
@@ -119,11 +161,42 @@ extension CreateDeviceInteractorTests {
 		_createDeviceInteractor.validateDoneButtonState(request)
 		
 		//then
-		if let response = createDeviceInteractorSpy.response {
+		if let response = createDeviceInteractorSpy.validateButtonStateResponse {
 			XCTAssertTrue(response.doneButtonEnabled)
 		} else {
 			XCTAssert(false)
 		}
+	}
+	
+	func testCreateDevice_ShouldCallPresentIfDeviceHasBeenCreated() {
+		// Arrange
+		let createDeviceInteractorSpy = CreateDeviceInteractorSpy()
+		_createDeviceInteractor.output = createDeviceInteractorSpy
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy())
+		_createDeviceInteractor.devicesWorker = worker
+		let request = CreateDevice_CreateDevice_Request(name: "device", connectorInternalName: "deviceInternalName")
+		// Act
+		_createDeviceInteractor.createDevice(request)
+		
+		
+		// Assert
+		XCTAssertTrue(createDeviceInteractorSpy.hasPresentIfDeviceHasBeenCreatedCalled)
+	}
+	
+	func testCreateDevice_ShouldCallDeviceWorkerCreateDevice() {
+		// Arrange
+		let spy = CreateDeviceInteractorSpy()
+		_createDeviceInteractor.output = spy
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy())
+		_createDeviceInteractor.devicesWorker = worker
+		
+		let request = CreateDevice_CreateDevice_Request(name: "device", connectorInternalName: "deviceInternalName")
+		
+		// Act
+		_createDeviceInteractor.createDevice(request)
+		
+		// Assert
+		XCTAssertTrue(worker.createDeviceCalled)
 	}
 	
 }

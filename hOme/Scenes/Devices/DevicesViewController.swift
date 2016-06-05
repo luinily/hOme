@@ -121,7 +121,7 @@ extension DevicesViewController {
 
 extension DevicesViewController {
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		
+
 	}
 }
 

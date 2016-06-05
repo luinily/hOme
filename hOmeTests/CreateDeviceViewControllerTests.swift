@@ -65,6 +65,8 @@ extension CreateDeviceViewControllerTests {
 		var fetchConnectorsHasBeenCalled = false
 		var validateDoneButtonStateHasBeenCalled = false
 		var validateDoneButtonStateRequest: CreateDevice_ValidateDoneButtonState_Request?
+		var createDeviceHasBeenCalled = false
+		var createDeviceRequest: CreateDevice_CreateDevice_Request?
 		//none yet
 		
 		// MARK: Spied methods
@@ -75,6 +77,11 @@ extension CreateDeviceViewControllerTests {
 		func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request) {
 			validateDoneButtonStateHasBeenCalled = true
 			validateDoneButtonStateRequest = request
+		}
+		
+		func createDevice(request: CreateDevice_CreateDevice_Request) {
+			createDeviceHasBeenCalled = true
+			createDeviceRequest = request
 		}
 	}
 }
@@ -183,8 +190,8 @@ extension CreateDeviceViewControllerTests {
 	
 	func testPickerSelectedConnector() {
 		if let viewController = _createDeviceViewController {
-			viewController.preloadView()
 			// Given
+			viewController.preloadView()
 			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
@@ -301,4 +308,88 @@ extension CreateDeviceViewControllerTests {
 			XCTAssertFalse(viewController.doneButton.enabled)
 		}
 	}
+	
+	func testDoneClicked_SendCreateDeviceRequest_RequestSentToInterractor() {
+		if let viewController = _createDeviceViewController {
+			// Given
+			let createDeviceViewControllerOutputSpy = CreateDeviceViewControllerSpy()
+			viewController.output = createDeviceViewControllerOutputSpy
+			viewController.preloadView()
+			viewController.nameTextField.text = "device"
+			viewController.connectorTextField.text = "connector"
+			
+			// When
+			viewController.doneClicked(viewController.doneButton)
+			
+			// Then
+			XCTAssertTrue(createDeviceViewControllerOutputSpy.createDeviceHasBeenCalled)
+		}
+	}
+	
+	func testDoneClicked_SendCreateDeviceRequest_nameIsTextFieldText() {
+		if let viewController = _createDeviceViewController {
+			// Given
+			let createDeviceViewControllerOutputSpy = CreateDeviceViewControllerSpy()
+			viewController.output = createDeviceViewControllerOutputSpy
+			viewController.preloadView()
+			viewController.nameTextField.text = "device_name"
+			
+			// When
+			viewController.doneClicked(viewController.doneButton)
+			
+			// Then
+			
+			XCTAssertEqual(createDeviceViewControllerOutputSpy.createDeviceRequest?.name, "device_name")
+		} else {
+			XCTAssert(false, "viewController not created")
+		}
+	}
+	
+	func testconnectorEditingDidEnd_shouldAskForButtonState_connectorInternalNameIsOk() {
+		if let viewController = _createDeviceViewController {
+			// Given
+			viewController.preloadView()
+			let createDeviceViewControllerOutputSpy = CreateDeviceViewControllerSpy()
+			viewController.output = createDeviceViewControllerOutputSpy
+			
+			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
+			viewController.displayConnectors(viewModel)
+			let pickerView = viewController.connectorPicker
+			viewController.pickerView(pickerView, didSelectRow: 0, inComponent: 1)
+			
+			//When
+			viewController.doneClicked(viewController.doneButton)
+			
+			
+			//Then
+			XCTAssertEqual(createDeviceViewControllerOutputSpy.createDeviceRequest?.connectorInternalName, "AInternalName")
+		} else {
+			XCTAssert(false, "viewController not created")
+		}
+	}
+	
+	func testconnectorEditingDidEnd_shouldAskForButtonState_connectorInternalNameEmpty() {
+		if let viewController = _createDeviceViewController {
+			// Given
+			viewController.preloadView()
+			let createDeviceViewControllerOutputSpy = CreateDeviceViewControllerSpy()
+			viewController.output = createDeviceViewControllerOutputSpy
+
+			
+			//When
+			viewController.doneClicked(viewController.doneButton)
+			
+			
+			//Then
+			if let request = createDeviceViewControllerOutputSpy.createDeviceRequest {
+				XCTAssertTrue(request.connectorInternalName.isEmpty)
+				return
+			}
+		}
+		XCTAssert(false)
+		
+	}
+	
+	
+	
 }

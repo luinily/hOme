@@ -39,6 +39,10 @@ class DeviceCloudKitStore: DeviceStore {
 		}
 	}
 	
+	func createDevice(name: String, connectorInternalName: String, completionHandler: (device: DeviceInfo?) -> Void) {
+		
+	}
+	
 	private func convertRecordsToDeviceInfo(records: [[String: Any]]) -> [DeviceInfo] {
 		var result = [DeviceInfo]()
 		for record in records {

@@ -736,7 +736,7 @@
                                     <segue destination="oJG-1R-dKK" kind="show" id="pIN-1e-kOj"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewDeviceCell" textLabel="y8x-fN-veY" style="IBUITableViewCellStyleDefault" id="KeN-8u-as3">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewDeviceCell" textLabel="y8x-fN-veY" style="IBUITableViewCellStyleDefault" id="KeN-8u-as3">
                                 <rect key="frame" x="0.0" y="157.5" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KeN-8u-as3" id="Sx9-eU-MIR">
@@ -799,7 +799,6 @@
                                                         </mask>
                                                     </variation>
                                                     <connections>
-                                                        <action selector="nameEditingDidEnd:" destination="1SF-nx-YEC" eventType="editingDidEnd" id="0BQ-jz-oeM"/>
                                                         <action selector="nameValueChanged:" destination="1SF-nx-YEC" eventType="valueChanged" id="KrZ-5X-mQO"/>
                                                     </connections>
                                                 </textField>
@@ -877,7 +876,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="Tde-lh-wjx">
                             <connections>
-                                <action selector="DoneClicked:" destination="1SF-nx-YEC" id="8KB-PL-4P1"/>
+                                <action selector="doneClicked:" destination="1SF-nx-YEC" id="nh3-Oz-9Rq"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

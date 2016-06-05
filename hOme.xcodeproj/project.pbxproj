@@ -390,13 +390,11 @@
 		8F0FD4C61C65E8C000B0C412 /* hOmeTests */ = {
 			isa = PBXGroup;
 			children = (
-				8F0231E41CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift */,
-				8F0231E51CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift */,
-				8F0231E61CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift */,
 				8F0FD4C71C65E8C000B0C412 /* hOmeTests.swift */,
 				8FACED061CED598E002665C5 /* MathUtilsTests.swift */,
 				8F60DC611CEB655700807D34 /* CommandTimeTests.swift */,
 				8F0FD4C91C65E8C000B0C412 /* Info.plist */,
+				8FE4C0451D03D27800EF8460 /* CreateDeviceScene */,
 				8F0232011CF9F60B00DAA5E9 /* DevicesScene */,
 				8FFA75AE1D006EA900C5163D /* CloudKitWrapperTests.swift */,
 				8FFA75B21D007C6500C5163D /* DeviceCloudKitStoreTests.swift */,
@@ -680,6 +678,16 @@
 				8FD77E8F1C784DB4009FFEB0 /* IRKitConnectorEditor.swift */,
 			);
 			name = IRKitConnectorEditor;
+			sourceTree = "<group>";
+		};
+		8FE4C0451D03D27800EF8460 /* CreateDeviceScene */ = {
+			isa = PBXGroup;
+			children = (
+				8F0231E41CF97ADC00DAA5E9 /* CreateDeviceInteractorTests.swift */,
+				8F0231E51CF97ADC00DAA5E9 /* CreateDevicePresenterTests.swift */,
+				8F0231E61CF97ADC00DAA5E9 /* CreateDeviceViewControllerTests.swift */,
+			);
+			name = CreateDeviceScene;
 			sourceTree = "<group>";
 		};
 		8FFEA1661C971CBD000C21A9 /* SelectCommandTable */ = {

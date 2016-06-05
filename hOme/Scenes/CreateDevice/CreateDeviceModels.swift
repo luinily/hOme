@@ -12,10 +12,16 @@
 import UIKit
 
 
-struct CreateDeviceRequest {
+struct CreateDevice_CreateDevice_Request {
 	var name: String
 	var connectorInternalName: String
 }
+
+struct CreateDevice_CreateDevice_Response {
+	var couldCreateDevice: Bool
+}
+
+
 
 //MARK: - GetConnectors
 struct CreateDevice_GetConnectors_Response {

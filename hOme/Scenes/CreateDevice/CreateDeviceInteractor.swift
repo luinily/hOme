@@ -14,16 +14,19 @@ import UIKit
 protocol CreateDeviceInteractorInput {
 	func fetchConnectors()
 	func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request)
+	func createDevice(request: CreateDevice_CreateDevice_Request)
 }
 
 protocol CreateDeviceInteractorOutput {
 	func presentConnectors(response: CreateDevice_GetConnectors_Response)
 	func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response)
+	func prensentCouldCreateDevice(response: CreateDevice_CreateDevice_Response)
 }
 
 class CreateDeviceInteractor: CreateDeviceInteractorInput {
 	var output: CreateDeviceInteractorOutput!
 	var getConnectorsWorker: GetConnectorsWorker!
+	var devicesWorker: DevicesWorker!
 	
 	// MARK: Business logic
 	
@@ -49,6 +52,14 @@ class CreateDeviceInteractor: CreateDeviceInteractorInput {
 			output.setDoneButtonState(CreateDevice_ValidateDoneButtonState_Response(doneButtonEnabled: true))
 		}
 		
+	}
+	
+	func createDevice(request: CreateDevice_CreateDevice_Request) {
+		 devicesWorker.createDevice(request.name, connectorInternalName: request.connectorInternalName) {
+			(device) in
+			let response = CreateDevice_CreateDevice_Response(couldCreateDevice: false)
+			self.output.prensentCouldCreateDevice(response)
+		}
 	}
 	
 }

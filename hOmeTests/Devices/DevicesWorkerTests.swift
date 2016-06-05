@@ -46,6 +46,10 @@ class DevicesWorkerTests: XCTestCase {
 				completionHandler(devices: [])
 			}
 		}
+		
+		func createDevice(name: String, connectorInternalName: String, completionHandler: (device: DeviceInfo?) -> Void) {
+			
+		}
 	}
 	
 	// MARK: Tests

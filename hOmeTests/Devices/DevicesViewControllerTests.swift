@@ -156,14 +156,6 @@ extension DevicesViewControllerTests {
 		}
 	}
 	
-	func test_WhatIsTested_ExpectedResult() {
-		// Arrange
-		
-		// Act
-		
-		// Assert
-	}
-	
 	//TODO: Repair test to work with threads
 //	func testDeviceCellShouldBeConfigured() {
 //		if let viewController = sut {
@@ -206,4 +198,5 @@ extension DevicesViewControllerTests {
 //			XCTAssertEqual(cell?.textLabel?.text, "Create New Device...")
 //		}
 //	}
+	
 }

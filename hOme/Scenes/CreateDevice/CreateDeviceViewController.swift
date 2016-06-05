@@ -21,6 +21,7 @@ protocol CreateDeviceViewControllerInput {
 protocol CreateDeviceViewControllerOutput {
 	func fetchConnectors()
 	func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request)
+	func createDevice(request: CreateDevice_CreateDevice_Request)
 }
 
 
@@ -40,6 +41,7 @@ class CreateDeviceViewController: UITableViewController {
 	private var _connectors: [[CreateDevice_GetConnectors_ViewModel.connectorName]] = []
 	
 	private var _currentConnectorTypeRow: Int = 0
+	private var _selectedConnector: CreateDevice_GetConnectors_ViewModel.connectorName? = nil
 	
 	// MARK: Object lifecycle
 	
@@ -64,21 +66,37 @@ class CreateDeviceViewController: UITableViewController {
 	
 	// MARK: Event handling
 
-	@IBAction func DoneClicked(sender: AnyObject) {
+	@IBAction func doneClicked(sender: AnyObject) {
+		createDevice()
 	}
 	
 	@IBAction func cancelClicked(sender: AnyObject) {
+		self.dismissViewControllerAnimated(true, completion: nil)
 	}
 	
 	@IBAction func nameValueChanged(sender: AnyObject) {
 		validateOkButtonState()
 	}
 	
-	@IBAction func nameEditingDidEnd(sender: AnyObject) {
-	}
-	
 	@IBAction func connectorEditingDidEnd(sender: AnyObject) {
 		validateOkButtonState()
+	}
+	
+	private func createDevice() {
+		let request = makeCreateDeviceRequest()
+		output.createDevice(request)
+	}
+	
+	private func makeCreateDeviceRequest() -> CreateDevice_CreateDevice_Request {
+		return CreateDevice_CreateDevice_Request(name: getName(), connectorInternalName: getSelectedConnectorInternalName())
+	}
+	
+	private func getSelectedConnectorInternalName() -> String {
+		if let selectedConnector = _selectedConnector {
+			return selectedConnector.internalName
+		} else {
+			return ""
+		}
 	}
 	
 	private func configureConnectorPickerOnLoad() {
@@ -153,10 +171,16 @@ extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelega
 		case 0:
 			_currentConnectorTypeRow = row
 		case 1:
-			connectorTextField.text = _connectors[_currentConnectorTypeRow][row].name
+			selectConnector(row)
+			
 		default:
 			return
 		}
+	}
+	
+	private func selectConnector(row: Int) {
+		_selectedConnector = _connectors[_currentConnectorTypeRow][row]
+		connectorTextField.text = _selectedConnector?.name
 	}
 }
 
