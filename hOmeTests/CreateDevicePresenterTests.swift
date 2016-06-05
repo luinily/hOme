@@ -10,25 +10,38 @@ import XCTest
 @testable import hOme
 
 class CreateDevicePresenterTests: XCTestCase {
-	
+	// MARK: Subject under test
 	private var _createDevicePresenter: CreateDevicePresenter!
-	
-    override func setUp() {
-        super.setUp()
+}
+
+// MARK: Test lifecycle
+extension CreateDevicePresenterTests {
+	override func setUp() {
+		super.setUp()
 		_createDevicePresenter = CreateDevicePresenter()
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
+	}
 	
+	override func tearDown() {
+		// Put teardown code here. This method is called after the invocation of each test method in the class.
+		super.tearDown()
+	}
+}
+
+// MARK: Test setup
+extension CreateDevicePresenterTests {
+	
+}
+
+// MARK: Test doubles
+extension CreateDevicePresenterTests {
 	class CreateDevicePresenterOutputMock: CreateDevicePresenterOutput {
 		//MARK: Methods call expectations
 		private var _hasDisplayConnectorsCalled = false
+		private var _hasSetDoneButtonStateCalled = false
 		
 		//MARK: Arguments expectations
 		private var _connectorsInfoViewModel: CreateDevice_GetConnectors_ViewModel?
+		private var _doneButtonStateInfoViewModel: CreateDevice_ValidateDoneButtonState_ViewModel?
 		
 		//MARK: Spied Methods
 		func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel) {
@@ -36,9 +49,18 @@ class CreateDevicePresenterTests: XCTestCase {
 			_connectorsInfoViewModel = connectorsInfo
 		}
 		
+		func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel) {
+			_hasSetDoneButtonStateCalled = true
+			_doneButtonStateInfoViewModel = viewModel
+		}
+		
 		//MARK: Verifications
 		func verifyDisplayConnectorsIsCalled() -> Bool {
 			return _hasDisplayConnectorsCalled
+		}
+		
+		func verifySetDoneButtonStateIsCalled() -> Bool {
+			return _hasSetDoneButtonStateCalled
 		}
 		
 		func verifyDidFormatConnectorTypesAs(expectedTypeStrings: [String]) -> Bool {
@@ -46,6 +68,10 @@ class CreateDevicePresenterTests: XCTestCase {
 				return resultConnectorTypes == expectedTypeStrings
 			}
 			return false
+		}
+		
+		func verifyCallSetDoneButtonStateWithSameValue(expectedValue: Bool) -> Bool {
+			return _doneButtonStateInfoViewModel?.doneButtonEnabled == expectedValue
 		}
 		
 		func verifyDidFormatConnectorsAs(expectedConnectorStrings: [[CreateDevice_GetConnectors_ViewModel.connectorName]]) -> Bool {
@@ -69,6 +95,7 @@ class CreateDevicePresenterTests: XCTestCase {
 			}
 			return false
 		}
+		
 	}
 	
 	class DummyConnector: Connector {
@@ -97,7 +124,11 @@ class CreateDevicePresenterTests: XCTestCase {
 			_name = name
 		}
 	}
-	
+
+}
+
+// MARK: Tests
+extension CreateDevicePresenterTests {
 	func testPresentConnectors_didConvertTypeToStrings() {
 		//Given
 		let createDevicePresenterMock = CreateDevicePresenterOutputMock()
@@ -165,5 +196,50 @@ class CreateDevicePresenterTests: XCTestCase {
 		//then
 		XCTAssertTrue(createDevicePresenterMock.verifyDisplayConnectorsIsCalled(), "Presenting the connector information should ask view controller to display it")
     }
-    
+	
+	func testSetDoneButtonState_didCallSetDoneButtonState() {
+		//Given
+		let createDevicePresenterMock = CreateDevicePresenterOutputMock()
+		_createDevicePresenter.output = createDevicePresenterMock
+
+		
+		let response = CreateDevice_ValidateDoneButtonState_Response(doneButtonEnabled: true)
+		
+		//When
+		_createDevicePresenter.setDoneButtonState(response)
+		
+		//then
+		XCTAssertTrue(createDevicePresenterMock.verifySetDoneButtonStateIsCalled(), "Presenting done button state ask view controller to display it")
+	}
+	
+	func testFunctionName_didCallSetDoneButtonStateWithSameValueTrue() {
+		//Given
+		let createDevicePresenterMock = CreateDevicePresenterOutputMock()
+		_createDevicePresenter.output = createDevicePresenterMock
+		
+		
+		let response = CreateDevice_ValidateDoneButtonState_Response(doneButtonEnabled: true)
+		
+		//When
+		_createDevicePresenter.setDoneButtonState(response)
+		
+		//then
+		XCTAssertTrue(createDevicePresenterMock.verifyCallSetDoneButtonStateWithSameValue(true))
+	}
+	
+	func testFunctionName_didCallSetDoneButtonStateWithSameValueFalse() {
+		//Given
+		let createDevicePresenterMock = CreateDevicePresenterOutputMock()
+		_createDevicePresenter.output = createDevicePresenterMock
+		
+		
+		let response = CreateDevice_ValidateDoneButtonState_Response(doneButtonEnabled: false)
+		
+		//When
+		_createDevicePresenter.setDoneButtonState(response)
+		
+		//then
+		XCTAssertTrue(createDevicePresenterMock.verifyCallSetDoneButtonStateWithSameValue(false))
+	}
+	
 }

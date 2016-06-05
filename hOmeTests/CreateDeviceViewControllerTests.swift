@@ -10,39 +10,39 @@ import XCTest
 @testable import hOme
 
 class CreateDeviceViewControllerTests: XCTestCase {
-	
+	// MARK: Subject under test
 	private var _createDeviceViewController: CreateDeviceViewController?
-	
+	var window: UIWindow!
+}
+
+// MARK: Test lifecycle
+extension CreateDeviceViewControllerTests {
     override func setUp() {
         super.setUp()
-		
+		window = UIWindow()
 		setupCreateOrderViewController()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+	
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+		window = nil
         super.tearDown()
     }
 	
-	func setupCreateOrderViewController() {
-		let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-		_createDeviceViewController = storyboard.instantiateViewControllerWithIdentifier("CreateDeviceViewController") as? CreateDeviceViewController
-		_createDeviceViewController?.preloadView()
-	}
-	
-	class CreateDeviceViewControllerSpy: CreateDeviceViewControllerOutput {
-		//MARK: Methods call expectations
-		var prepareConnectorInformationHasBeenCalled = false
-		//none yet
-		
-		// MARK: Spied methods
-		func prepareConnectorInformation() {
-			prepareConnectorInformationHasBeenCalled = true
+	func loadView() {
+		if let viewController = _createDeviceViewController {
+			window.addSubview(viewController.view)
+			viewController.preloadView()
 		}
 	}
-	
+}
 
+// MARK: Test setup
+extension CreateDeviceViewControllerTests {
+	private func setupCreateOrderViewController() {
+		let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+		_createDeviceViewController = storyboard.instantiateViewControllerWithIdentifier("CreateDeviceViewController") as? CreateDeviceViewController
+	}
+	
 	private func make_IRKit_ABC_Imaginary_DE_viewModel() -> CreateDevice_GetConnectors_ViewModel {
 		let connectortypes = ["IRKit", "Imaginary"]
 		let connectorA = CreateDevice_GetConnectors_ViewModel.connectorName(name: "A", internalName: "AInternalName")
@@ -56,7 +56,31 @@ class CreateDeviceViewControllerTests: XCTestCase {
 		return CreateDevice_GetConnectors_ViewModel(connectorsTypes: connectortypes, connectors: connectors)
 		
 	}
-	
+}
+
+// MARK: Test doubles
+extension CreateDeviceViewControllerTests {
+	class CreateDeviceViewControllerSpy: CreateDeviceViewControllerOutput {
+		//MARK: Methods call expectations
+		var fetchConnectorsHasBeenCalled = false
+		var validateDoneButtonStateHasBeenCalled = false
+		var validateDoneButtonStateRequest: CreateDevice_ValidateDoneButtonState_Request?
+		//none yet
+		
+		// MARK: Spied methods
+		func fetchConnectors() {
+			fetchConnectorsHasBeenCalled = true
+		}
+		
+		func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request) {
+			validateDoneButtonStateHasBeenCalled = true
+			validateDoneButtonStateRequest = request
+		}
+	}
+}
+
+// MARK: Tests
+extension CreateDeviceViewControllerTests {
     func testShouldHave2ConnectorTypesInPicker() {
 		if let viewController = _createDeviceViewController {
 			// Given
@@ -159,6 +183,7 @@ class CreateDeviceViewControllerTests: XCTestCase {
 	
 	func testPickerSelectedConnector() {
 		if let viewController = _createDeviceViewController {
+			viewController.preloadView()
 			// Given
 			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
@@ -181,16 +206,99 @@ class CreateDeviceViewControllerTests: XCTestCase {
 	
 	func testViewControllerConfiguredwhenViewIsLoaded() {
 		if let viewController = _createDeviceViewController {
+			viewController.preloadView()
 			XCTAssertEqual(viewController.connectorTextField.inputView, viewController.connectorPicker)
 		}
 		
 	}
 	
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+	func testViewDidLoad_ShouldAskForDoneButtonState() {
+		if let viewController = _createDeviceViewController {
+			// Given
+			let createDeviceViewControllerOutputSpy = CreateDeviceViewControllerSpy()
+			viewController.output = createDeviceViewControllerOutputSpy
+			
+			// When
+			loadView()
+			
+			// Then
+			XCTAssertTrue(createDeviceViewControllerOutputSpy.validateDoneButtonStateHasBeenCalled, "Should ask for the button state")
+		}
+	}
+	
+	func testViewDidLoad_AskButtonStateRecord_EmptyNameAndNoConnector() {
+		if let viewController = _createDeviceViewController {
+			// Given
+			let createDeviceViewControllerOutputSpy = CreateDeviceViewControllerSpy()
+			viewController.output = createDeviceViewControllerOutputSpy
+			
+			// When
+			loadView()
+			
+			// Then
+			
+			XCTAssertEqual(createDeviceViewControllerOutputSpy.validateDoneButtonStateRequest?.name, "")
+			XCTAssertEqual(createDeviceViewControllerOutputSpy.validateDoneButtonStateRequest?.connectorSelected, false)
+		}
+	}
+	
+	func testnameValueChanged_shouldAskForButtonState_nameIsTextFieldText() {
+		if let viewController = _createDeviceViewController {
+			// Given
+			let createDeviceViewControllerOutputSpy = CreateDeviceViewControllerSpy()
+			viewController.output = createDeviceViewControllerOutputSpy
+			viewController.preloadView()
+			viewController.nameTextField.text = "device_name"
+			// When
+			viewController.nameValueChanged(viewController.nameTextField)
+			
+			// Then
+			
+			XCTAssertEqual(createDeviceViewControllerOutputSpy.validateDoneButtonStateRequest?.name, "device_name")
+		}
+	}
+	
+	func testconnectorEditingDidEnd_shouldAskForButtonState_connectorIsTrue() {
+		if let viewController = _createDeviceViewController {
+			// Given
+			let createDeviceViewControllerOutputSpy = CreateDeviceViewControllerSpy()
+			viewController.output = createDeviceViewControllerOutputSpy
+			viewController.preloadView()
+			viewController.connectorTextField.text = "connector"
+			
+			// When
+			viewController.connectorEditingDidEnd(viewController.connectorTextField)
+			
+			// Then
+			XCTAssertEqual(createDeviceViewControllerOutputSpy.validateDoneButtonStateRequest?.connectorSelected, true)
+		}
+	}
+	
+	func testSetDoneButtonState_SetDoneButtonSet_ToEnabled() {
+		if let viewController = _createDeviceViewController {
+			// Given
+			viewController.preloadView()
+			let viewModel = CreateDevice_ValidateDoneButtonState_ViewModel(doneButtonEnabled: true)
+			
+			// When
+			viewController.setDoneButtonState(viewModel)
+			
+			// Then
+			XCTAssertTrue(viewController.doneButton.enabled)
+		}
+	}
+	
+	func testSetDoneButtonState_SetDoneButtonSet_ToNotEnabled() {
+		if let viewController = _createDeviceViewController {
+			// Given
+			viewController.preloadView()
+			let viewModel = CreateDevice_ValidateDoneButtonState_ViewModel(doneButtonEnabled: false)
+			
+			// When
+			viewController.setDoneButtonState(viewModel)
+			
+			// Then
+			XCTAssertFalse(viewController.doneButton.enabled)
+		}
+	}
 }

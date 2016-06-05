@@ -11,11 +11,13 @@
 
 import UIKit
 
+
 struct CreateDeviceRequest {
 	var name: String
 	var connectorInternalName: String
 }
 
+//MARK: - GetConnectors
 struct CreateDevice_GetConnectors_Response {
 	var connectorsTypes: [ConnectorType]
 	var connectorsByType: [ConnectorType: [Connector]]
@@ -32,4 +34,19 @@ struct CreateDevice_GetConnectors_ViewModel {
 	}
 	var connectorsTypes: [String]
 	var connectors: [[connectorName]]
+}
+
+//MARK: - ValidateDoneButtonState
+struct CreateDevice_ValidateDoneButtonState_Request {
+	var name: String
+	var connectorSelected: Bool
+}
+
+struct CreateDevice_ValidateDoneButtonState_Response {
+	var doneButtonEnabled: Bool
+}
+
+
+struct CreateDevice_ValidateDoneButtonState_ViewModel {
+	var doneButtonEnabled: Bool
 }

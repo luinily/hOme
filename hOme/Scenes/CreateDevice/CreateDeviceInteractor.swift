@@ -12,11 +12,13 @@
 import UIKit
 
 protocol CreateDeviceInteractorInput {
-	func prepareConnectorInformation()
+	func fetchConnectors()
+	func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request)
 }
 
 protocol CreateDeviceInteractorOutput {
 	func presentConnectors(response: CreateDevice_GetConnectors_Response)
+	func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response)
 }
 
 class CreateDeviceInteractor: CreateDeviceInteractorInput {
@@ -25,17 +27,28 @@ class CreateDeviceInteractor: CreateDeviceInteractorInput {
 	
 	// MARK: Business logic
 	
-	func prepareConnectorInformation() {
-		// NOTE: Create some Worker to do the work
-		
+	func fetchConnectors() {
+		let response = makeResponseFromConnectors()
+		output.presentConnectors(response)
+	}
+	
+	private func makeResponseFromConnectors() -> CreateDevice_GetConnectors_Response {
 		let getConnectorsWorker = GetConnectorsWorker()
 		let connectorsTypes = getConnectorsWorker.getConnectorTypes()
 		let connectorsByTypes = getConnectorsWorker.getConnectorsByType()
 		
 		// NOTE: Pass the result to the Presenter
 		
-		let response = CreateDevice_GetConnectors_Response(connectorsTypes: connectorsTypes, connectorsByType: connectorsByTypes)
-		output.presentConnectors(response)
+		return CreateDevice_GetConnectors_Response(connectorsTypes: connectorsTypes, connectorsByType: connectorsByTypes)
+	}
+	
+	func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request) {
+		if request.name.isEmpty || !request.connectorSelected {
+			output.setDoneButtonState(CreateDevice_ValidateDoneButtonState_Response(doneButtonEnabled: false))
+		} else {
+			output.setDoneButtonState(CreateDevice_ValidateDoneButtonState_Response(doneButtonEnabled: true))
+		}
+		
 	}
 	
 }

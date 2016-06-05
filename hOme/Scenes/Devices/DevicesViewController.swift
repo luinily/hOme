@@ -119,6 +119,12 @@ extension DevicesViewController {
 	}
 }
 
+extension DevicesViewController {
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		
+	}
+}
+
 extension DevicesViewController: DevicesPresenterOutput {
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		router.passDataToNextScene(segue)

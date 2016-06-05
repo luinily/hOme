@@ -14,12 +14,104 @@ import UIKit
 //MARK: - CreateDeviceViewControllerInput
 protocol CreateDeviceViewControllerInput {
 	func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel)
+	func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel)
 }
 
 //MARK: - CreateDeviceViewControllerOutput
 protocol CreateDeviceViewControllerOutput {
-	func prepareConnectorInformation()
-//	func doSomething(request: CreateDeviceRequest)
+	func fetchConnectors()
+	func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request)
+}
+
+
+
+//MARK:- CreateDeviceViewController
+class CreateDeviceViewController: UITableViewController {
+	var output: CreateDeviceViewControllerOutput!
+	var router: CreateDeviceRouter!
+	@IBOutlet weak var connectorPicker: UIPickerView!
+	@IBOutlet weak var nameTextField: UITextField!
+	@IBOutlet weak var connectorTextField: UITextField!
+	@IBOutlet weak var doneButton: UIBarButtonItem!
+	
+	private let _nameCellPath = NSIndexPath(forRow: 0, inSection: 0)
+	private let _connectorCellPath = NSIndexPath(forRow: 1, inSection: 0)
+	private var _connectorsTypes = [String]()
+	private var _connectors: [[CreateDevice_GetConnectors_ViewModel.connectorName]] = []
+	
+	private var _currentConnectorTypeRow: Int = 0
+	
+	// MARK: Object lifecycle
+	
+	override func awakeFromNib() {
+		super.awakeFromNib()
+		CreateDeviceConfigurator.sharedInstance.configure(self)
+	}
+	
+	// MARK: View lifecycle
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		connectorPicker.dataSource = self
+		connectorPicker.delegate = self
+		configureConnectorPickerOnLoad()
+		validateOkButtonState()
+	}
+	
+	private func configurePicker() {
+		connectorTextField.inputView = connectorPicker
+	}
+	
+	// MARK: Event handling
+
+	@IBAction func DoneClicked(sender: AnyObject) {
+	}
+	
+	@IBAction func cancelClicked(sender: AnyObject) {
+	}
+	
+	@IBAction func nameValueChanged(sender: AnyObject) {
+		validateOkButtonState()
+	}
+	
+	@IBAction func nameEditingDidEnd(sender: AnyObject) {
+	}
+	
+	@IBAction func connectorEditingDidEnd(sender: AnyObject) {
+		validateOkButtonState()
+	}
+	
+	private func configureConnectorPickerOnLoad() {
+		// NOTE: Ask the Interactor to do some work
+		
+		output.fetchConnectors()
+		configurePicker()
+	}
+	
+	private func validateOkButtonState() {
+		let request = makeValidateDoneButtonStateRequest()
+		output.validateDoneButtonState(request)
+	}
+	
+	private func makeValidateDoneButtonStateRequest() -> CreateDevice_ValidateDoneButtonState_Request {
+		return CreateDevice_ValidateDoneButtonState_Request(name: getName(), connectorSelected: isConnectorSelected())
+	}
+	
+	private func getName() -> String {
+		if let text = nameTextField.text {
+			return text
+		} else {
+			return ""
+		}
+	}
+	
+	private func isConnectorSelected() -> Bool {
+		if let text = connectorTextField.text {
+			return !text.isEmpty
+		}
+		return false
+	}
+	// MARK: Display logic
 }
 
 //MARK: - UITableViewDelegate
@@ -28,12 +120,13 @@ extension CreateDeviceViewController {
 		if indexPath == _nameCellPath {
 			nameTextField.becomeFirstResponder()
 		} else if indexPath == _connectorCellPath {
-//			output.prepareConnectorInformation()
 			connectorTextField.becomeFirstResponder()
 		}
 	}
 }
 
+
+//MARK: - PickerView dataSource/delegate
 extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 	func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
 		return 2
@@ -67,60 +160,15 @@ extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelega
 	}
 }
 
+//MARK: - CreateDeviceViewControllerInput
 extension CreateDeviceViewController: CreateDeviceViewControllerInput {
 	func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel) {
-		// NOTE: Display the result from the Presenter
 		_connectorsTypes = connectorsInfo.connectorsTypes
 		_connectors = connectorsInfo.connectors
 		//		connectorPicker.reloadAllComponents()
 	}
-}
-
-//MARK:- CreateDeviceViewController
-class CreateDeviceViewController: UITableViewController {
-	var output: CreateDeviceViewControllerOutput!
-	var router: CreateDeviceRouter!
-	@IBOutlet weak var connectorPicker: UIPickerView!
-	@IBOutlet weak var nameTextField: UITextField!
-	@IBOutlet weak var connectorTextField: UITextField!
 	
-	private let _nameCellPath = NSIndexPath(forRow: 0, inSection: 0)
-	private let _connectorCellPath = NSIndexPath(forRow: 1, inSection: 0)
-	private var _connectorsTypes = [String]()
-	private var _connectors: [[CreateDevice_GetConnectors_ViewModel.connectorName]] = []
-	
-	private var _currentConnectorTypeRow: Int = 0
-	
-	// MARK: Object lifecycle
-	
-	override func awakeFromNib() {
-		super.awakeFromNib()
-		CreateDeviceConfigurator.sharedInstance.configure(self)
+	func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel) {
+		doneButton.enabled = viewModel.doneButtonEnabled
 	}
-	
-	// MARK: View lifecycle
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		connectorPicker.dataSource = self
-		connectorPicker.delegate = self
-		configureConnectorPickerOnLoad()
-	}
-	
-	private func configurePicker() {
-		connectorTextField.inputView = connectorPicker
-	}
-	
-	// MARK: Event handling
-	
-	func configureConnectorPickerOnLoad() {
-		// NOTE: Ask the Interactor to do some work
-		
-		output.prepareConnectorInformation()
-		configurePicker()
-	}
-	
-	// MARK: Display logic
-	
-	
 }

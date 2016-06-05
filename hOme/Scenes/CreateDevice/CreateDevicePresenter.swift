@@ -13,10 +13,12 @@ import UIKit
 
 protocol CreateDevicePresenterInput {
 	func presentConnectors(response: CreateDevice_GetConnectors_Response)
+	func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response)
 }
 
 protocol CreateDevicePresenterOutput: class {
 	func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel)
+	func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel)
 }
 
 class CreateDevicePresenter: CreateDevicePresenterInput {
@@ -57,5 +59,9 @@ class CreateDevicePresenter: CreateDevicePresenterInput {
 			connectorNamesByType.append(connectorsNames)
 		}
 		return connectorNamesByType
+	}
+	
+	func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response) {
+		output.setDoneButtonState(CreateDevice_ValidateDoneButtonState_ViewModel(doneButtonEnabled: response.doneButtonEnabled))
 	}
 }

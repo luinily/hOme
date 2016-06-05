@@ -798,6 +798,10 @@
                                                             <exclude reference="nbM-06-pOu"/>
                                                         </mask>
                                                     </variation>
+                                                    <connections>
+                                                        <action selector="nameEditingDidEnd:" destination="1SF-nx-YEC" eventType="editingDidEnd" id="0BQ-jz-oeM"/>
+                                                        <action selector="nameValueChanged:" destination="1SF-nx-YEC" eventType="valueChanged" id="KrZ-5X-mQO"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -822,11 +826,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Connector" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q0I-zS-W8s">
-                                                    <rect key="frame" x="128" y="8" width="479" height="27.5"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Connector" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q0I-zS-W8s">
+                                                    <rect key="frame" x="128" y="8" width="449" height="27.5"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                                    <connections>
+                                                        <action selector="connectorEditingDidEnd:" destination="1SF-nx-YEC" eventType="editingDidEnd" id="YLA-lY-3d3"/>
+                                                    </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connector" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLD-YY-Zi9">
                                                     <rect key="frame" x="23" y="11" width="90" height="21"/>
@@ -842,7 +849,7 @@
                                                 <constraint firstItem="PLD-YY-Zi9" firstAttribute="centerY" secondItem="kW6-nK-ycq" secondAttribute="centerY" id="4GP-hW-jVP"/>
                                                 <constraint firstItem="Q0I-zS-W8s" firstAttribute="leading" secondItem="PLD-YY-Zi9" secondAttribute="trailing" constant="15" id="MIP-AB-NIW"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Q0I-zS-W8s" secondAttribute="bottom" id="g67-Bg-A5I"/>
-                                                <constraint firstItem="Q0I-zS-W8s" firstAttribute="trailing" secondItem="kW6-nK-ycq" secondAttribute="trailingMargin" constant="15" id="olv-rH-oDg"/>
+                                                <constraint firstItem="Q0I-zS-W8s" firstAttribute="trailing" secondItem="kW6-nK-ycq" secondAttribute="trailingMargin" constant="-15" id="olv-rH-oDg"/>
                                                 <constraint firstItem="Q0I-zS-W8s" firstAttribute="centerY" secondItem="kW6-nK-ycq" secondAttribute="centerY" id="qkI-ne-lSz"/>
                                                 <constraint firstItem="Q0I-zS-W8s" firstAttribute="top" secondItem="kW6-nK-ycq" secondAttribute="topMargin" id="r3F-0M-fis"/>
                                                 <constraint firstItem="PLD-YY-Zi9" firstAttribute="leading" secondItem="kW6-nK-ycq" secondAttribute="leadingMargin" constant="15" id="ugW-Fm-BP3"/>
@@ -863,12 +870,21 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Create Device" id="NjH-4y-lpJ">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="l0Q-Ba-2Yw"/>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="Tde-lh-wjx"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="l0Q-Ba-2Yw">
+                            <connections>
+                                <action selector="cancelClicked:" destination="1SF-nx-YEC" id="Icp-rP-EGL"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="Tde-lh-wjx">
+                            <connections>
+                                <action selector="DoneClicked:" destination="1SF-nx-YEC" id="8KB-PL-4P1"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="connectorPicker" destination="UB5-lh-t2e" id="M0e-1G-PDs"/>
                         <outlet property="connectorTextField" destination="Q0I-zS-W8s" id="jZm-RM-UN7"/>
+                        <outlet property="doneButton" destination="Tde-lh-wjx" id="y2s-e4-XDb"/>
                         <outlet property="nameTextField" destination="Mk2-O4-rMC" id="KOl-dn-8QE"/>
                     </connections>
                 </tableViewController>
