@@ -20,7 +20,7 @@ protocol CreateDeviceInteractorInput {
 protocol CreateDeviceInteractorOutput {
 	func presentConnectors(response: CreateDevice_GetConnectors_Response)
 	func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response)
-	func prensentCouldCreateDevice(response: CreateDevice_CreateDevice_Response)
+	func presentCouldCreateDevice(response: CreateDevice_CreateDevice_Response)
 }
 
 class CreateDeviceInteractor: CreateDeviceInteractorInput {
@@ -57,8 +57,13 @@ class CreateDeviceInteractor: CreateDeviceInteractorInput {
 	func createDevice(request: CreateDevice_CreateDevice_Request) {
 		 devicesWorker.createDevice(request.name, connectorInternalName: request.connectorInternalName) {
 			(device) in
-			let response = CreateDevice_CreateDevice_Response(couldCreateDevice: false)
-			self.output.prensentCouldCreateDevice(response)
+			let response: CreateDevice_CreateDevice_Response
+			if device != nil {
+				response = CreateDevice_CreateDevice_Response(couldCreateDevice: true)
+			} else {
+				response = CreateDevice_CreateDevice_Response(couldCreateDevice: false)
+			}
+			self.output.presentCouldCreateDevice(response)
 		}
 	}
 	

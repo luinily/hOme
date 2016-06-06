@@ -14,13 +14,13 @@ import UIKit
 protocol CreateDevicePresenterInput {
 	func presentConnectors(response: CreateDevice_GetConnectors_Response)
 	func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response)
-	func prensentCouldCreateDevice(response: CreateDevice_CreateDevice_Response)
+	func presentCouldCreateDevice(response: CreateDevice_CreateDevice_Response)
 }
 
 protocol CreateDevicePresenterOutput: class {
 	func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel)
 	func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel)
-	
+	func dissmissController()
 }
 
 class CreateDevicePresenter: CreateDevicePresenterInput {
@@ -67,7 +67,9 @@ class CreateDevicePresenter: CreateDevicePresenterInput {
 		output.setDoneButtonState(CreateDevice_ValidateDoneButtonState_ViewModel(doneButtonEnabled: response.doneButtonEnabled))
 	}
 	
-	func prensentCouldCreateDevice(response: CreateDevice_CreateDevice_Response) {
-		
+	func presentCouldCreateDevice(response: CreateDevice_CreateDevice_Response) {
+		if response.couldCreateDevice {
+			output.dissmissController()
+		}
 	}
 }

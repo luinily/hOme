@@ -12,6 +12,7 @@ import XCTest
 class CreateDevicePresenterTests: XCTestCase {
 	// MARK: Subject under test
 	private var _createDevicePresenter: CreateDevicePresenter!
+	private var _createDevicePresenterMock: CreateDevicePresenterOutputMock!
 }
 
 // MARK: Test lifecycle
@@ -19,6 +20,8 @@ extension CreateDevicePresenterTests {
 	override func setUp() {
 		super.setUp()
 		_createDevicePresenter = CreateDevicePresenter()
+		_createDevicePresenterMock = CreateDevicePresenterOutputMock()
+		_createDevicePresenter.output = _createDevicePresenterMock
 	}
 	
 	override func tearDown() {
@@ -38,6 +41,7 @@ extension CreateDevicePresenterTests {
 		//MARK: Methods call expectations
 		private var _hasDisplayConnectorsCalled = false
 		private var _hasSetDoneButtonStateCalled = false
+		private var _hadDismissControllerBeenCalled = false
 		
 		//MARK: Arguments expectations
 		private var _connectorsInfoViewModel: CreateDevice_GetConnectors_ViewModel?
@@ -54,6 +58,10 @@ extension CreateDevicePresenterTests {
 			_doneButtonStateInfoViewModel = viewModel
 		}
 		
+		func dissmissController() {
+			_hadDismissControllerBeenCalled = true
+		}
+		
 		//MARK: Verifications
 		func verifyDisplayConnectorsIsCalled() -> Bool {
 			return _hasDisplayConnectorsCalled
@@ -61,6 +69,10 @@ extension CreateDevicePresenterTests {
 		
 		func verifySetDoneButtonStateIsCalled() -> Bool {
 			return _hasSetDoneButtonStateCalled
+		}
+		
+		func verifyDismissControllerIsCalled() -> Bool {
+			return _hadDismissControllerBeenCalled
 		}
 		
 		func verifyDidFormatConnectorTypesAs(expectedTypeStrings: [String]) -> Bool {
@@ -131,9 +143,6 @@ extension CreateDevicePresenterTests {
 extension CreateDevicePresenterTests {
 	func testPresentConnectors_didConvertTypeToStrings() {
 		//Given
-		let createDevicePresenterMock = CreateDevicePresenterOutputMock()
-		_createDevicePresenter.output = createDevicePresenterMock
-		
 		var connectorsByType = [ConnectorType: [Connector]]()
 		connectorsByType[.irKit] = [Connector]()
 		
@@ -150,14 +159,11 @@ extension CreateDevicePresenterTests {
 		//then
 		let expectedTypeStrings = ["IRKit"]
 		
-		XCTAssertTrue(createDevicePresenterMock.verifyDidFormatConnectorTypesAs(expectedTypeStrings))
+		XCTAssertTrue(_createDevicePresenterMock.verifyDidFormatConnectorTypesAs(expectedTypeStrings))
 	}
 	
 	func testPresentConnectors_didConvertConnectorsToStrings() {
 		//Given
-		let createDevicePresenterMock = CreateDevicePresenterOutputMock()
-		_createDevicePresenter.output = createDevicePresenterMock
-		
 		var connectorsByType = [ConnectorType: [Connector]]()
 		connectorsByType[.irKit] = [Connector]()
 		
@@ -177,14 +183,11 @@ extension CreateDevicePresenterTests {
 		let expectedConnectorC = CreateDevice_GetConnectors_ViewModel.connectorName(name: "C", internalName: "CInternalName")
 		let expectedConnectorStrings = [[expectedConnectorA, expectedConnectorB, expectedConnectorC]]
 		
-		XCTAssertTrue(createDevicePresenterMock.verifyDidFormatConnectorsAs(expectedConnectorStrings))
+		XCTAssertTrue(_createDevicePresenterMock.verifyDidFormatConnectorsAs(expectedConnectorStrings))
 	}
 	
     func testpresentConnectors_didCallDisplayConnectors() {
 		//Given
-		let createDevicePresenterMock = CreateDevicePresenterOutputMock()
-		_createDevicePresenter.output = createDevicePresenterMock
-		
 		var connectorsByType = [ConnectorType: [Connector]]()
 		connectorsByType[.irKit] = [Connector]()
 		
@@ -194,52 +197,63 @@ extension CreateDevicePresenterTests {
 		_createDevicePresenter.presentConnectors(response)
 		
 		//then
-		XCTAssertTrue(createDevicePresenterMock.verifyDisplayConnectorsIsCalled(), "Presenting the connector information should ask view controller to display it")
+		XCTAssertTrue(_createDevicePresenterMock.verifyDisplayConnectorsIsCalled(), "Presenting the connector information should ask view controller to display it")
     }
 	
 	func testSetDoneButtonState_didCallSetDoneButtonState() {
 		//Given
-		let createDevicePresenterMock = CreateDevicePresenterOutputMock()
-		_createDevicePresenter.output = createDevicePresenterMock
-
-		
 		let response = CreateDevice_ValidateDoneButtonState_Response(doneButtonEnabled: true)
 		
 		//When
 		_createDevicePresenter.setDoneButtonState(response)
 		
 		//then
-		XCTAssertTrue(createDevicePresenterMock.verifySetDoneButtonStateIsCalled(), "Presenting done button state ask view controller to display it")
+		XCTAssertTrue(_createDevicePresenterMock.verifySetDoneButtonStateIsCalled(), "Presenting done button state ask view controller to display it")
 	}
 	
 	func testFunctionName_didCallSetDoneButtonStateWithSameValueTrue() {
 		//Given
-		let createDevicePresenterMock = CreateDevicePresenterOutputMock()
-		_createDevicePresenter.output = createDevicePresenterMock
-		
-		
 		let response = CreateDevice_ValidateDoneButtonState_Response(doneButtonEnabled: true)
 		
 		//When
 		_createDevicePresenter.setDoneButtonState(response)
 		
 		//then
-		XCTAssertTrue(createDevicePresenterMock.verifyCallSetDoneButtonStateWithSameValue(true))
+		XCTAssertTrue(_createDevicePresenterMock.verifyCallSetDoneButtonStateWithSameValue(true))
 	}
 	
 	func testFunctionName_didCallSetDoneButtonStateWithSameValueFalse() {
 		//Given
-		let createDevicePresenterMock = CreateDevicePresenterOutputMock()
-		_createDevicePresenter.output = createDevicePresenterMock
-		
-		
 		let response = CreateDevice_ValidateDoneButtonState_Response(doneButtonEnabled: false)
 		
 		//When
 		_createDevicePresenter.setDoneButtonState(response)
 		
 		//then
-		XCTAssertTrue(createDevicePresenterMock.verifyCallSetDoneButtonStateWithSameValue(false))
+		XCTAssertTrue(_createDevicePresenterMock.verifyCallSetDoneButtonStateWithSameValue(false))
+	}
+	
+	func testprensentCouldCreateDevice_ShouldCallDissmissControllerIfCouldCreateDeviceTrue() {
+		// Arrange
+		let response = CreateDevice_CreateDevice_Response(couldCreateDevice: true)
+		
+		// Act
+		
+		_createDevicePresenter.presentCouldCreateDevice(response)
+		
+		// Assert
+		XCTAssertTrue(_createDevicePresenterMock.verifyDismissControllerIsCalled())
+	}
+	
+	func testprensentCouldCreateDevice_ShouldNotCallDissmissControllerIfCouldCreateDeviceFalse() {
+		// Arrange
+		let response = CreateDevice_CreateDevice_Response(couldCreateDevice: false)
+		
+		// Act
+		_createDevicePresenter.presentCouldCreateDevice(response)
+		
+		// Assert
+		XCTAssertFalse(_createDevicePresenterMock.verifyDismissControllerIsCalled())
 	}
 	
 }

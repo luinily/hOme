@@ -51,15 +51,21 @@ extension CreateDeviceInteractorTests {
 			validateButtonStateResponse = response
 		}
 		
-		func prensentCouldCreateDevice(response: CreateDevice_CreateDevice_Response) {
+		func presentCouldCreateDevice(response: CreateDevice_CreateDevice_Response) {
 			hasPresentIfDeviceHasBeenCreatedCalled = true
 			createDeviceResponse = response
 		}
 	}
 	
 	class DevicesWorkerSpy: DevicesWorker {
+		private var _doCreateDevice: Bool
 		var fetchDevicesCalled = false
 		var createDeviceCalled = false
+		
+		init(deviceStore: DeviceStore, doCreateDevice: Bool) {
+			_doCreateDevice = doCreateDevice
+			super.init(deviceStore: deviceStore)
+		}
 		
 		override func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
 			fetchDevicesCalled = true
@@ -68,7 +74,13 @@ extension CreateDeviceInteractorTests {
 		
 		override func createDevice(name: String, connectorInternalName: String, completionHandler: (device: DeviceInfo?) -> Void) {
 			createDeviceCalled = true
-			completionHandler(device: nil)
+			if _doCreateDevice {
+				let name = Name(name: "Device", internalName: "DeviceInternalName")
+				let device = DeviceInfo(name: name, communicatorInternalName: "communicator", offCommandInternalName: "OffCommand", onCommandInternalName: "OnCommand")
+				completionHandler(device: device)
+			} else {
+				completionHandler(device: nil)
+			}
 		}
 	}
 	
@@ -172,12 +184,11 @@ extension CreateDeviceInteractorTests {
 		// Arrange
 		let createDeviceInteractorSpy = CreateDeviceInteractorSpy()
 		_createDeviceInteractor.output = createDeviceInteractorSpy
-		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy())
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy(), doCreateDevice: false)
 		_createDeviceInteractor.devicesWorker = worker
 		let request = CreateDevice_CreateDevice_Request(name: "device", connectorInternalName: "deviceInternalName")
 		// Act
 		_createDeviceInteractor.createDevice(request)
-		
 		
 		// Assert
 		XCTAssertTrue(createDeviceInteractorSpy.hasPresentIfDeviceHasBeenCreatedCalled)
@@ -187,7 +198,7 @@ extension CreateDeviceInteractorTests {
 		// Arrange
 		let spy = CreateDeviceInteractorSpy()
 		_createDeviceInteractor.output = spy
-		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy())
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy(), doCreateDevice: false)
 		_createDeviceInteractor.devicesWorker = worker
 		
 		let request = CreateDevice_CreateDevice_Request(name: "device", connectorInternalName: "deviceInternalName")
@@ -197,6 +208,42 @@ extension CreateDeviceInteractorTests {
 		
 		// Assert
 		XCTAssertTrue(worker.createDeviceCalled)
+	}
+	
+	func testCreateDevice_ShouldCallPresentIfDeviceHasBeenCreate_trueIfDeviceCreated() {
+		// Arrange
+		let createDeviceInteractorSpy = CreateDeviceInteractorSpy()
+		_createDeviceInteractor.output = createDeviceInteractorSpy
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy(), doCreateDevice: true)
+		_createDeviceInteractor.devicesWorker = worker
+		let request = CreateDevice_CreateDevice_Request(name: "device", connectorInternalName: "deviceInternalName")
+		// Act
+		_createDeviceInteractor.createDevice(request)
+		
+		// Assert
+		if let response = createDeviceInteractorSpy.createDeviceResponse {
+			XCTAssertTrue(response.couldCreateDevice)
+		} else {
+			XCTAssert(false)
+		}
+	}
+	
+	func testCreateDevice_ShouldCallPresentIfDeviceHasBeenCreate_falseIfDeviceCreated() {
+		// Arrange
+		let createDeviceInteractorSpy = CreateDeviceInteractorSpy()
+		_createDeviceInteractor.output = createDeviceInteractorSpy
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy(), doCreateDevice: false)
+		_createDeviceInteractor.devicesWorker = worker
+		let request = CreateDevice_CreateDevice_Request(name: "device", connectorInternalName: "deviceInternalName")
+		// Act
+		_createDeviceInteractor.createDevice(request)
+		
+		// Assert
+		if let response = createDeviceInteractorSpy.createDeviceResponse {
+			XCTAssertFalse(response.couldCreateDevice)
+		} else {
+			XCTAssert(false)
+		}
 	}
 	
 }

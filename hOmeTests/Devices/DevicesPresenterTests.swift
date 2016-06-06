@@ -86,4 +86,6 @@ class DevicesPresenterTests: XCTestCase {
 			XCTAssert(false, "presentFetchDevices should output a view model")
 		}
 	}
+	
+
 }

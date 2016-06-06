@@ -91,21 +91,21 @@ extension DevicesViewControllerTests {
 	}
 
 	//TODO: Repair test to work with threads
-//	func testShouldDisplayFetchedDevices() {
-//		if let viewController = sut {
-//			// Given
-//			let spy = DevicesTableSpy()
-//			viewController.tableView = spy
-//			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
-//			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
-//			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
-//			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
-//			// When
-//			viewController.displayFetchedDevices(viewModel)
-//			// Then
-//			XCTAssertTrue(spy.reloadDataCalled, "table reloadData() should be called")
-//		}
-//	}
+	func _testShouldDisplayFetchedDevices() {
+		if let viewController = sut {
+			// Given
+			let spy = DevicesTableSpy()
+			viewController.tableView = spy
+			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			// When
+			viewController.displayFetchedDevices(viewModel)
+			// Then
+			XCTAssertTrue(spy.reloadDataCalled, "table reloadData() should be called")
+		}
+	}
 	
 	func testNumberOfSectionsInTableShouldAlwaysBeTwo() {
 		// Given
@@ -157,46 +157,46 @@ extension DevicesViewControllerTests {
 	}
 	
 	//TODO: Repair test to work with threads
-//	func testDeviceCellShouldBeConfigured() {
-//		if let viewController = sut {
-//			// Arrange
-//			let tableView = viewController.tableView
-//			let spy = DevicesTableSpy()
-//			viewController.tableView = spy
-//			
-//			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
-//			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
-//			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
-//			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
-//			
-//			// Act
-//			viewController.displayFetchedDevices(viewModel)
-//			let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-//			let cell = tableView.cellForRowAtIndexPath(indexPath)
-//
-//			// Assert
-//			XCTAssertEqual(cell?.textLabel?.text, "Device1")
-//		}
-//	}
+	func _testDeviceCellShouldBeConfigured() {
+		if let viewController = sut {
+			// Arrange
+			let tableView = viewController.tableView
+			let spy = DevicesTableSpy()
+			viewController.tableView = spy
+			
+			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			
+			// Act
+			viewController.displayFetchedDevices(viewModel)
+			let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+			let cell = tableView.cellForRowAtIndexPath(indexPath)
+
+			// Assert
+			XCTAssertEqual(cell?.textLabel?.text, "Device1")
+		}
+	}
 	
 	//TODO: Repair test to work with threads
-//	func testNewDeviceCellShouldBeConfigured() {
-//		if let viewController = sut {
-//			// Arrange
-//			let tableView = viewController.tableView
-//			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
-//			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
-//			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
-//			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
-//			
-//			// Act
-//			viewController.displayFetchedDevices(viewModel)
-//			let indexPath = NSIndexPath(forRow: 0, inSection: 1)
-//			let cell = tableView.cellForRowAtIndexPath(indexPath)
-//			
-//			// Assert
-//			XCTAssertEqual(cell?.textLabel?.text, "Create New Device...")
-//		}
-//	}
+	func _testNewDeviceCellShouldBeConfigured() {
+		if let viewController = sut {
+			// Arrange
+			let tableView = viewController.tableView
+			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			
+			// Act
+			viewController.displayFetchedDevices(viewModel)
+			let indexPath = NSIndexPath(forRow: 0, inSection: 1)
+			let cell = tableView.cellForRowAtIndexPath(indexPath)
+			
+			// Assert
+			XCTAssertEqual(cell?.textLabel?.text, "Create New Device...")
+		}
+	}
 	
 }
