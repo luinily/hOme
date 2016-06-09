@@ -10,32 +10,24 @@ import XCTest
 @testable import hOme
 
 class DeviceCloudKitStoreTests: XCTestCase {
+	// MARK: Subject under test
+}
 
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-
-	// MARK: Test doubles
-	class WrapperSpy: CloudKitWrapperProtocol {
-		var fetchRecordsCalled = false
-		var argument = ""
-		var record = [String: Any]()
-		
-		func fetchRecordsOfType(type: String, completionHandler: (records: [[String : Any]]) -> Void) {
-			fetchRecordsCalled = true
-			argument = type
-
-			
-			completionHandler(records: [record])
-		}
+// MARK: Test lifecycle
+extension DeviceCloudKitStoreTests {
+	override func setUp() {
+		super.setUp()
+		// Put setup code here. This method is called before the invocation of each test method in the class.
 	}
 	
+	override func tearDown() {
+		// Put teardown code here. This method is called after the invocation of each test method in the class.
+		super.tearDown()
+	}
+}
+
+// MARK: Test setup
+extension DeviceCloudKitStoreTests {
 	func makeValidRecord() -> [String: Any] {
 		var record = [String: Any]()
 		record["Name"] = "Device"
@@ -51,8 +43,27 @@ class DeviceCloudKitStoreTests: XCTestCase {
 		record.removeValueForKey("Name")
 		return record
 	}
-	
-	// MARK: Tests
+}
+
+// MARK: Test doubles
+extension DeviceCloudKitStoreTests {
+	class WrapperSpy: CloudKitWrapperProtocol {
+		var fetchRecordsCalled = false
+		var argument = ""
+		var record = [String: Any]()
+		
+		func fetchRecordsOfType(type: String, completionHandler: (records: [[String : Any]]) -> Void) {
+			fetchRecordsCalled = true
+			argument = type
+			
+			
+			completionHandler(records: [record])
+		}
+	}
+}
+
+// MARK: Tests
+extension DeviceCloudKitStoreTests {
 	func testFetchDevices_CallsWrapperFetchRecordsOfType() {
 		// Arrange
 		let spy = WrapperSpy()
@@ -135,8 +146,15 @@ class DeviceCloudKitStoreTests: XCTestCase {
 			devices = records
 		}
 		
-		// Assert		
+		// Assert
 		XCTAssertTrue(devices.isEmpty)
 	}
 
+	func testCreateDevice_ShouldCallCreateDevice() {
+		// Arrange
+		
+		// Act
+		
+		// Assert
+	}
 }

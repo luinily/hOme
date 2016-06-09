@@ -15,7 +15,7 @@ import UIKit
 protocol CreateDeviceViewControllerInput {
 	func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel)
 	func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel)
-	func dissmissController()
+	func dissmissView()
 }
 
 //MARK: - CreateDeviceViewControllerOutput
@@ -197,7 +197,7 @@ extension CreateDeviceViewController: CreateDeviceViewControllerInput {
 		doneButton.enabled = viewModel.doneButtonEnabled
 	}
 	
-	func dissmissController() {
-		
+	func dissmissView() {
+		self.dissmissView()
 	}
 }

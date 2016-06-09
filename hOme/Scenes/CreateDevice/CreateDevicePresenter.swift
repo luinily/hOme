@@ -20,7 +20,7 @@ protocol CreateDevicePresenterInput {
 protocol CreateDevicePresenterOutput: class {
 	func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel)
 	func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel)
-	func dissmissController()
+	func dissmissView()
 }
 
 class CreateDevicePresenter: CreateDevicePresenterInput {
@@ -69,7 +69,7 @@ class CreateDevicePresenter: CreateDevicePresenterInput {
 	
 	func presentCouldCreateDevice(response: CreateDevice_CreateDevice_Response) {
 		if response.couldCreateDevice {
-			output.dissmissController()
+			output.dissmissView()
 		}
 	}
 }

@@ -41,7 +41,7 @@ extension CreateDevicePresenterTests {
 		//MARK: Methods call expectations
 		private var _hasDisplayConnectorsCalled = false
 		private var _hasSetDoneButtonStateCalled = false
-		private var _hadDismissControllerBeenCalled = false
+		private var _hadDismissViewBeenCalled = false
 		
 		//MARK: Arguments expectations
 		private var _connectorsInfoViewModel: CreateDevice_GetConnectors_ViewModel?
@@ -58,8 +58,8 @@ extension CreateDevicePresenterTests {
 			_doneButtonStateInfoViewModel = viewModel
 		}
 		
-		func dissmissController() {
-			_hadDismissControllerBeenCalled = true
+		func dissmissView() {
+			_hadDismissViewBeenCalled = true
 		}
 		
 		//MARK: Verifications
@@ -71,8 +71,8 @@ extension CreateDevicePresenterTests {
 			return _hasSetDoneButtonStateCalled
 		}
 		
-		func verifyDismissControllerIsCalled() -> Bool {
-			return _hadDismissControllerBeenCalled
+		func verifyDismissViewIsCalled() -> Bool {
+			return _hadDismissViewBeenCalled
 		}
 		
 		func verifyDidFormatConnectorTypesAs(expectedTypeStrings: [String]) -> Bool {
@@ -242,7 +242,7 @@ extension CreateDevicePresenterTests {
 		_createDevicePresenter.presentCouldCreateDevice(response)
 		
 		// Assert
-		XCTAssertTrue(_createDevicePresenterMock.verifyDismissControllerIsCalled())
+		XCTAssertTrue(_createDevicePresenterMock.verifyDismissViewIsCalled())
 	}
 	
 	func testprensentCouldCreateDevice_ShouldNotCallDissmissControllerIfCouldCreateDeviceFalse() {
@@ -253,7 +253,7 @@ extension CreateDevicePresenterTests {
 		_createDevicePresenter.presentCouldCreateDevice(response)
 		
 		// Assert
-		XCTAssertFalse(_createDevicePresenterMock.verifyDismissControllerIsCalled())
+		XCTAssertFalse(_createDevicePresenterMock.verifyDismissViewIsCalled())
 	}
 	
 }

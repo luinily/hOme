@@ -13,6 +13,11 @@ protocol CloudKitWrapperProtocol {
 	func fetchRecordsOfType(type: String, completionHandler: (records: [[String: Any]]) -> Void)
 }
 
+enum CloudKitError: ErrorType {
+	case CouldNotConvertToCKValueType
+	case CouldNotFindInternalName
+}
+
 class CloudKitWrapper: CloudKitWrapperProtocol {
 	private var _container: CKContainer
 	private var _dataBase: CKDatabase
@@ -44,6 +49,7 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 		}
 	}
 	
+	
 	func convertRecordsToDic(records: [CKRecord]) -> [[String: Any]] {
 		var result = [[String: Any]]()
 		
@@ -65,4 +71,35 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 		let predicate = NSPredicate(value: true)
 		return CKQuery(recordType: "Device", predicate: predicate)
 	}
+	
+	func convertDicsToRecords(recordsType: String, data: [[String: Any]]) throws -> [CKRecord] {
+		var records = [CKRecord]()
+		for dic in data {
+			let record = try convertDicToRecord(recordsType, data: dic)
+			records.append(record)
+		}
+		return records
+	}
+	
+	func convertDicToRecord(recordType: String, data: [String: Any]) throws -> CKRecord {
+		let recordID = try makeRecordID(data)
+		let record = CKRecord(recordType: recordType, recordID: recordID)
+		for key in data.keys {
+			if let value = data[key] as? CKRecordValue {
+				record[key] =  value
+			} else {
+				throw CloudKitError.CouldNotConvertToCKValueType
+			}
+		}
+		return record
+	}
+	
+	private func makeRecordID(data: [String: Any]) throws -> CKRecordID {
+		if let name = data["internalName"] as? String {
+			return CKRecordID(recordName: name)
+		} else {
+			throw CloudKitError.CouldNotFindInternalName
+		}
+	}
+	
 }

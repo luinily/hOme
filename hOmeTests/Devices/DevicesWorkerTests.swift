@@ -14,11 +14,11 @@ import XCTest
 
 class DevicesWorkerTests: XCTestCase {
 	// MARK: Subject under test
-	
 	var sut: DevicesWorker!
-	
-	// MARK: Test lifecycle
-	
+}
+
+// MARK: Test lifecycle
+extension DevicesWorkerTests {
 	override func setUp() {
 		super.setUp()
 		setupDevicesWorker()
@@ -28,14 +28,18 @@ class DevicesWorkerTests: XCTestCase {
 		super.tearDown()
 	}
 	
-	// MARK: Test setup
 	
+}
+
+// MARK: Test setup
+extension DevicesWorkerTests {
 	func setupDevicesWorker() {
 		sut = DevicesWorker(deviceStore: DeviceStoreSpy())
 	}
-	
-	// MARK: Test doubles
-	
+}
+
+// MARK: Test doubles
+extension DevicesWorkerTests {
 	class DeviceStoreSpy: DeviceStore {
 		var fetchedDevicesCalled = false
 		
@@ -51,9 +55,10 @@ class DevicesWorkerTests: XCTestCase {
 			
 		}
 	}
-	
-	// MARK: Tests
-	
+}
+
+// MARK: Tests
+extension DevicesWorkerTests {
 	func testFetchDevicesShouldCallStoreFetchDevices() {
 		// Given
 		if let spy = sut.deviceStore as? DeviceStoreSpy {

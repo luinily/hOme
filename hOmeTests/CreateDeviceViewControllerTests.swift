@@ -370,17 +370,17 @@ extension CreateDeviceViewControllerTests {
 	
 	func testconnectorEditingDidEnd_shouldAskForButtonState_connectorInternalNameEmpty() {
 		if let viewController = _createDeviceViewController {
-			// Given
+			// Arrange
 			viewController.preloadView()
 			let createDeviceViewControllerOutputSpy = CreateDeviceViewControllerSpy()
 			viewController.output = createDeviceViewControllerOutputSpy
 
 			
-			//When
+			// Act
 			viewController.doneClicked(viewController.doneButton)
 			
 			
-			//Then
+			// Assert
 			if let request = createDeviceViewControllerOutputSpy.createDeviceRequest {
 				XCTAssertTrue(request.connectorInternalName.isEmpty)
 				return
@@ -389,7 +389,4 @@ extension CreateDeviceViewControllerTests {
 		XCTAssert(false)
 		
 	}
-	
-	
-	
 }
