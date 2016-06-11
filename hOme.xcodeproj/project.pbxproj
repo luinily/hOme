@@ -83,6 +83,7 @@
 		8FACED071CED598E002665C5 /* MathUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FACED061CED598E002665C5 /* MathUtilsTests.swift */; };
 		8FACED261CEF59B2002665C5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED251CEF59B2002665C5 /* Alamofire.framework */; };
 		8FACED271CEF59B2002665C5 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED251CEF59B2002665C5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8FADCEF31D0C32C80001CCB1 /* DeviceCloudKitStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FADCEF21D0C32C80001CCB1 /* DeviceCloudKitStore.swift */; };
 		8FBD12371C8F033D002BAEA7 /* FlicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD12361C8F033D002BAEA7 /* FlicButton.swift */; };
 		8FBD12391C8F0538002BAEA7 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD12381C8F0538002BAEA7 /* Button.swift */; };
 		8FBD123B1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD123A1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift */; };
@@ -241,6 +242,7 @@
 		8F87C86E1CDDE1C000777324 /* NameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameCell.swift; sourceTree = "<group>"; };
 		8FACED061CED598E002665C5 /* MathUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathUtilsTests.swift; sourceTree = "<group>"; };
 		8FACED251CEF59B2002665C5 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Alamofire.framework; path = "/Users/yoann/Library/Developer/Xcode/DerivedData/hOme-cweeioglazklpzaoszikvmkyuomn/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<absolute>"; };
+		8FADCEF21D0C32C80001CCB1 /* DeviceCloudKitStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceCloudKitStore.swift; sourceTree = "<group>"; };
 		8FBD12361C8F033D002BAEA7 /* FlicButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlicButton.swift; sourceTree = "<group>"; };
 		8FBD12381C8F0538002BAEA7 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		8FBD123A1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonsTableDelegate.swift; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 				8F0FD4F01C65E8D300B0C412 /* DeviceManager.swift */,
 				8FCFA75E1CB69E1B00F3A8FD /* DeviceProtocol.swift */,
 				8FFA75A31CFA016B00C5163D /* DeviceMemStore.swift */,
+				8FADCEF21D0C32C80001CCB1 /* DeviceCloudKitStore.swift */,
 				8F0FD4EE1C65E8D300B0C412 /* Device.swift */,
 				8FFA75B41D00894100C5163D /* DeviceInfo.swift */,
 			);
@@ -953,6 +956,7 @@
 				8FFEA1621C971C77000C21A9 /* SelectCommandViewController.swift in Sources */,
 				8F5E81C91CB3FE4200A88CDE /* SelectDeviceCommandCell.swift in Sources */,
 				8F0FD4FF1C65E8D300B0C412 /* Condition.swift in Sources */,
+				8FADCEF31D0C32C80001CCB1 /* DeviceCloudKitStore.swift in Sources */,
 				8F0FD5091C65E8D300B0C412 /* Schedule.swift in Sources */,
 				8F00EE041CD2F32F0097EF8D /* NewDeviceNameCell.swift in Sources */,
 				8F24C1941CF0906E005592F8 /* CloudKitObject.swift in Sources */,

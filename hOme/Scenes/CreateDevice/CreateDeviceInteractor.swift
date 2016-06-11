@@ -25,10 +25,13 @@ protocol CreateDeviceInteractorOutput {
 
 class CreateDeviceInteractor: CreateDeviceInteractorInput {
 	var output: CreateDeviceInteractorOutput!
-	var getConnectorsWorker: GetConnectorsWorker!
-	var devicesWorker: DevicesWorker!
+	var getConnectorsWorker = GetConnectorsWorker()
+	var devicesWorker: DevicesWorker
 	
 	// MARK: Business logic
+	init() {
+		devicesWorker = DevicesWorker(deviceStore: DeviceCloudKitStore())
+	}
 	
 	func fetchConnectors() {
 		let response = makeResponseFromConnectors()
@@ -56,13 +59,8 @@ class CreateDeviceInteractor: CreateDeviceInteractorInput {
 	
 	func createDevice(request: CreateDevice_CreateDevice_Request) {
 		 devicesWorker.createDevice(request.name, connectorInternalName: request.connectorInternalName) {
-			(device) in
-			let response: CreateDevice_CreateDevice_Response
-			if device != nil {
-				response = CreateDevice_CreateDevice_Response(couldCreateDevice: true)
-			} else {
-				response = CreateDevice_CreateDevice_Response(couldCreateDevice: false)
-			}
+			(couldCreateDevice) in
+			let response = CreateDevice_CreateDevice_Response(couldCreateDevice: couldCreateDevice)
 			self.output.presentCouldCreateDevice(response)
 		}
 	}

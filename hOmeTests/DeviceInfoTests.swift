@@ -136,6 +136,91 @@ class DeviceInfoTests: XCTestCase {
 		//Assert
 		XCTAssertNotEqual(a, b)
 	}
-
+	
+	func testToDictionary_putNameInDictionary_DeviceName() {
+		// Arrange
+		let device = DeviceInfo(name: Name(name: "DeviceName", internalName: "a"), communicatorInternalName: "a", offCommandInternalName: "a", onCommandInternalName: "a")
+		
+		// Act
+		let dic = device.toDictionary()
+		
+		// Assert
+		if let name = dic["Name"] as? String {
+			XCTAssertEqual(name, "DeviceName")
+		} else {
+			XCTAssert(false, "could not get Name property correctly")
+		}
+	}
+	
+	func testToDictionary_putInternalNameInDictionary_InternalName() {
+		// Arrange
+		let device = DeviceInfo(name: Name(name: "DeviceName", internalName: "InternalName"), communicatorInternalName: "a", offCommandInternalName: "a", onCommandInternalName: "a")
+		
+		// Act
+		let dic = device.toDictionary()
+		
+		// Assert
+		if let name = dic["internalName"] as? String {
+			XCTAssertEqual(name, "InternalName")
+		} else {
+			XCTAssert(false, "could not get Name property correctly")
+		}
+	}
+	
+	func testToDictionary_putCommunicatorInternalNameInDictionary_communicator() {
+		// Arrange
+		let device = DeviceInfo(name: Name(name: "DeviceName", internalName: "InternalName"), communicatorInternalName: "communicator", offCommandInternalName: "a", onCommandInternalName: "a")
+		
+		// Act
+		let dic = device.toDictionary()
+		
+		// Assert
+		if let name = dic["CommunicatorName"] as? String {
+			XCTAssertEqual(name, "communicator")
+		} else {
+			XCTAssert(false, "could not get Name property correctly")
+		}
+	}
+	
+	func testToDictionary_putoffCommandInternalNameInDictionary_offCommand() {
+		// Arrange
+		let device = DeviceInfo(name: Name(name: "DeviceName", internalName: "InternalName"), communicatorInternalName: "communicator", offCommandInternalName: "offCommand", onCommandInternalName: "a")
+		
+		// Act
+		let dic = device.toDictionary()
+		
+		// Assert
+		if let name = dic["OffCommand"] as? String {
+			XCTAssertEqual(name, "offCommand")
+		} else {
+			XCTAssert(false, "could not get Name property correctly")
+		}
+	}
+	
+	func testToDictionary_putoffCommandInternalNameInDictionary_onCommand() {
+		// Arrange
+		let device = DeviceInfo(name: Name(name: "DeviceName", internalName: "InternalName"), communicatorInternalName: "communicator", offCommandInternalName: "offCommand", onCommandInternalName: "onCommand")
+		
+		// Act
+		let dic = device.toDictionary()
+		
+		// Assert
+		if let name = dic["OnCommand"] as? String {
+			XCTAssertEqual(name, "onCommand")
+		} else {
+			XCTAssert(false, "could not get Name property correctly")
+		}
+	}
+	
+	func testToDictionary_dictionaryLength_is5() {
+		// Arrange
+		let device = DeviceInfo(name: Name(name: "DeviceName", internalName: "InternalName"), communicatorInternalName: "communicator", offCommandInternalName: "offCommand", onCommandInternalName: "onCommand")
+		
+		// Act
+		let dic = device.toDictionary()
+		
+		// Assert
+		XCTAssertEqual(dic.count, 5)
+	}
 
 }

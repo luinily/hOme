@@ -51,7 +51,7 @@ extension DevicesWorkerTests {
 			}
 		}
 		
-		func createDevice(name: String, connectorInternalName: String, completionHandler: (device: DeviceInfo?) -> Void) {
+		func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void) {
 			
 		}
 	}

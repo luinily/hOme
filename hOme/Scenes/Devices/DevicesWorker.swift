@@ -13,7 +13,7 @@ import UIKit
 
 protocol DeviceStore {
 	func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void)
-	func createDevice(name: String, connectorInternalName: String, completionHandler: (device: DeviceInfo?) -> Void)
+	func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void)
 }
 
 class DevicesWorker {
@@ -30,7 +30,7 @@ class DevicesWorker {
 		_deviceStore.fetchDevices(completionHandler)
 	}
 	
-	func createDevice(name: String, connectorInternalName: String, completionHandler: (device: DeviceInfo?) -> Void) {
+	func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void) {
 		_deviceStore.createDevice(name, connectorInternalName: connectorInternalName, completionHandler: completionHandler)
 	}
 }

@@ -43,21 +43,77 @@ extension DeviceCloudKitStoreTests {
 		record.removeValueForKey("Name")
 		return record
 	}
+	
+	func makeDefaultRecord(name: String, communicatorName: String) -> [String: Any] {
+		var record = [String: Any]()
+		record["Name"] = name
+		record["internalName"] = ""
+		record["CommunicatorName"] = communicatorName
+		record["OnCommand"] = ""
+		record["OffCommand"] = ""
+		return record
+	}
+	
+	func AssertDictionaryEqual(dictionnary1: [String: Any], dictionnary2: [String: Any]) -> Bool {
+		XCTAssertEqual(dictionnary1.count, dictionnary2.count)
+		
+		if let name1 = dictionnary1["Name"] as? String,
+			name2 = dictionnary2["Name"] as? String {
+			XCTAssertEqual(name1, name2)
+		} else {
+			XCTAssert(false, "problem with Name")
+		}
+		
+		if dictionnary2["internalName"] == nil {
+			XCTAssert(false, "problem with internalName")
+		}
+		
+		if let communicatorName1 = dictionnary1["CommunicatorName"] as? String,
+			communicatorName2 = dictionnary2["CommunicatorName"] as? String {
+			XCTAssertEqual(communicatorName1, communicatorName2)
+		} else {
+			XCTAssert(false, "problem with CommunicatorName")
+		}
+		
+		if let OnCommandName1 = dictionnary1["OnCommand"] as? String,
+			OnCommandName2 = dictionnary2["OnCommand"] as? String {
+			XCTAssertEqual(OnCommandName1, OnCommandName2)
+		} else {
+			XCTAssert(false, "problem with OnCommand")
+		}
+		
+		if let OffCommandName1 = dictionnary1["OffCommand"] as? String,
+			OffCommandName2 = dictionnary2["OffCommand"] as? String {
+			XCTAssertEqual(OffCommandName1, OffCommandName2)
+		} else {
+			XCTAssert(false, "problem with OffCommand")
+		}
+		
+		return true
+	}
 }
 
 // MARK: Test doubles
 extension DeviceCloudKitStoreTests {
 	class WrapperSpy: CloudKitWrapperProtocol {
 		var fetchRecordsCalled = false
-		var argument = ""
+		var createRecordCalled = false
+		var type = ""
 		var record = [String: Any]()
 		
 		func fetchRecordsOfType(type: String, completionHandler: (records: [[String : Any]]) -> Void) {
 			fetchRecordsCalled = true
-			argument = type
+			self.type = type
 			
 			
 			completionHandler(records: [record])
+		}
+		
+		func createRecordOfType(type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
+			self.type = type
+			createRecordCalled = true
+			record = data
+			conpletionHandler(couldCreateDevice: true, error: nil)
 		}
 	}
 }
@@ -89,7 +145,7 @@ extension DeviceCloudKitStoreTests {
 		}
 		
 		// Assert
-		XCTAssertEqual(spy.argument, "Device")
+		XCTAssertEqual(spy.type, "Device")
 		
 	}
 	
@@ -150,11 +206,67 @@ extension DeviceCloudKitStoreTests {
 		XCTAssertTrue(devices.isEmpty)
 	}
 
-	func testCreateDevice_ShouldCallCreateDevice() {
+	func testCreateDevice_ShouldCallCreateRecord() {
 		// Arrange
+		let spy = WrapperSpy()
+		spy.record = makeInvalidRecord()
+		let store = DeviceCloudKitStore(cloudKitWrapper: spy)
 		
 		// Act
+		store.createDevice("Device", connectorInternalName: "Connector") {
+			(deviceInfo) in
+		}
 		
 		// Assert
+		XCTAssertTrue(spy.createRecordCalled)
 	}
+	
+	func testCreateDevice_ShouldCallCreateRecord_typeArgumentShouldBeDevice() {
+		// Arrange
+		let spy = WrapperSpy()
+		spy.record = makeInvalidRecord()
+		let store = DeviceCloudKitStore(cloudKitWrapper: spy)
+		
+		// Act
+		store.createDevice("Device", connectorInternalName: "Connector") {
+			(deviceInfo) in
+		}
+		
+		// Assert
+		XCTAssertEqual(spy.type, "Device")
+	}
+	
+	func testCreateDevice_ShouldCallCreateRecord_dicArgumentShouldBeDeviceRecord() {
+		// Arrange
+		let spy = WrapperSpy()
+		spy.record = makeInvalidRecord()
+		let store = DeviceCloudKitStore(cloudKitWrapper: spy)
+		
+		// Act
+		store.createDevice("Device", connectorInternalName: "Connector") {
+			(deviceInfo) in
+		}
+		
+		// Assert
+		let dic = makeDefaultRecord("Device", communicatorName: "Connector")
+		AssertDictionaryEqual(spy.record, dictionnary2: dic)
+	}
+	
+	func testCreateDevice_ShouldCallCreateRecord_completionHandlerPassed() {
+		// Arrange
+		let spy = WrapperSpy()
+		spy.record = makeInvalidRecord()
+		let store = DeviceCloudKitStore(cloudKitWrapper: spy)
+		var completionHandlerCalled = false
+		
+		// Act
+		store.createDevice("Device", connectorInternalName: "Connector") {
+			(deviceInfo) in
+			completionHandlerCalled = true
+		}
+		
+		// Assert
+		XCTAssertTrue(completionHandlerCalled)
+	}
+	
 }

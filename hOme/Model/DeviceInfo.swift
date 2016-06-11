@@ -13,29 +13,35 @@ enum ImportError: ErrorType {
 }
 
 struct DeviceInfo {
+	private let nameKey = "Name"
+	private let internalNameKey = "internalName"
+	private let communicatorInternalNameKey = "CommunicatorName"
+	private let onCommandInternalNameKey = "OnCommand"
+	private let offCommadnInternalNameKey = "OffCommand"
+	
 	var name: Name
 	var communicatorInternalName: String
 	var offCommandInternalName: String
 	var onCommandInternalName: String
 	
 	init(record: [String: Any]) throws {
-		guard let name = record["Name"] as? String else {
+		guard let name = record[nameKey] as? String else {
 			throw ImportError.ErrorCouldNotFindElement
 		}
 		
-		guard let internalName = record["internalName"] as? String else {
+		guard let internalName = record[internalNameKey] as? String else {
 			throw ImportError.ErrorCouldNotFindElement
 		}
 		
-		guard let communicatorName = record["CommunicatorName"] as? String else {
+		guard let communicatorName = record[communicatorInternalNameKey] as? String else {
 			throw ImportError.ErrorCouldNotFindElement
 		}
 		
-		guard let onCommandName = record["OnCommand"] as? String else {
+		guard let onCommandName = record[onCommandInternalNameKey] as? String else {
 			throw ImportError.ErrorCouldNotFindElement
 		}
 		
-		guard let offCommandName = record["OffCommand"] as? String else {
+		guard let offCommandName = record[offCommadnInternalNameKey] as? String else {
 			throw ImportError.ErrorCouldNotFindElement
 		}
 		
@@ -50,6 +56,18 @@ struct DeviceInfo {
 		self.communicatorInternalName = communicatorInternalName
 		self.offCommandInternalName = offCommandInternalName
 		self.onCommandInternalName = onCommandInternalName
+	}
+	
+	func toDictionary() -> [String: Any] {
+		var dic = [String: Any]()
+
+		dic[nameKey] = name.name
+		dic[internalNameKey] = name.internalName
+		dic[communicatorInternalNameKey] = communicatorInternalName
+		dic[offCommadnInternalNameKey] = offCommandInternalName
+		dic[onCommandInternalNameKey] = onCommandInternalName
+		
+		return dic
 	}
 }
 

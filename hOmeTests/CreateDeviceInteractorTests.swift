@@ -72,14 +72,12 @@ extension CreateDeviceInteractorTests {
 			completionHandler(devices: [])
 		}
 		
-		override func createDevice(name: String, connectorInternalName: String, completionHandler: (device: DeviceInfo?) -> Void) {
+		override func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void) {
 			createDeviceCalled = true
 			if _doCreateDevice {
-				let name = Name(name: "Device", internalName: "DeviceInternalName")
-				let device = DeviceInfo(name: name, communicatorInternalName: "communicator", offCommandInternalName: "OffCommand", onCommandInternalName: "OnCommand")
-				completionHandler(device: device)
+				completionHandler(couldCreateDevice: true)
 			} else {
-				completionHandler(device: nil)
+				completionHandler(couldCreateDevice: false)
 			}
 		}
 	}
@@ -96,11 +94,11 @@ extension CreateDeviceInteractorTests {
 			}
 		}
 		
-		func createDevice(name: String, connectorInternalName: String, completionHandler: (device: DeviceInfo?) -> Void) {
+		func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void) {
 			createDeviceCalled = true
 			let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
 			dispatch_after(oneSecond, dispatch_get_main_queue()) {
-				completionHandler(device: nil)
+				completionHandler(couldCreateDevice: false)
 			}
 		}
 	}

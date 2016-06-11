@@ -136,10 +136,12 @@ class CreateDeviceViewController: UITableViewController {
 //MARK: - UITableViewDelegate
 extension CreateDeviceViewController {
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if indexPath == _nameCellPath {
-			nameTextField.becomeFirstResponder()
-		} else if indexPath == _connectorCellPath {
-			connectorTextField.becomeFirstResponder()
+		dispatch_async(dispatch_get_main_queue()) {
+			if indexPath == self._nameCellPath {
+				self.nameTextField.becomeFirstResponder()
+			} else if indexPath == self._connectorCellPath {
+				self.connectorTextField.becomeFirstResponder()
+			}
 		}
 	}
 }
@@ -198,6 +200,8 @@ extension CreateDeviceViewController: CreateDeviceViewControllerInput {
 	}
 	
 	func dissmissView() {
-		self.dissmissView()
+		dispatch_async(dispatch_get_main_queue()) {
+			self.dissmissView()
+		}
 	}
 }

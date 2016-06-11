@@ -11,11 +11,13 @@ import CloudKit
 
 protocol CloudKitWrapperProtocol {
 	func fetchRecordsOfType(type: String, completionHandler: (records: [[String: Any]]) -> Void)
+	func createRecordOfType(type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void)
 }
 
 enum CloudKitError: ErrorType {
 	case CouldNotConvertToCKValueType
 	case CouldNotFindInternalName
+	case RecordAlreadyExisting
 }
 
 class CloudKitWrapper: CloudKitWrapperProtocol {
@@ -70,6 +72,35 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 	private func createQueryForRecordType(recordType: String) -> CKQuery {
 		let predicate = NSPredicate(value: true)
 		return CKQuery(recordType: "Device", predicate: predicate)
+	}
+	
+	func createRecordOfType(type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
+		do {
+			let record = try convertDicToRecord(type, data: data)
+			saveRecord(record, conpletionHandler: conpletionHandler)
+		} catch {
+			conpletionHandler(couldCreateDevice: false, error: nil)
+		}
+		
+	}
+	
+	private func saveRecord(record: CKRecord, conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
+		_dataBase.saveRecord(record) {
+			(record, error) in
+			if let error = error {
+				let cloudKitError = self.convertError(error)
+				conpletionHandler(couldCreateDevice: false, error: cloudKitError)
+			} else {
+				conpletionHandler(couldCreateDevice: true, error: nil)
+			}
+		}
+	}
+	
+	private func convertError(error: NSError) -> CloudKitError? {
+		switch error.code {
+		case CKErrorCode.ServerRecordChanged.rawValue: return CloudKitError.RecordAlreadyExisting
+		default: return nil
+		}
 	}
 	
 	func convertDicsToRecords(recordsType: String, data: [[String: Any]]) throws -> [CKRecord] {
