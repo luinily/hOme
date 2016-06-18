@@ -67,7 +67,13 @@ final class IRKitConnector: NSObject {
     func getDataFromIRKit(_ onComplete: (data: IRKITSignal) -> Void) {
         _gotData = false
 		if let ipAddress = _ipAddress {
-			_ = Alamofire.request(method: .GET, "http://" + ipAddress + "/messages", headers: ["X-Requested-With": "curl"]).responseJSON {
+			_ = Alamofire.request(
+								.GET,
+								"http://" + ipAddress + "/messages",
+								parameters: nil,
+								encoding: ParameterEncoding.json,
+								headers: ["X-Requested-With": "curl"]
+				).responseJSON {
 				response in
 				print("request : ")
 				print(response.request)  // original URL request
@@ -96,7 +102,7 @@ final class IRKitConnector: NSObject {
 			
 			let json = data.data.getJSON()
 			if let ipAddress = _ipAddress, json = json {
-				_ = Alamofire.upload(method: .POST, "http://" + ipAddress + "/messages", headers: ["X-Requested-With": "curl"], data: json).responseJSON {
+				_ = Alamofire.upload(.POST, "http://" + ipAddress + "/messages", headers: ["X-Requested-With": "curl"], data: json).responseJSON {
 					response in
 					print("Send IRkit Data")
 					data.completionHandler?()
