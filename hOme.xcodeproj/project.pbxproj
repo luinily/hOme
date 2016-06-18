@@ -38,8 +38,6 @@
 		8F0FD4FC1C65E8D300B0C412 /* CommandManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4E71C65E8D300B0C412 /* CommandManager.swift */; };
 		8F0FD4FD1C65E8D300B0C412 /* CommandProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4E81C65E8D300B0C412 /* CommandProtocol.swift */; };
 		8F0FD4FE1C65E8D300B0C412 /* Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4E91C65E8D300B0C412 /* Connector.swift */; };
-		8F0FD4FF1C65E8D300B0C412 /* Condition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4EA1C65E8D300B0C412 /* Condition.swift */; };
-		8F0FD5001C65E8D300B0C412 /* ConditionalCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4EB1C65E8D300B0C412 /* ConditionalCommand.swift */; };
 		8F0FD5011C65E8D300B0C412 /* ConnectorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4EC1C65E8D300B0C412 /* ConnectorManager.swift */; };
 		8F0FD5021C65E8D300B0C412 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4ED1C65E8D300B0C412 /* Data.swift */; };
 		8F0FD5031C65E8D300B0C412 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4EE1C65E8D300B0C412 /* Device.swift */; };
@@ -52,9 +50,7 @@
 		8F0FD50A1C65E8D300B0C412 /* ScheduleCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F51C65E8D300B0C412 /* ScheduleCommand.swift */; };
 		8F0FD50B1C65E8D300B0C412 /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F61C65E8D300B0C412 /* Sequence.swift */; };
 		8F0FD50C1C65E8D300B0C412 /* SequenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F71C65E8D300B0C412 /* SequenceManager.swift */; };
-		8F0FD50D1C65E8D300B0C412 /* TemperatureCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F81C65E8D300B0C412 /* TemperatureCondition.swift */; };
 		8F20F1E81CDBB66400D31DE4 /* NameEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F20F1E71CDBB66400D31DE4 /* NameEditCell.swift */; };
-		8F24850B1C8C35B200914675 /* InputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24850A1C8C35B200914675 /* InputProtocol.swift */; };
 		8F24850D1C8C35D400914675 /* FlicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24850C1C8C35D400914675 /* FlicManager.swift */; };
 		8F24C18A1CF08FD3005592F8 /* ConnectorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24C1891CF08FD3005592F8 /* ConnectorType.swift */; };
 		8F24C1901CF09046005592F8 /* CommandType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24C18F1CF09046005592F8 /* CommandType.swift */; };
@@ -196,8 +192,6 @@
 		8F0FD4E71C65E8D300B0C412 /* CommandManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandManager.swift; sourceTree = "<group>"; };
 		8F0FD4E81C65E8D300B0C412 /* CommandProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandProtocol.swift; sourceTree = "<group>"; };
 		8F0FD4E91C65E8D300B0C412 /* Connector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connector.swift; sourceTree = "<group>"; };
-		8F0FD4EA1C65E8D300B0C412 /* Condition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
-		8F0FD4EB1C65E8D300B0C412 /* ConditionalCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionalCommand.swift; sourceTree = "<group>"; };
 		8F0FD4EC1C65E8D300B0C412 /* ConnectorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectorManager.swift; sourceTree = "<group>"; };
 		8F0FD4ED1C65E8D300B0C412 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		8F0FD4EE1C65E8D300B0C412 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
@@ -210,10 +204,8 @@
 		8F0FD4F51C65E8D300B0C412 /* ScheduleCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleCommand.swift; sourceTree = "<group>"; };
 		8F0FD4F61C65E8D300B0C412 /* Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		8F0FD4F71C65E8D300B0C412 /* SequenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceManager.swift; sourceTree = "<group>"; };
-		8F0FD4F81C65E8D300B0C412 /* TemperatureCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureCondition.swift; sourceTree = "<group>"; };
 		8F0FD5231C65E8DF00B0C412 /* hOme.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = hOme.entitlements; sourceTree = "<group>"; };
 		8F20F1E71CDBB66400D31DE4 /* NameEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameEditCell.swift; sourceTree = "<group>"; };
-		8F24850A1C8C35B200914675 /* InputProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputProtocol.swift; sourceTree = "<group>"; };
 		8F24850C1C8C35D400914675 /* FlicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlicManager.swift; sourceTree = "<group>"; };
 		8F2485181C8C968000914675 /* hOme-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hOme-Bridging-Header.h"; path = "../hOme-Bridging-Header.h"; sourceTree = "<group>"; };
 		8F24C1891CF08FD3005592F8 /* ConnectorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectorType.swift; sourceTree = "<group>"; };
@@ -432,12 +424,8 @@
 				8F31ACEB1CA2D13700BBB8F6 /* Command */,
 				8F31ACEC1CA2D14400BBB8F6 /* Connector */,
 				8F31ACEA1CA2D12B00BBB8F6 /* Device */,
-				8F0FD4EA1C65E8D300B0C412 /* Condition.swift */,
-				8F0FD4EB1C65E8D300B0C412 /* ConditionalCommand.swift */,
-				8F24850A1C8C35B200914675 /* InputProtocol.swift */,
 				8F0FD4F41C65E8D300B0C412 /* Schedule.swift */,
 				8F0FD4F51C65E8D300B0C412 /* ScheduleCommand.swift */,
-				8F0FD4F81C65E8D300B0C412 /* TemperatureCondition.swift */,
 				8FCFA7711CC1C5CC00F3A8FD /* Button */,
 				8FBD12341C8F0314002BAEA7 /* IRKit */,
 				8FBD12351C8F0323002BAEA7 /* Flic */,
@@ -776,13 +764,15 @@
 		8F0FD4A41C65E8C000B0C412 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0730;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = YoannColdefy;
 				TargetAttributes = {
 					8F0FD4AB1C65E8C000B0C412 = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = LQPRVC3QHT;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -794,6 +784,7 @@
 					};
 					8F0FD4C21C65E8C000B0C412 = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 8F0FD4AB1C65E8C000B0C412;
 					};
 					8F0FD4CD1C65E8C000B0C412 = {
@@ -876,7 +867,6 @@
 				8F20F1E81CDBB66400D31DE4 /* NameEditCell.swift in Sources */,
 				8FCFA7611CB6ADEF00F3A8FD /* IRKitNameCell.swift in Sources */,
 				8F0FD4FE1C65E8D300B0C412 /* Connector.swift in Sources */,
-				8F24850B1C8C35B200914675 /* InputProtocol.swift in Sources */,
 				8F2BEE7A1CF03F08005C8D50 /* CreateDeviceConfigurator.swift in Sources */,
 				8FCFA7631CB8E0C800F3A8FD /* IRKitDataCell.swift in Sources */,
 				8F0231F41CF9EC6000DAA5E9 /* DevicesModels.swift in Sources */,
@@ -912,7 +902,6 @@
 				8F0FD4B81C65E8C000B0C412 /* hOme.xcdatamodeld in Sources */,
 				8F2BEE801CF03F08005C8D50 /* GetConnectorsWorker.swift in Sources */,
 				8FBD123B1C8F0CB7002BAEA7 /* ButtonsTableDelegate.swift in Sources */,
-				8F0FD50D1C65E8D300B0C412 /* TemperatureCondition.swift in Sources */,
 				8F0FD4B01C65E8C000B0C412 /* AppDelegate.swift in Sources */,
 				8FD77E801C679262009FFEB0 /* DeviceViewController.swift in Sources */,
 				8F2BEE7D1CF03F08005C8D50 /* CreateDevicePresenter.swift in Sources */,
@@ -955,7 +944,6 @@
 				8F0FD4FC1C65E8D300B0C412 /* CommandManager.swift in Sources */,
 				8FFEA1621C971C77000C21A9 /* SelectCommandViewController.swift in Sources */,
 				8F5E81C91CB3FE4200A88CDE /* SelectDeviceCommandCell.swift in Sources */,
-				8F0FD4FF1C65E8D300B0C412 /* Condition.swift in Sources */,
 				8FADCEF31D0C32C80001CCB1 /* DeviceCloudKitStore.swift in Sources */,
 				8F0FD5091C65E8D300B0C412 /* Schedule.swift in Sources */,
 				8F00EE041CD2F32F0097EF8D /* NewDeviceNameCell.swift in Sources */,
@@ -964,7 +952,6 @@
 				8F24C19C1CF09265005592F8 /* ConnectorUser.swift in Sources */,
 				8FCFA75D1CB69C2D00F3A8FD /* Nameable.swift in Sources */,
 				8F2BEE7E1CF03F08005C8D50 /* CreateDeviceRouter.swift in Sources */,
-				8F0FD5001C65E8D300B0C412 /* ConditionalCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1140,6 +1127,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "hOme/hOme-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = " ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -1169,6 +1157,8 @@
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "hOme/hOme-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = " ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
@@ -1183,6 +1173,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YoannColdefy.hOmeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hOme.app/hOme";
 			};
 			name = Debug;
@@ -1197,6 +1188,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YoannColdefy.hOmeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hOme.app/hOme";
 			};
 			name = Release;

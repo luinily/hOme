@@ -29,7 +29,7 @@ class DeviceCloudKitStore: DeviceStore {
 		}
 	}
 	
-	private func convertRecordsToDeviceInfo(records: [[String: Any]]) -> [DeviceInfo] {
+	private func convertRecordsToDeviceInfo(_ records: [[String: Any]]) -> [DeviceInfo] {
 		var result = [DeviceInfo]()
 		for record in records {
 			if let deviceInfo = convertRecordToDeviceInfo(record) {
@@ -39,7 +39,7 @@ class DeviceCloudKitStore: DeviceStore {
 		return result
 	}
 	
-	private func convertRecordToDeviceInfo(record: [String: Any]) -> DeviceInfo? {
+	private func convertRecordToDeviceInfo(_ record: [String: Any]) -> DeviceInfo? {
 		do {
 			return try DeviceInfo(record: record)
 		} catch {
@@ -55,8 +55,8 @@ class DeviceCloudKitStore: DeviceStore {
 			if couldCreateDevice {
 				completionHandler(couldCreateDevice: true)
 			} else {
-				if error == CloudKitError.RecordAlreadyExisting {
-					self.createDevice(name, connectorInternalName: connectorInternalName, completionHandler: completionHandler)
+				if error == CloudKitError.recordAlreadyExisting {
+					self.createDevice(name: name, connectorInternalName: connectorInternalName, completionHandler: completionHandler)
 				} else {
 					completionHandler(couldCreateDevice: false)
 				}
@@ -65,12 +65,12 @@ class DeviceCloudKitStore: DeviceStore {
 		}
 	}
 	
-	private func makeDeviceInfo(name: String, connectorInternalName: String) -> DeviceInfo {
+	private func makeDeviceInfo(_ name: String, connectorInternalName: String) -> DeviceInfo {
 		let name = Name(name: name, internalName: makeNewInternalName())
 		return DeviceInfo(name: name, communicatorInternalName: connectorInternalName, offCommandInternalName: "", onCommandInternalName: "")
 	}
 	
-	private func convertDeviceInfoToDic(info: DeviceInfo) -> [String: Any] {
+	private func convertDeviceInfoToDic(_ info: DeviceInfo) -> [String: Any] {
 		return info.toDictionary()
 	}
 	
@@ -85,7 +85,7 @@ extension DeviceCloudKitStore: Manager {
 		return deviceRecordType
 	}
 	
-	func isNameUnique(name: String) -> Bool {
+	func isNameUnique(_ name: String) -> Bool {
 		return true
 	}
 }

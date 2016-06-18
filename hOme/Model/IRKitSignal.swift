@@ -17,11 +17,11 @@ struct IRKITSignal {
 		return format != ""
 	}
 	
-	mutating func setFromJSON(jsonData: NSData?) {
+	mutating func setFromJSON(_ jsonData: Foundation.Data?) {
 		if let jsonData = jsonData {
 			let jsonObject: AnyObject!
 			do {
-				jsonObject = try NSJSONSerialization.JSONObjectWithData(jsonData, options: NSJSONReadingOptions.MutableContainers)
+				jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.mutableContainers)
 				
 				if let jsonObject = jsonObject {
 					if let jsonDictionnary = jsonObject as? NSDictionary {
@@ -42,7 +42,7 @@ struct IRKITSignal {
 		}
 	}
 	
-	func getJSON() -> NSData? {
+	func getJSON() -> Foundation.Data? {
 		var jsonDictionnary = [String: AnyObject]()
 		
 		jsonDictionnary["format"] = format
@@ -50,7 +50,7 @@ struct IRKITSignal {
 		jsonDictionnary["data"] = data
 		
 		do {
-			return try NSJSONSerialization.dataWithJSONObject(jsonDictionnary, options: [])
+			return try JSONSerialization.data(withJSONObject: jsonDictionnary, options: [])
 		} catch {
 			print("could not make json")
 			return nil

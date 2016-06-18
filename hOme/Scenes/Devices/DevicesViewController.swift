@@ -8,11 +8,11 @@
 import UIKit
 
 protocol DevicesViewControllerInput {
-	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel)
+	func displayFetchedDevices(_ viewModel: Devices_FetchDevices_ViewModel)
 }
 
 protocol DevicesViewControllerOutput {
-	func fetchDevices(request: Devices_FetchDevices_Request)
+	func fetchDevices(_ request: Devices_FetchDevices_Request)
 }
 
 
@@ -47,14 +47,14 @@ class DevicesViewController: UITableViewController {
 	}
 	
 	// MARK: Display logic
-	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel) {
+	func displayFetchedDevices(_ viewModel: Devices_FetchDevices_ViewModel) {
 		_displayDevices = viewModel.displayedDevices
 		//need to do the reload on the main thread or it gets very slow
 		reloadTableDataInMainThread()
 	}
 	
 	func reloadTableDataInMainThread() {
-		dispatch_async(dispatch_get_main_queue(), tableView.reloadData)
+		DispatchQueue.main.async(execute: tableView.reloadData)
 	}
 }
 
@@ -63,11 +63,11 @@ extension DevicesViewController: DevicesViewControllerInput { }
 
 // MARK: UITableDataSource
 extension DevicesViewController {
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 2
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
 		case _devicesSection: return _displayDevices.count
 		case _newDeviceSection: return 1
@@ -75,9 +75,9 @@ extension DevicesViewController {
 		}
 	}
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		if indexPath.section == _devicesSection {
-			return makeDeviceCellForRow(indexPath.row)
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		if (indexPath as NSIndexPath).section == _devicesSection {
+			return makeDeviceCellForRow((indexPath as NSIndexPath).row)
 		}
 		
 		//other cases (create new device)
@@ -85,34 +85,34 @@ extension DevicesViewController {
 		
 	}
 	
-	private func makeDeviceCellForRow(row: Int) -> UITableViewCell {
-		func setupCell(cell: UITableViewCell) {
+	private func makeDeviceCellForRow(_ row: Int) -> UITableViewCell {
+		func setupCell(_ cell: UITableViewCell) {
 			let device = _displayDevices[row]
 			cell.textLabel?.text = device.name
 		}
 		
-		if let cell = tableView.dequeueReusableCellWithIdentifier("DeviceCell") {
+		if let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCell") {
 			setupCell(cell)
 			return cell
 		}
 		
-		let cell = UITableViewCell(style: .Default, reuseIdentifier: "DeviceCell")
-		cell.accessoryType = .DetailButton
+		let cell = UITableViewCell(style: .default, reuseIdentifier: "DeviceCell")
+		cell.accessoryType = .detailButton
 		setupCell(cell)
 		return cell
 	}
 	
 	private func makeNewDeviceCell() -> UITableViewCell {
-		func setupCell(cell: UITableViewCell) {
+		func setupCell(_ cell: UITableViewCell) {
 			cell.textLabel?.text = "Create New Device..."
 		}
 		
-		if let cell = tableView.dequeueReusableCellWithIdentifier("NewDeviceCell") {
+		if let cell = tableView.dequeueReusableCell(withIdentifier: "NewDeviceCell") {
 			setupCell(cell)
 			return cell
 		}
 		
-		let cell = UITableViewCell(style: .Default, reuseIdentifier: "NewDeviceCell")
+		let cell = UITableViewCell(style: .default, reuseIdentifier: "NewDeviceCell")
 		setupCell(cell)
 		
 		return cell
@@ -120,13 +120,13 @@ extension DevicesViewController {
 }
 
 extension DevicesViewController {
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
 	}
 }
 
 extension DevicesViewController: DevicesPresenterOutput {
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		router.passDataToNextScene(segue)
 	}
 }

@@ -125,7 +125,7 @@ extension CloudKitWrapperTests {
 			} else {
 				XCTAssert(false, "does not countains the data")
 			}
-		} catch CloudKitError.CouldNotConvertToCKValueType {
+		} catch CloudKitError.couldNotConvertToCKValueType {
 			XCTAssert(false, "could not convert value")
 		} catch {
 			XCTAssert(false)
@@ -147,7 +147,7 @@ extension CloudKitWrapperTests {
 			} else {
 				XCTAssert(false, "does not countains the data")
 			}
-		} catch CloudKitError.CouldNotConvertToCKValueType {
+		} catch CloudKitError.couldNotConvertToCKValueType {
 			XCTAssert(false, "could not convert value")
 		} catch {
 			XCTAssert(false)
@@ -168,7 +168,7 @@ extension CloudKitWrapperTests {
 			} else {
 				XCTAssert(false, "does not countains the data")
 			}
-		} catch CloudKitError.CouldNotConvertToCKValueType {
+		} catch CloudKitError.couldNotConvertToCKValueType {
 			XCTAssert(false, "could not convert value")
 		} catch {
 			XCTAssert(false)
@@ -189,7 +189,7 @@ extension CloudKitWrapperTests {
 			} else {
 				XCTAssert(false, "does not countains the data")
 			}
-		} catch CloudKitError.CouldNotConvertToCKValueType {
+		} catch CloudKitError.couldNotConvertToCKValueType {
 			XCTAssert(false, "could not convert value")
 		} catch {
 			XCTAssert(false)
@@ -210,7 +210,7 @@ extension CloudKitWrapperTests {
 			} else {
 				XCTAssert(false, "does not countains the data")
 			}
-		} catch CloudKitError.CouldNotConvertToCKValueType {
+		} catch CloudKitError.couldNotConvertToCKValueType {
 			XCTAssert(false, "could not convert value")
 		} catch {
 			XCTAssert(false)
@@ -227,7 +227,7 @@ extension CloudKitWrapperTests {
 	
 			// Assert
 			XCTAssertEqual(record.recordType, "myRecord")
-		} catch CloudKitError.CouldNotConvertToCKValueType {
+		} catch CloudKitError.couldNotConvertToCKValueType {
 			XCTAssert(false, "could not convert value")
 		} catch {
 			XCTAssert(false)
@@ -244,7 +244,7 @@ extension CloudKitWrapperTests {
 			
 			// Assert
 			XCTAssertEqual(record.recordID.recordName, "internalName")
-		} catch CloudKitError.CouldNotConvertToCKValueType {
+		} catch CloudKitError.couldNotConvertToCKValueType {
 			XCTAssert(false, "could not convert value")
 		} catch {
 			XCTAssert(false)

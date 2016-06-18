@@ -9,13 +9,13 @@
 import Foundation
 import CloudKit
 
-enum SquedulerClassError: ErrorType {
-    case NoDataInckRecord
-    case CouldNotFindSequence
+enum SquedulerClassError: ErrorProtocol {
+    case noDataInckRecord
+    case couldNotFindSequence
 }
 
 enum Weekday: Int {
-	case Monday = 0, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+	case monday = 0, tuesday, wednesday, thursday, friday, saturday, sunday
 }
 
 class Schedule {
@@ -32,7 +32,7 @@ class Schedule {
 		_currentCKRecordName = currentCKRecordName
 	}
 	
-	func createAndAddNewScheduleCommand(command: CommandProtocol, days: Set<Weekday>, hour: Int, minute: Int, getCommand: (commandInternalName: String) -> CommandProtocol?) -> ScheduleCommand {
+	func createAndAddNewScheduleCommand(_ command: CommandProtocol, days: Set<Weekday>, hour: Int, minute: Int, getCommand: (commandInternalName: String) -> CommandProtocol?) -> ScheduleCommand {
 		let newCommand = ScheduleCommand(commandInternalName: command.internalName, days: days, time: (hour, minute), getCommand: getCommand)
 		_commands.append(newCommand)
 		addCommandToSchedule(newCommand)
@@ -41,19 +41,19 @@ class Schedule {
 		return newCommand
     }
     
-	func removeCommand(command: ScheduleCommand) {
+	func removeCommand(_ command: ScheduleCommand) {
 		for day in command.days {
-			removeCommandFromScheduleDay(day, command: command)
+			removeCommandFromSchedule(day: day, command: command)
 		}
 		
-		if let index = _commands.indexOf({$0 === command}) {
-			_commands.removeAtIndex(index)
+		if let index = _commands.index(where: {$0 === command}) {
+			_commands.remove(at: index)
 		}
 		
 		updateCloudKit()
     }
     
-    func getCommandsForDay(day: Weekday) -> [ScheduleCommand] {
+    func getCommands(day: Weekday) -> [ScheduleCommand] {
 		var result = [ScheduleCommand]()
 		for command in _commands {
 			if command.days.contains(day) {
@@ -61,7 +61,7 @@ class Schedule {
 			}
 		}
 		
-		return result.sort() {
+		return result.sorted() {
 			command1, command2 in
 			if command1.hour == command2.hour {
 				return command1.minute <= command2.minute
@@ -74,24 +74,24 @@ class Schedule {
 	func getSchedule() -> [Weekday: [ScheduleCommand]] {
 		var result = [Weekday: [ScheduleCommand]]()
 		
-		result[.Monday] = getCommandsForDay(.Monday)
-		result[.Tuesday] = getCommandsForDay(.Tuesday)
-		result[.Wednesday] = getCommandsForDay(.Wednesday)
-		result[.Thursday] = getCommandsForDay(.Thursday)
-		result[.Friday] = getCommandsForDay(.Friday)
-		result[.Saturday] = getCommandsForDay(.Saturday)
-		result[.Sunday] = getCommandsForDay(.Sunday)
+		result[.monday] = getCommands(day: .monday)
+		result[.tuesday] = getCommands(day: .tuesday)
+		result[.wednesday] = getCommands(day: .wednesday)
+		result[.thursday] = getCommands(day: .thursday)
+		result[.friday] = getCommands(day: .friday)
+		result[.saturday] = getCommands(day: .saturday)
+		result[.sunday] = getCommands(day: .sunday)
 		
 		return result
 	}
 	
-	func getCommandsForMinute(day: Weekday, hour: Int, minute: Int) -> [ScheduleCommand]? {
+	func getCommands(day: Weekday, hour: Int, minute: Int) -> [ScheduleCommand]? {
 		return _schedule[day]?[hour]?[minute]
 	}
 	
-	private func addCommandToSchedule(command: ScheduleCommand) {
+	private func addCommandToSchedule(_ command: ScheduleCommand) {
 		for day in command.days {
-			addToScheduleDay(day, command: command)
+			addToSchedule(day: day, command: command)
 		}
 	}
 	
@@ -99,12 +99,12 @@ class Schedule {
 		_schedule.removeAll()
 		for command in _commands {
 			for day in command.days {
-				addToScheduleDay(day, command: command)
+				addToSchedule(day: day, command: command)
 			}
 		}
 	}
 	
-	private func addToScheduleDay(day: Weekday, command: ScheduleCommand) {
+	private func addToSchedule(day: Weekday, command: ScheduleCommand) {
 		if _schedule[day] == nil {
 			_schedule[day] = [Int: [Int: [ScheduleCommand]]]()
 		}
@@ -127,12 +127,12 @@ class Schedule {
 		}
 	}
 	
-	private func removeCommandFromScheduleDay(day: Weekday, command: ScheduleCommand) {
+	private func removeCommandFromSchedule(day: Weekday, command: ScheduleCommand) {
 		if var dayCommands = _schedule[day] {
 			if var hourCommands = dayCommands[command.hour] {
 				if var minuteCommands = hourCommands[command.minute] {
-					if let index = minuteCommands.indexOf({$0 === command}) {
-						minuteCommands.removeAtIndex(index)
+					if let index = minuteCommands.index(where: {$0 === command}) {
+						minuteCommands.remove(at: index)
 						if minuteCommands.isEmpty {
 							hourCommands[command.minute] = nil
 							if hourCommands.isEmpty {
@@ -154,7 +154,7 @@ extension Schedule: CloudKitObject {
 		_currentCKRecordName = ckRecord.recordID.recordName
 		
 		guard let commandList = ckRecord["commandRecordNames"] as? [String] else {
-			throw SquedulerClassError.NoDataInckRecord
+			throw SquedulerClassError.noDataInckRecord
 		}
 		
 		for recordName in commandList {
@@ -185,7 +185,7 @@ extension Schedule: CloudKitObject {
 		return _currentCKRecordName
 	}
 	
-	func setUpCKRecord(record: CKRecord) {
+	func setUpCKRecord(_ record: CKRecord) {
 		var commandRecordNames = [String]()
 		for command in _commands {
 			commandRecordNames.append(command.getNewCKRecordName())

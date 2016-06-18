@@ -12,9 +12,9 @@ import CloudKit
 
 
 protocol CloudKitDatabase {
-	func saveRecord(record: CKRecord, completionHandler: (CKRecord?, NSError?) -> Void)
-	func fetchRecordWithID(recordID: CKRecordID, completionHandler: (CKRecord?, NSError?) -> Void)
-	func deleteRecordWithID(recordID: CKRecordID, completionHandler: (CKRecordID?, NSError?) -> Void)
+	func saveRecord(_ record: CKRecord, completionHandler: (CKRecord?, NSError?) -> Void)
+	func fetchRecordWithID(_ recordID: CKRecordID, completionHandler: (CKRecord?, NSError?) -> Void)
+	func deleteRecordWithID(_ recordID: CKRecordID, completionHandler: (CKRecordID?, NSError?) -> Void)
 }
 
 extension CKDatabase: CloudKitDatabase {}
@@ -59,15 +59,15 @@ class CloudKitHelper {
     }
 	
 	init(database: CloudKitDatabase) {
-		_container = CKContainer.defaultContainer()
+		_container = CKContainer.default()
 		_dataBase = database
 	}
 	
-	func setWorkStarted(workStarted: () -> Void) {
+	func setWorkStarted(_ workStarted: () -> Void) {
 		_workStarted = workStarted
 	}
 	
-	func setWorkEnded(workEnded: ((noError: Bool) -> Void)?) {
+	func setWorkEnded(_ workEnded: ((noError: Bool) -> Void)?) {
 		_workEnded = workEnded
 	}
 	
@@ -75,7 +75,7 @@ class CloudKitHelper {
 		_workEnded = nil
 	}
 	
-	func export(object: CloudKitObject) {
+	func export(_ object: CloudKitObject) {
 		if let recordOldName = object.getCurrentCKRecordName() {
 			updateRecord(object, recordOldName: recordOldName)
 		} else {
@@ -83,7 +83,7 @@ class CloudKitHelper {
 		}		
 	}
 	
-	func importRecord(recordName: String, completionHandler: (record: CKRecord?) -> Void) {
+	func importRecord(_ recordName: String, completionHandler: (record: CKRecord?) -> Void) {
 		var action = CloudKitAction(nil, nil, CloudKitActionType.fetch, nil, nil)
 		action.action = CloudKitActionType.fetch
 		action.recordID = CKRecordID(recordName : recordName)
@@ -91,13 +91,13 @@ class CloudKitHelper {
 			(record, error) in
 			if let error = error {
 				completionHandler(record: nil)
-				print("Fetch Error: " + recordName)
-				print(error)
+				print("Fetch Error: " + recordName, terminator: "")
+				print(error, terminator: "")
 				self.continueWork()
 			} else {
 				if let record = record {
 					completionHandler(record: record)
-					print("Feched: " + record.recordID.recordName)
+					print("Feched: " + record.recordID.recordName, terminator: "")
 					self.continueWork()
 				} else {
 					self.endWorkWithError()
@@ -107,7 +107,7 @@ class CloudKitHelper {
 		addNewAction(action)
 	}
 	
-	func remove(object: CloudKitObject) {
+	func remove(_ object: CloudKitObject) {
 		if let recordOldName = object.getCurrentCKRecordName() {
 			var action = CloudKitAction(nil, nil, CloudKitActionType.fetch, nil, nil)
 			action.action = CloudKitActionType.delete
@@ -115,11 +115,11 @@ class CloudKitHelper {
 			action.deleteCloudKitCompletionHandler = {
 				(recordID, error) in
 				if let error = error {
-					print("Delete Error: " + recordOldName)
-					print(error)
+					print("Delete Error: " + recordOldName, terminator: "")
+					print(error, terminator: "")
 					self.endWorkWithError()
 				} else {
-					print("Removed: " + recordOldName)
+					print("Removed: " + recordOldName, terminator: "")
 					self.continueWork()
 				}
 			}
@@ -128,7 +128,7 @@ class CloudKitHelper {
 		}
 	}
 	
-	private func addNewAction(action: CloudKitAction) {
+	private func addNewAction(_ action: CloudKitAction) {
 		self._actionsToPerform.append(action)
 		if !self._isWorking {
 			_workStarted?()
@@ -172,7 +172,7 @@ class CloudKitHelper {
 		}
 	}
 	
-	private func saveRecord(object: CloudKitObject, record: CKRecord) {
+	private func saveRecord(_ object: CloudKitObject, record: CKRecord) {
 		object.setUpCKRecord(record)
 		
 		var action = CloudKitAction(nil, nil, CloudKitActionType.fetch, nil, nil)
@@ -181,12 +181,12 @@ class CloudKitHelper {
 		action.completionHandler = {
 			(record, error) in
 			if let error = error {
-				print("Save Error: " + object.getNewCKRecordName())
-				print(error)
+				print("Save Error: " + object.getNewCKRecordName(), terminator: "")
+				print(error, terminator: "")
 				self.endWorkWithError()
 			} else {
 				if let record = record {
-					print("Saved: " + record.recordID.recordName)
+					print("Saved: " + record.recordID.recordName, terminator: "")
 				}
 				self.continueWork()
 			}
@@ -194,13 +194,13 @@ class CloudKitHelper {
 		addNewAction(action)
 	}
 	
-	private func exportNewRecord(object: CloudKitObject) {
+	private func exportNewRecord(_ object: CloudKitObject) {
 		let recordID = CKRecordID(recordName : object.getNewCKRecordName())
 		let record = CKRecord(recordType: object.getCKRecordType(), recordID: recordID)
 		saveRecord(object, record: record)
 	}
 
-	private func updateRecord(object: CloudKitObject, recordOldName: String) {
+	private func updateRecord(_ object: CloudKitObject, recordOldName: String) {
 		var action = CloudKitAction(nil, nil, CloudKitActionType.fetch, nil, nil)
 		
 		if recordOldName != object.getNewCKRecordName() { //name changes
@@ -210,13 +210,13 @@ class CloudKitHelper {
 				(recordID, error) in
 				
 				if let error = error {
-					print("Update Error (Delete):" + recordOldName)
-					print(error)
+					print("Update Error (Delete):" + recordOldName, terminator: "")
+					print(error, terminator: "")
 					self.endWorkWithError()
 				} else {
 					self.exportNewRecord(object) //exports as a new record with the new name
 					if let recordID = recordID {
-						print("Deleted: " + recordID.recordName)
+						print("Deleted: " + recordID.recordName, terminator: "")
 					}
 					self.continueWork()
 				}
@@ -227,13 +227,13 @@ class CloudKitHelper {
 			action.completionHandler = {
 				(record, error) in
 				if let error = error {
-					print("Update Error (Fetch):" + object.getNewCKRecordName())
-					print(error)
+					print("Update Error (Fetch):" + object.getNewCKRecordName(), terminator: "")
+					print(error, terminator: "")
 					self.endWorkWithError()
 				} else {
 					if let record = record {
 						self.saveRecord(object, record: record)
-						print("Fetched: " + record.recordID.recordName)
+						print("Fetched: " + record.recordID.recordName, terminator: "")
 						self.continueWork()
 					} else {
 						self.endWorkWithError()

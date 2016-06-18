@@ -66,7 +66,7 @@ extension OnOffCommand: CommandProtocol {
 extension OnOffCommand: DeviceCommand {
 	var deviceInternalName: String {return _deviceInternalName}
 	var executionEffectOnDevice: ExecutionEffectOnDevice {
-		get {return .None}
+		get {return .none}
 		set(effect) {
 			//nothing to do for this one
 		}

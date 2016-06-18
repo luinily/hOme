@@ -12,11 +12,11 @@
 import UIKit
 
 protocol DevicesPresenterInput {
-	func presentFetchedDevices(response: Devices_FetchedDevices_Response)
+	func presentFetchedDevices(_ response: Devices_FetchedDevices_Response)
 }
 
 protocol DevicesPresenterOutput: class {
-	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel)
+	func displayFetchedDevices(_ viewModel: Devices_FetchDevices_ViewModel)
 }
 
 class DevicesPresenter: DevicesPresenterInput {
@@ -24,7 +24,7 @@ class DevicesPresenter: DevicesPresenterInput {
 	
 	// MARK: Presentation logic
 	
-	func presentFetchedDevices(response: Devices_FetchedDevices_Response) {
+	func presentFetchedDevices(_ response: Devices_FetchedDevices_Response) {
 		var displayedDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
 		for device in response.devices {
 			let name = device.name.name

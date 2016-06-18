@@ -19,5 +19,4 @@ protocol Button: Nameable, CloudKitObject {
 	func setButtonAction(actionType: ButtonActionType, action: CommandProtocol?)
 	func setOnPressForUI(onPress: (() -> Void)?)
 	
-//	func getButtonType() -> ButtonType
 }

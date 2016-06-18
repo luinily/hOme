@@ -12,14 +12,14 @@
 import UIKit
 
 protocol CreateDevicePresenterInput {
-	func presentConnectors(response: CreateDevice_GetConnectors_Response)
-	func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response)
-	func presentCouldCreateDevice(response: CreateDevice_CreateDevice_Response)
+	func presentConnectors(_ response: CreateDevice_GetConnectors_Response)
+	func setDoneButtonState(_ response: CreateDevice_ValidateDoneButtonState_Response)
+	func presentCouldCreateDevice(_ response: CreateDevice_CreateDevice_Response)
 }
 
 protocol CreateDevicePresenterOutput: class {
-	func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel)
-	func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel)
+	func displayConnectors(_ connectorsInfo: CreateDevice_GetConnectors_ViewModel)
+	func setDoneButtonState(_ viewModel: CreateDevice_ValidateDoneButtonState_ViewModel)
 	func dissmissView()
 }
 
@@ -28,7 +28,7 @@ class CreateDevicePresenter: CreateDevicePresenterInput {
 	
 	// MARK: Presentation logic
 	
-	func presentConnectors(response: CreateDevice_GetConnectors_Response) {
+	func presentConnectors(_ response: CreateDevice_GetConnectors_Response) {
 		// NOTE: Format the response from the Interactor and pass the result back to the View Controller
 		let connectorTypes = formatConnectorTypes(response.connectorsTypes)
 		let connectors = formatConnectors(response.connectorsByType)
@@ -38,7 +38,7 @@ class CreateDevicePresenter: CreateDevicePresenterInput {
 		output.displayConnectors(viewModel)
 	}
 	
-	private func formatConnectorTypes(connectorsTypes: [ConnectorType]) -> [String] {
+	private func formatConnectorTypes(_ connectorsTypes: [ConnectorType]) -> [String] {
 		var connectorTypesNames = [String]()
 		for connectorType in connectorsTypes {
 			switch connectorType {
@@ -48,7 +48,7 @@ class CreateDevicePresenter: CreateDevicePresenterInput {
 		return connectorTypesNames
 	}
 	
-	private func formatConnectors(connectorsByType: [ConnectorType: [Connector]]) -> [[CreateDevice_GetConnectors_ViewModel.connectorName]] {
+	private func formatConnectors(_ connectorsByType: [ConnectorType: [Connector]]) -> [[CreateDevice_GetConnectors_ViewModel.connectorName]] {
 		var connectorNamesByType: [[CreateDevice_GetConnectors_ViewModel.connectorName]] = []
 		for connectorType in connectorsByType.keys {
 			var connectorsNames: [CreateDevice_GetConnectors_ViewModel.connectorName] = []
@@ -63,11 +63,11 @@ class CreateDevicePresenter: CreateDevicePresenterInput {
 		return connectorNamesByType
 	}
 	
-	func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response) {
+	func setDoneButtonState(_ response: CreateDevice_ValidateDoneButtonState_Response) {
 		output.setDoneButtonState(CreateDevice_ValidateDoneButtonState_ViewModel(doneButtonEnabled: response.doneButtonEnabled))
 	}
 	
-	func presentCouldCreateDevice(response: CreateDevice_CreateDevice_Response) {
+	func presentCouldCreateDevice(_ response: CreateDevice_CreateDevice_Response) {
 		if response.couldCreateDevice {
 			output.dissmissView()
 		}

@@ -43,9 +43,9 @@ extension DevicesViewControllerTests {
 // MARK: Test setup
 extension DevicesViewControllerTests {
 	func setupDevicesViewController() {
-		let bundle = NSBundle.mainBundle()
+		let bundle = Bundle.main()
 		let storyboard = UIStoryboard(name: "Main", bundle: bundle)
-		sut = storyboard.instantiateViewControllerWithIdentifier("DevicesViewController") as? DevicesViewController
+		sut = storyboard.instantiateViewController(withIdentifier: "DevicesViewController") as? DevicesViewController
 	}
 	
 	func loadView() {
@@ -60,7 +60,7 @@ extension DevicesViewControllerTests {
 extension DevicesViewControllerTests {
 	class DevicesViewControllerOutputSpy: DevicesViewControllerOutput {
 		var fetchDevicesCalled = false
-		func fetchDevices(request: Devices_FetchDevices_Request) {
+		func fetchDevices(_ request: Devices_FetchDevices_Request) {
 			fetchDevicesCalled = true
 		}
 	}
@@ -112,7 +112,7 @@ extension DevicesViewControllerTests {
 		if let tableView = sut?.tableView {
 			
 			// When
-			let numberOfSections = sut?.numberOfSectionsInTableView(tableView)
+			let numberOfSections = sut?.numberOfSections(in: tableView)
 			
 			// Then
 			XCTAssertEqual(numberOfSections, 2)
@@ -122,7 +122,10 @@ extension DevicesViewControllerTests {
 	func testNumberOfRowsInFirstSection_shouldBeTwo() {
 		if let viewController = sut {
 			// Given
-			let tableView = viewController.tableView
+			guard let tableView = viewController.tableView else {
+				XCTAssert(false, "No table view")
+				return
+			}
 			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
@@ -141,7 +144,10 @@ extension DevicesViewControllerTests {
 	func testNumberOfRowsIn2ndSectionShouldAlwaysBeOne() {
 		if let viewController = sut {
 			// Arrange
-			let tableView = viewController.tableView
+			guard let tableView = viewController.tableView else {
+				XCTAssert(false, "No table view")
+				return
+			}
 			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
@@ -160,7 +166,10 @@ extension DevicesViewControllerTests {
 	func _testDeviceCellShouldBeConfigured() {
 		if let viewController = sut {
 			// Arrange
-			let tableView = viewController.tableView
+			guard let tableView = viewController.tableView else {
+				XCTAssert(false, "No table view")
+				return
+			}
 			let spy = DevicesTableSpy()
 			viewController.tableView = spy
 			
@@ -171,8 +180,8 @@ extension DevicesViewControllerTests {
 			
 			// Act
 			viewController.displayFetchedDevices(viewModel)
-			let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-			let cell = tableView.cellForRowAtIndexPath(indexPath)
+			let indexPath = IndexPath(row: 0, section: 0)
+			let cell = tableView.cellForRow(at: indexPath)
 
 			// Assert
 			XCTAssertEqual(cell?.textLabel?.text, "Device1")
@@ -183,7 +192,10 @@ extension DevicesViewControllerTests {
 	func _testNewDeviceCellShouldBeConfigured() {
 		if let viewController = sut {
 			// Arrange
-			let tableView = viewController.tableView
+			guard let tableView = viewController.tableView else {
+				XCTAssert(false, "No table view")
+				return
+			}
 			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
 			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
@@ -191,8 +203,8 @@ extension DevicesViewControllerTests {
 			
 			// Act
 			viewController.displayFetchedDevices(viewModel)
-			let indexPath = NSIndexPath(forRow: 0, inSection: 1)
-			let cell = tableView.cellForRowAtIndexPath(indexPath)
+			let indexPath = IndexPath(row: 0, section: 1)
+			let cell = tableView.cellForRow(at: indexPath)
 			
 			// Assert
 			XCTAssertEqual(cell?.textLabel?.text, "Create New Device...")

@@ -21,7 +21,7 @@ class ButtonsViewController: UITableViewController {
 		_tableDelegate.setShowButtonView(showButtonView)
 	}
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let viewController = segue.destinationViewController as? FlicButtonViewController {
 			if let button = _selectedButton as? FlicButton {
 				viewController.setButton(button)
@@ -30,10 +30,10 @@ class ButtonsViewController: UITableViewController {
 		}
 	}
 	
-	private func showButtonView(button: Button) {
+	private func showButtonView(_ button: Button) {
 		_selectedButton = button
 		if button is FlicButton {
-			performSegueWithIdentifier("EditFlicButtonSegue", sender: self)
+			performSegue(withIdentifier: "EditFlicButtonSegue", sender: self)
 		}
 	}
 	

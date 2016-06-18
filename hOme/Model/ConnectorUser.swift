@@ -11,11 +11,11 @@ import Foundation
 protocol ConnectorUser {
 	func createAndAddNewConnector(type: ConnectorType, name: String, internalName: String) -> Connector?
 	func createAndAddNewConnector(type: ConnectorType, name: String) -> Connector?
-	func deleteConnector(connector: Connector)
+	func deleteConnector(_ connector: Connector)
 	func getConnectorCount() -> Int
 	func getConnectors() -> [Connector]
 	func getConnectorsTypes() -> [ConnectorType]
 	func getConnectorsByType() -> [ConnectorType: [Connector]]
-	func getConnectorsOfType(type: ConnectorType) -> [Connector]
-	func getConnectorOfInternalName(internalName: String) -> Connector?
+	func getConnectors(type: ConnectorType) -> [Connector]
+	func getConnector(internalName: String) -> Connector?
 }

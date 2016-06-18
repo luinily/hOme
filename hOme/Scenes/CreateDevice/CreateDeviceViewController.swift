@@ -13,16 +13,16 @@ import UIKit
 
 //MARK: - CreateDeviceViewControllerInput
 protocol CreateDeviceViewControllerInput {
-	func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel)
-	func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel)
+	func displayConnectors(_ connectorsInfo: CreateDevice_GetConnectors_ViewModel)
+	func setDoneButtonState(_ viewModel: CreateDevice_ValidateDoneButtonState_ViewModel)
 	func dissmissView()
 }
 
 //MARK: - CreateDeviceViewControllerOutput
 protocol CreateDeviceViewControllerOutput {
 	func fetchConnectors()
-	func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request)
-	func createDevice(request: CreateDevice_CreateDevice_Request)
+	func validateDoneButtonState(_ request: CreateDevice_ValidateDoneButtonState_Request)
+	func createDevice(_ request: CreateDevice_CreateDevice_Request)
 }
 
 
@@ -36,8 +36,8 @@ class CreateDeviceViewController: UITableViewController {
 	@IBOutlet weak var connectorTextField: UITextField!
 	@IBOutlet weak var doneButton: UIBarButtonItem!
 	
-	private let _nameCellPath = NSIndexPath(forRow: 0, inSection: 0)
-	private let _connectorCellPath = NSIndexPath(forRow: 1, inSection: 0)
+	private let _nameCellPath = IndexPath(row: 0, section: 0)
+	private let _connectorCellPath = IndexPath(row: 1, section: 0)
 	private var _connectorsTypes = [String]()
 	private var _connectors: [[CreateDevice_GetConnectors_ViewModel.connectorName]] = []
 	
@@ -67,19 +67,19 @@ class CreateDeviceViewController: UITableViewController {
 	
 	// MARK: Event handling
 
-	@IBAction func doneClicked(sender: AnyObject) {
+	@IBAction func doneClicked(_ sender: AnyObject) {
 		createDevice()
 	}
 	
-	@IBAction func cancelClicked(sender: AnyObject) {
-		self.dismissViewControllerAnimated(true, completion: nil)
+	@IBAction func cancelClicked(_ sender: AnyObject) {
+		self.dismiss(animated: true, completion: nil)
 	}
 	
-	@IBAction func nameValueChanged(sender: AnyObject) {
+	@IBAction func nameValueChanged(_ sender: AnyObject) {
 		validateOkButtonState()
 	}
 	
-	@IBAction func connectorEditingDidEnd(sender: AnyObject) {
+	@IBAction func connectorEditingDidEnd(_ sender: AnyObject) {
 		validateOkButtonState()
 	}
 	
@@ -135,8 +135,8 @@ class CreateDeviceViewController: UITableViewController {
 
 //MARK: - UITableViewDelegate
 extension CreateDeviceViewController {
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		dispatch_async(dispatch_get_main_queue()) {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		DispatchQueue.main.async {
 			if indexPath == self._nameCellPath {
 				self.nameTextField.becomeFirstResponder()
 			} else if indexPath == self._connectorCellPath {
@@ -149,11 +149,11 @@ extension CreateDeviceViewController {
 
 //MARK: - PickerView dataSource/delegate
 extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-	func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+	func numberOfComponents(in pickerView: UIPickerView) -> Int {
 		return 2
 	}
  
-	func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
 		switch component {
 		case 0: return _connectorsTypes.count
 		case 1: return _connectors[_currentConnectorTypeRow].count
@@ -161,7 +161,7 @@ extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelega
 		}
 	}
  
-	func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
 		switch component {
 		case 0: return _connectorsTypes[row]
 		case 1: return _connectors[_currentConnectorTypeRow][row].name
@@ -169,7 +169,7 @@ extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelega
 		}
 	}
  
-	func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 		switch component {
 		case 0:
 			_currentConnectorTypeRow = row
@@ -181,7 +181,7 @@ extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelega
 		}
 	}
 	
-	private func selectConnector(row: Int) {
+	private func selectConnector(_ row: Int) {
 		_selectedConnector = _connectors[_currentConnectorTypeRow][row]
 		connectorTextField.text = _selectedConnector?.name
 	}
@@ -189,18 +189,18 @@ extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelega
 
 //MARK: - CreateDeviceViewControllerInput
 extension CreateDeviceViewController: CreateDeviceViewControllerInput {
-	func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel) {
+	func displayConnectors(_ connectorsInfo: CreateDevice_GetConnectors_ViewModel) {
 		_connectorsTypes = connectorsInfo.connectorsTypes
 		_connectors = connectorsInfo.connectors
 		//		connectorPicker.reloadAllComponents()
 	}
 	
-	func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel) {
-		doneButton.enabled = viewModel.doneButtonEnabled
+	func setDoneButtonState(_ viewModel: CreateDevice_ValidateDoneButtonState_ViewModel) {
+		doneButton.isEnabled = viewModel.doneButtonEnabled
 	}
 	
 	func dissmissView() {
-		dispatch_async(dispatch_get_main_queue()) {
+		DispatchQueue.main.async {
 			self.dissmissView()
 		}
 	}

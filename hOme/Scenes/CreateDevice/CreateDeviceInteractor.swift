@@ -13,14 +13,14 @@ import UIKit
 
 protocol CreateDeviceInteractorInput {
 	func fetchConnectors()
-	func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request)
-	func createDevice(request: CreateDevice_CreateDevice_Request)
+	func validateDoneButtonState(_ request: CreateDevice_ValidateDoneButtonState_Request)
+	func createDevice(_ request: CreateDevice_CreateDevice_Request)
 }
 
 protocol CreateDeviceInteractorOutput {
-	func presentConnectors(response: CreateDevice_GetConnectors_Response)
-	func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response)
-	func presentCouldCreateDevice(response: CreateDevice_CreateDevice_Response)
+	func presentConnectors(_ response: CreateDevice_GetConnectors_Response)
+	func setDoneButtonState(_ response: CreateDevice_ValidateDoneButtonState_Response)
+	func presentCouldCreateDevice(_ response: CreateDevice_CreateDevice_Response)
 }
 
 class CreateDeviceInteractor: CreateDeviceInteractorInput {
@@ -48,7 +48,7 @@ class CreateDeviceInteractor: CreateDeviceInteractorInput {
 		return CreateDevice_GetConnectors_Response(connectorsTypes: connectorsTypes, connectorsByType: connectorsByTypes)
 	}
 	
-	func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request) {
+	func validateDoneButtonState(_ request: CreateDevice_ValidateDoneButtonState_Request) {
 		if request.name.isEmpty || !request.connectorSelected {
 			output.setDoneButtonState(CreateDevice_ValidateDoneButtonState_Response(doneButtonEnabled: false))
 		} else {
@@ -57,8 +57,8 @@ class CreateDeviceInteractor: CreateDeviceInteractorInput {
 		
 	}
 	
-	func createDevice(request: CreateDevice_CreateDevice_Request) {
-		 devicesWorker.createDevice(request.name, connectorInternalName: request.connectorInternalName) {
+	func createDevice(_ request: CreateDevice_CreateDevice_Request) {
+		 devicesWorker.createDevice(name: request.name, connectorInternalName: request.connectorInternalName) {
 			(couldCreateDevice) in
 			let response = CreateDevice_CreateDevice_Response(couldCreateDevice: couldCreateDevice)
 			self.output.presentCouldCreateDevice(response)

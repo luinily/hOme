@@ -42,16 +42,16 @@ extension CreateDeviceInteractorTests {
 		var hasPresentIfDeviceHasBeenCreatedCalled = false
 		var createDeviceResponse: CreateDevice_CreateDevice_Response?
 		
-		func presentConnectors(response: CreateDevice_GetConnectors_Response) {
+		func presentConnectors(_ response: CreateDevice_GetConnectors_Response) {
 			hasPresentConnectorsCalled = true
 		}
 		
-		func setDoneButtonState(response: CreateDevice_ValidateDoneButtonState_Response) {
+		func setDoneButtonState(_ response: CreateDevice_ValidateDoneButtonState_Response) {
 			hasSetDoneButtonStateCalled = true
 			validateButtonStateResponse = response
 		}
 		
-		func presentCouldCreateDevice(response: CreateDevice_CreateDevice_Response) {
+		func presentCouldCreateDevice(_ response: CreateDevice_CreateDevice_Response) {
 			hasPresentIfDeviceHasBeenCreatedCalled = true
 			createDeviceResponse = response
 		}
@@ -88,16 +88,16 @@ extension CreateDeviceInteractorTests {
 		
 		func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
 			fetchedDevicesCalled = true
-			let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
-			dispatch_after(oneSecond, dispatch_get_main_queue()) {
+			let oneSecond = DispatchTime.now() + Double(1 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+			DispatchQueue.main.after(when: oneSecond) {
 				completionHandler(devices: [])
 			}
 		}
 		
 		func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void) {
 			createDeviceCalled = true
-			let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
-			dispatch_after(oneSecond, dispatch_get_main_queue()) {
+			let oneSecond = DispatchTime.now() + Double(1 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+			DispatchQueue.main.after(when: oneSecond) {
 				completionHandler(couldCreateDevice: false)
 			}
 		}

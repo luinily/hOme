@@ -38,11 +38,11 @@ class DeviceViewController: UITableViewController {
 		updateView()
 	}
 	
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		updateView()
 	}
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? SelectConectorCell,
 				view = segue.destinationViewController as? SelectConnectorViewController {
 			if let connector = cell.connector {
@@ -68,14 +68,14 @@ class DeviceViewController: UITableViewController {
 		}
 	}
 	
-	func setDevice(device: DeviceProtocol) {
+	func setDevice(_ device: DeviceProtocol) {
 		_device = device
 		if let application = application {
-			setCommands(application.getCommandsOfDeviceOfInternalName(device.internalName))
+			setCommands(application.getCommandsOfDevice(deviceInternalName: device.internalName))
 		}
 	}
 
-	private func setCommands(commands: [CommandProtocol]?) {
+	private func setCommands(_ commands: [CommandProtocol]?) {
 		let commands = commands?.filter() {
 			includeElement in
 			return !(includeElement is OnOffCommand)
@@ -87,14 +87,14 @@ class DeviceViewController: UITableViewController {
 		
 	}
 	
-	private func showEditCommand(command: CommandProtocol) {
+	private func showEditCommand(_ command: CommandProtocol) {
 		_commandToEdit = command
 		if command is IRKitCommand {
 			
 		}
 	}
 	
-	private func onOnOffCommandSelected(command: CommandProtocol) {
+	private func onOnOffCommandSelected(_ command: CommandProtocol) {
 		if let command = command as? DeviceCommand {
 			if _selectingOnCommand {
 				_device?.setOnCommand(command)
@@ -105,7 +105,7 @@ class DeviceViewController: UITableViewController {
 		commandTable.reloadData()
 	}
 	
-	private func getSelectedConnector(connector: Connector) {
+	private func getSelectedConnector(_ connector: Connector) {
 		_device?.setConnector(connector)
 		updateView()
 	}
@@ -122,11 +122,11 @@ extension DeviceViewController: ApplicationUser {
 
 //MARK: - Table Data Source
 extension DeviceViewController {
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 4
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
 		case _sectionParameters:
 			return 2
@@ -134,7 +134,7 @@ extension DeviceViewController {
 			return 2
 		case _sectionCommands:
 			if let application = application, device = _device {
-				setCommands(application.getCommandsOfDeviceOfInternalName(device.internalName))
+				setCommands(application.getCommandsOfDevice(deviceInternalName: device.internalName))
 				return _commands.count
 			}
 			
@@ -147,7 +147,7 @@ extension DeviceViewController {
 		return 0
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
 		case _sectionParameters:
 			return ""
@@ -162,40 +162,40 @@ extension DeviceViewController {
 		}
 	}
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		var cell: UITableViewCell? = nil
 		
-		switch indexPath.section {
+		switch (indexPath as NSIndexPath).section {
 		case _sectionParameters:
-			if indexPath.row == _nameRow {
+			if (indexPath as NSIndexPath).row == _nameRow {
 				cell = makeDeviceNameCell()
-			} else if indexPath.row == _connectorRow {
+			} else if (indexPath as NSIndexPath).row == _connectorRow {
 				cell = makeDeviceConnectorCell()
 			}
 		case _sectionOnOffCommand:
-			if indexPath.row == _onCommandRow {
+			if (indexPath as NSIndexPath).row == _onCommandRow {
 				cell = makeOnCommandCell()
-			} else if indexPath.row == _offCommandRow {
+			} else if (indexPath as NSIndexPath).row == _offCommandRow {
 				cell = makeOffCommandCell()
 			}
 		case _sectionCommands:
-			cell = makeCommandCell(indexPath.row)
+			cell = makeCommandCell((indexPath as NSIndexPath).row)
 		case _sectionNewCommand:
 			cell = makeNewCommandCell()
 		default:
-			cell = UITableViewCell(style: .Default, reuseIdentifier: "Cell")
+			cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
 		}
 		
 		
 		if let cell = cell {
 			return cell
 		} else {
-			return UITableViewCell(style: .Default, reuseIdentifier: "Cell")
+			return UITableViewCell(style: .default, reuseIdentifier: "Cell")
 		}
 	}
 	
 	private func makeDeviceNameCell() -> UITableViewCell? {
-		let cell = tableView.dequeueReusableCellWithIdentifier("DeviceNameCell")
+		let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceNameCell")
 		if let cell = cell as? NameEditCell {
 			cell.nameAble = _device
 		}
@@ -203,7 +203,7 @@ extension DeviceViewController {
 	}
 	
 	private func makeDeviceConnectorCell() -> UITableViewCell? {
-		let cell = tableView.dequeueReusableCellWithIdentifier("DeviceConnectorCell")
+		let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceConnectorCell")
 		if let cell = cell as? SelectConectorCell {
 			cell.connector = _device?.connector
 		}
@@ -211,7 +211,7 @@ extension DeviceViewController {
 	}
 	
 	private func makeOnCommandCell() -> UITableViewCell? {
-		let cell = tableView.dequeueReusableCellWithIdentifier("DeviceOnOffCommandCell")
+		let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceOnOffCommandCell")
 		if let cell = cell as? CommandOnOffCell {
 			cell.command = _device?.onCommand
 			cell.isOnCommand = true
@@ -220,7 +220,7 @@ extension DeviceViewController {
 	}
 	
 	private func makeOffCommandCell() -> UITableViewCell? {
-		let cell = tableView.dequeueReusableCellWithIdentifier("DeviceOnOffCommandCell")
+		let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceOnOffCommandCell")
 		if let cell = cell as? CommandOnOffCell {
 			cell.command = _device?.offCommand
 			cell.isOnCommand = false
@@ -228,8 +228,8 @@ extension DeviceViewController {
 		return cell
 	}
 	
-	private func makeCommandCell(row: Int) -> UITableViewCell? {
-		let cell = tableView.dequeueReusableCellWithIdentifier("DeviceCommandCell")
+	private func makeCommandCell(_ row: Int) -> UITableViewCell? {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCommandCell")
 		if let cell = cell as? DeviceCommandCell {
 			cell.command = _commands[row]
 		}
@@ -237,32 +237,32 @@ extension DeviceViewController {
 	}
 	
 	private func makeNewCommandCell() -> UITableViewCell? {
-		return tableView.dequeueReusableCellWithIdentifier("DeviceAddNewCommandCell")
+		return tableView.dequeueReusableCell(withIdentifier: "DeviceAddNewCommandCell")
 	}
 }
 
 // MARK: Table Delegate
 extension DeviceViewController {
 	
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if let cell = tableView.cellForRowAtIndexPath(indexPath) as? DeviceCommandCell {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if let cell = tableView.cellForRow(at: indexPath) as? DeviceCommandCell {
 			cell.command?.execute()
-			cell.selected = false
+			cell.isSelected = false
 		}
 	}
 	
-	override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-		let delete = UITableViewRowAction(style: .Destructive, title: "Delete") {
+	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+		let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
 			action, indexPath in
 			if let application = self.application {
-				application.deleteCommand(self._commands[indexPath.row])
+				application.deleteCommand(self._commands[(indexPath as NSIndexPath).row])
 				tableView.reloadData()
 			}
 		}
 		
-		let edit = UITableViewRowAction(style: .Normal, title: "Edit") {
+		let edit = UITableViewRowAction(style: .normal, title: "Edit") {
 			action, indexPath in
-			self.performSegueWithIdentifier("IRKitCommandEditSegue", sender: tableView.cellForRowAtIndexPath(indexPath))
+			self.performSegue(withIdentifier: "IRKitCommandEditSegue", sender: tableView.cellForRow(at: indexPath))
 		
 		}
 		

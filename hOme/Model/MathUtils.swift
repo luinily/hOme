@@ -8,7 +8,7 @@
 
 import Foundation
 
-public func ensureRange<T: Comparable>(value: T, min: T, max: T) -> T {
+public func ensureRange<T: Comparable>(_ value: T, min: T, max: T) -> T {
 	if value < min {
 		return min
 	} else if value > max {

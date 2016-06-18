@@ -41,7 +41,7 @@ class DevicesPresenterTests: XCTestCase {
 		var displayFetchedDevicesCalled = false
 		var viewModel: Devices_FetchDevices_ViewModel?
 		
-		func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel) {
+		func displayFetchedDevices(_ viewModel: Devices_FetchDevices_ViewModel) {
 			displayFetchedDevicesCalled = true
 			self.viewModel = viewModel
 		}

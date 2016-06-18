@@ -34,7 +34,7 @@ struct CreateDevice_GetConnectors_ViewModel {
 		var name: String
 		var internalName: String
 		
-		func Equal(other: connectorName) -> Bool {
+		func Equal(_ other: connectorName) -> Bool {
 			return (name == other.name) && (internalName == other.internalName)
 		}
 	}

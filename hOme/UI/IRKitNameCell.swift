@@ -21,13 +21,13 @@ class IRKitNameCell: UITableViewCell {
 		set(nameableObject) {
 			_nameableObject = nameableObject
 			textField.text = nameableObject?.name
-			textField.addTarget(self, action: #selector(textFieldDidChange), forControlEvents: .EditingDidEnd)
-			textField.addTarget(self, action: #selector(textFieldContentChanged), forControlEvents: .EditingChanged)
+			textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingDidEnd)
+			textField.addTarget(self, action: #selector(textFieldContentChanged), for: .editingChanged)
 			
 		}
 	}
 	
-	func setIsNameValid(isNameValid: (name: String) -> Bool) {
+	func setIsNameValid(_ isNameValid: (name: String) -> Bool) {
 		_isNameValid = isNameValid
 	}
 	
@@ -40,14 +40,14 @@ class IRKitNameCell: UITableViewCell {
 	func textFieldContentChanged() {
 		if let newName = textField.text {
 			if isNameValid(newName) {
-				textField.textColor = UIColor.blackColor()
+				textField.textColor = UIColor.black()
 			} else {
-				textField.textColor = UIColor.redColor()
+				textField.textColor = UIColor.red()
 			}
 		}
 	}
 	
-	private func isNameValid(name: String) -> Bool {
+	private func isNameValid(_ name: String) -> Bool {
 		if let isNameValid = _isNameValid {
 			if isNameValid(name: name) {
 				return true

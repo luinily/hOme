@@ -12,11 +12,11 @@
 import UIKit
 
 protocol DevicesInteractorInput {
-	func fetchDevices(request: Devices_FetchDevices_Request)
+	func fetchDevices(_ request: Devices_FetchDevices_Request)
 }
 
 protocol DevicesInteractorOutput {
-	func presentFetchedDevices(response: Devices_FetchedDevices_Response)
+	func presentFetchedDevices(_ response: Devices_FetchedDevices_Response)
 }
 
 class DevicesInteractor: DevicesInteractorInput {
@@ -37,7 +37,7 @@ class DevicesInteractor: DevicesInteractorInput {
 //		output.presentSomething(response)
 //	}
 	
-	func fetchDevices(request: Devices_FetchDevices_Request) {
+	func fetchDevices(_ request: Devices_FetchDevices_Request) {
 		worker.fetchDevices() {
 			devices in
 			let response = Devices_FetchedDevices_Response(devices: devices)

@@ -14,7 +14,7 @@ import UIKit
 // MARK: Connect View, Interactor, and Presenter
 
 extension CreateDeviceViewController: CreateDevicePresenterOutput {
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		router.passDataToNextScene(segue)
 	}
 }
@@ -30,20 +30,15 @@ class CreateDeviceConfigurator {
 	
 	class var sharedInstance: CreateDeviceConfigurator {
 		struct Static {
-			static var instance: CreateDeviceConfigurator?
-			static var token: dispatch_once_t = 0
+			static var instance = CreateDeviceConfigurator()
+			static var token: Int = 0
 		}
-		
-		dispatch_once(&Static.token) {
-			Static.instance = CreateDeviceConfigurator()
-		}
-		
-		return Static.instance!
+		return Static.instance
 	}
 	
 	// MARK: Configuration
 	
-	func configure(viewController: CreateDeviceViewController) {
+	func configure(_ viewController: CreateDeviceViewController) {
 		let router = CreateDeviceRouter()
 		router.viewController = viewController
 		

@@ -26,12 +26,12 @@ class SequenceViewController: UITableViewController {
 		
 	}
 	
-	func setSequence(sequence: Sequence) {
+	func setSequence(_ sequence: Sequence) {
 		_sequence = sequence
 		makeSequenceArray(sequence)
 	}
 	
-	func makeSequenceArray(sequence: Sequence) {
+	func makeSequenceArray(_ sequence: Sequence) {
 		let commands = sequence.getCommands()
 		var sequenceArray = [(time: Int, command: CommandProtocol)]()
 		
@@ -48,11 +48,11 @@ class SequenceViewController: UITableViewController {
 //MARK: - Table Data Source
 extension SequenceViewController {
 	//MARK: Sections
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 3
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
 		case _sectionProperties:
 			return 1
@@ -65,7 +65,7 @@ extension SequenceViewController {
 		}
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
 		case _sectionProperties:
 			return "Name"
@@ -79,21 +79,21 @@ extension SequenceViewController {
 	}
 	
 	//MARK: Cells
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell: UITableViewCell?
 		
-		if indexPath.section == _sectionProperties {
-			cell = tableView.dequeueReusableCellWithIdentifier("SequenceNameCell")
+		if (indexPath as NSIndexPath).section == _sectionProperties {
+			cell = tableView.dequeueReusableCell(withIdentifier: "SequenceNameCell")
 			if let cell = cell as? NameEditCell {
 				cell.nameAble = _sequence
 			}
-		} else if indexPath.section == _sectionCommands {
-			cell = tableView.dequeueReusableCellWithIdentifier("SequenceCommandCell")
+		} else if (indexPath as NSIndexPath).section == _sectionCommands {
+			cell = tableView.dequeueReusableCell(withIdentifier: "SequenceCommandCell")
 			if let cell = cell as? SequenceCommandCell {
-				cell.setCommand(_commands[indexPath.row])
+				cell.setCommand(_commands[(indexPath as NSIndexPath).row])
 			}
 		} else {
-			cell = tableView.dequeueReusableCellWithIdentifier("AddSequenceCommandCell")
+			cell = tableView.dequeueReusableCell(withIdentifier: "AddSequenceCommandCell")
 			if let cell = cell {
 				if let label = cell.textLabel {
 					label.text = "Add New Command..."
@@ -104,7 +104,7 @@ extension SequenceViewController {
 		if let cell = cell {
 			return cell
 		} else {
-			return UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
 }
@@ -112,13 +112,13 @@ extension SequenceViewController {
 
 //MARK: - Table Delegate
 extension SequenceViewController {
-	override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-		if indexPath.section == _sectionCommands {
-			let delete = UITableViewRowAction(style: .Destructive, title: "Delete") {
+	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+		if (indexPath as NSIndexPath).section == _sectionCommands {
+			let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
 				action, indexPath in
-				if let cell = tableView.cellForRowAtIndexPath(indexPath) as? SequenceCommandCell {
+				if let cell = tableView.cellForRow(at: indexPath) as? SequenceCommandCell {
 					if let sequence = self._sequence, command = cell.command {
-						sequence.removeCommand(command.time, commandToRemove: command.command)
+						sequence.removeCommand(time: command.time, commandToRemove: command.command)
 						tableView.reloadData()
 					}
 				}

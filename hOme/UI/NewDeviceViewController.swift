@@ -19,10 +19,10 @@ class NewDeviceViewController: UIViewController {
 	private var _onClose: (() -> Void)?
 	
 	override func viewDidLoad() {
-		doneButton.enabled = false
+		doneButton.isEnabled = false
 	}
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? SelectConectorCell {
 			if let viewController = segue.destinationViewController as? SelectConnectorViewController {
 				viewController.setOnConnectorSelected(onSelectedConnector)
@@ -31,37 +31,37 @@ class NewDeviceViewController: UIViewController {
 		}
 	}
 	
-	func setOnClose(onClose: () -> Void) {
+	func setOnClose(_ onClose: () -> Void) {
 		_onClose = onClose
 	}
 	
-	@IBAction func doneClick(sender: AnyObject) {
+	@IBAction func doneClick(_ sender: AnyObject) {
 		if let connector = _connector {
-			application?.createNewDeviceOfName(_name, connector: connector)
+			_ = application?.createNewDevice(name: _name, connector: connector)
 			_onClose?()
-			self.dismissViewControllerAnimated(true, completion: nil)
+			self.dismiss(animated: true, completion: nil)
 		}
 	}
 	
-	@IBAction func cancelClick(sender: AnyObject) {
+	@IBAction func cancelClick(_ sender: AnyObject) {
 		_onClose?()
-		self.dismissViewControllerAnimated(true, completion: nil)
+		self.dismiss(animated: true, completion: nil)
 	}
 	
-	private func onChange(name: String, connector: Connector?) {
+	private func onChange(_ name: String, connector: Connector?) {
 		_name = name
 		_connector = connector
 		
-		doneButton.enabled = (name != "") && (connector != nil)
+		doneButton.isEnabled = (name != "") && (connector != nil)
 		updateView()
 	}
 	
-	private func onSelectedConnector(connector: Connector) {
+	private func onSelectedConnector(_ connector: Connector) {
 		onChange(_name, connector: connector)
 	}
 	
 	private func showSelectConnector() {
-		performSegueWithIdentifier("ShowSelectConnector", sender: self)
+		performSegue(withIdentifier: "ShowSelectConnector", sender: self)
 	}
 	
 	private func updateView() {
@@ -76,24 +76,24 @@ extension NewDeviceViewController: ApplicationUser {
 
 //MARK: - UITableViewDataSource
 extension NewDeviceViewController: UITableViewDataSource {
-	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
 	
-	func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		return "Device"
 	}
 	
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return 2
 	}
 	
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		var cell: UITableViewCell?
 		
-		switch indexPath.row {
+		switch (indexPath as NSIndexPath).row {
 		case 0:
-			cell = tableView.dequeueReusableCellWithIdentifier("NewDeviceNameCell")
+			cell = tableView.dequeueReusableCell(withIdentifier: "NewDeviceNameCell")
 			if let cell = cell as? NewDeviceNameCell {
 				cell.onNameChanged = {
 					name in
@@ -102,23 +102,23 @@ extension NewDeviceViewController: UITableViewDataSource {
 				cell.name = _name
 			}
 		case 1:
-			cell = tableView.dequeueReusableCellWithIdentifier("NewDeviceConnectorCell")
+			cell = tableView.dequeueReusableCell(withIdentifier: "NewDeviceConnectorCell")
 			if let cell = cell as? SelectConectorCell {
 				cell.connector = _connector
 			}
 		default:
-			cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "NotFoundCell")
+			cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "NotFoundCell")
 		}
 		
 		if let cell = cell {
 			return cell
 		}
-		return UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "NotFoundCell")
+		return UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "NotFoundCell")
 	}
 }
 
 //MARK: - UITableViewDelegate
 extension NewDeviceViewController: UITableViewDelegate {
-	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 	}
 }

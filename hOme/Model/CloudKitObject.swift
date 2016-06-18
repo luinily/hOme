@@ -16,6 +16,6 @@ protocol CloudKitObject {
 	func getNewCKRecordName() -> String
 	func getCurrentCKRecordName() -> String?
 	func getCKRecordType() -> String
-	func setUpCKRecord(record: CKRecord)
+	func setUpCKRecord(_ record: CKRecord)
 	func updateCloudKit()
 }

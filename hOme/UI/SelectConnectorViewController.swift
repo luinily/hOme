@@ -28,7 +28,7 @@ class SelectConnectorViewController: UITableViewController {
 	override func viewDidLoad() {
 	}
 	
-	func setOnConnectorSelected(onConnectorSelected: (connector: Connector) -> Void) {
+	func setOnConnectorSelected(_ onConnectorSelected: (connector: Connector) -> Void) {
 		_onConnectorSelected = onConnectorSelected
 	}
 	
@@ -58,33 +58,33 @@ extension SelectConnectorViewController: ApplicationUser {
 //MARK: - UITableViewDataSource
 extension SelectConnectorViewController {
 	
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		if let connectors = application?.getConnectorsOfType(_connectorType) {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		if let connectors = application?.getConnectors(type: _connectorType) {
 			_connectors = connectors
 		}
 		
 		return _connectors.count
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		return "Connectors"
 	}
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		guard let cell = tableView.dequeueReusableCellWithIdentifier("CommunicatorCell") as? SelectConectorCell else {
-			return UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "NotFoundCell")
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommunicatorCell") as? SelectConectorCell else {
+			return UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "NotFoundCell")
 		}
 		
-		cell.connector = _connectors[indexPath.row]
+		cell.connector = _connectors[(indexPath as NSIndexPath).row]
 		
 		if cell.connector?.name == _selectedConnector?.name {
-			cell.accessoryType = .Checkmark
+			cell.accessoryType = .checkmark
 		} else {
-			cell.accessoryType = .None
+			cell.accessoryType = .none
 		}
 		return cell
 	}
@@ -92,10 +92,10 @@ extension SelectConnectorViewController {
 
 //MARK - UITableViewDelegate
 extension SelectConnectorViewController {
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		let cell = tableView.cellForRowAtIndexPath(indexPath) as? SelectConectorCell
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let cell = tableView.cellForRow(at: indexPath) as? SelectConectorCell
 		_selectedConnector = cell?.connector
 		tableView.reloadData()
-		dismissViewControllerAnimated(true, completion: nil)
+		dismiss(animated: true, completion: nil)
 	}
 }

@@ -39,8 +39,8 @@ extension CreateDeviceViewControllerTests {
 // MARK: Test setup
 extension CreateDeviceViewControllerTests {
 	private func setupCreateOrderViewController() {
-		let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-		_createDeviceViewController = storyboard.instantiateViewControllerWithIdentifier("CreateDeviceViewController") as? CreateDeviceViewController
+		let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main())
+		_createDeviceViewController = storyboard.instantiateViewController(withIdentifier: "CreateDeviceViewController") as? CreateDeviceViewController
 	}
 	
 	private func make_IRKit_ABC_Imaginary_DE_viewModel() -> CreateDevice_GetConnectors_ViewModel {
@@ -74,12 +74,12 @@ extension CreateDeviceViewControllerTests {
 			fetchConnectorsHasBeenCalled = true
 		}
 		
-		func validateDoneButtonState(request: CreateDevice_ValidateDoneButtonState_Request) {
+		func validateDoneButtonState(_ request: CreateDevice_ValidateDoneButtonState_Request) {
 			validateDoneButtonStateHasBeenCalled = true
 			validateDoneButtonStateRequest = request
 		}
 		
-		func createDevice(request: CreateDevice_CreateDevice_Request) {
+		func createDevice(_ request: CreateDevice_CreateDevice_Request) {
 			createDeviceHasBeenCalled = true
 			createDeviceRequest = request
 		}
@@ -94,10 +94,13 @@ extension CreateDeviceViewControllerTests {
 			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
-			let pickerView = viewController.connectorPicker
+			guard let pickerView = viewController.connectorPicker else {
+				XCTAssert(false, "no picker view")
+				return
+			}
 			//When
 		
-			let numberOfComponents = viewController.numberOfComponentsInPickerView(pickerView)
+			let numberOfComponents = viewController.numberOfComponents(in: pickerView)
 			
 			//Then
 			XCTAssertEqual(numberOfComponents, 2)
@@ -112,7 +115,10 @@ extension CreateDeviceViewControllerTests {
 			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
-			let pickerView = viewController.connectorPicker
+			guard let pickerView = viewController.connectorPicker else {
+				XCTAssert(false, "no picker view")
+				return
+			}
 			//When
 			
 			let numberOfConnectors = viewController.pickerView(pickerView, numberOfRowsInComponent: 0)
@@ -130,7 +136,10 @@ extension CreateDeviceViewControllerTests {
 			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
-			let pickerView = viewController.connectorPicker
+			guard let pickerView = viewController.connectorPicker else {
+				XCTAssert(false, "no picker view")
+				return
+			}
 			//When
 			
 			let numberOfConnectors = viewController.pickerView(pickerView, numberOfRowsInComponent: 1)
@@ -148,7 +157,10 @@ extension CreateDeviceViewControllerTests {
 			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
-			let pickerView = viewController.connectorPicker
+			guard let pickerView = viewController.connectorPicker else {
+				XCTAssert(false, "no picker view")
+				return
+			}
 			//When
 			
 			var titles = [String]()
@@ -171,7 +183,10 @@ extension CreateDeviceViewControllerTests {
 			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
-			let pickerView = viewController.connectorPicker
+			guard let pickerView = viewController.connectorPicker else {
+				XCTAssert(false, "no picker view")
+				return
+			}
 			//When
 			
 			var titles = [String]()
@@ -195,7 +210,10 @@ extension CreateDeviceViewControllerTests {
 			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			
 			viewController.displayConnectors(viewModel)
-			let pickerView = viewController.connectorPicker
+			guard let pickerView = viewController.connectorPicker else {
+				XCTAssert(false, "no picker view")
+				return
+			}
 			//When
 			
 			viewController.pickerView(pickerView, didSelectRow: 0, inComponent: 1)
@@ -291,7 +309,7 @@ extension CreateDeviceViewControllerTests {
 			viewController.setDoneButtonState(viewModel)
 			
 			// Then
-			XCTAssertTrue(viewController.doneButton.enabled)
+			XCTAssertTrue(viewController.doneButton.isEnabled)
 		}
 	}
 	
@@ -305,7 +323,7 @@ extension CreateDeviceViewControllerTests {
 			viewController.setDoneButtonState(viewModel)
 			
 			// Then
-			XCTAssertFalse(viewController.doneButton.enabled)
+			XCTAssertFalse(viewController.doneButton.isEnabled)
 		}
 	}
 	
@@ -354,7 +372,10 @@ extension CreateDeviceViewControllerTests {
 			
 			let viewModel = make_IRKit_ABC_Imaginary_DE_viewModel()
 			viewController.displayConnectors(viewModel)
-			let pickerView = viewController.connectorPicker
+			guard let pickerView = viewController.connectorPicker else {
+				XCTAssert(false, "no picker view")
+				return
+			}
 			viewController.pickerView(pickerView, didSelectRow: 0, inComponent: 1)
 			
 			//When

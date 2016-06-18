@@ -8,8 +8,8 @@
 
 import Foundation
 
-enum ImportError: ErrorType {
-	case ErrorCouldNotFindElement
+enum ImportError: ErrorProtocol {
+	case errorCouldNotFindElement
 }
 
 struct DeviceInfo {
@@ -26,23 +26,23 @@ struct DeviceInfo {
 	
 	init(record: [String: Any]) throws {
 		guard let name = record[nameKey] as? String else {
-			throw ImportError.ErrorCouldNotFindElement
+			throw ImportError.errorCouldNotFindElement
 		}
 		
 		guard let internalName = record[internalNameKey] as? String else {
-			throw ImportError.ErrorCouldNotFindElement
+			throw ImportError.errorCouldNotFindElement
 		}
 		
 		guard let communicatorName = record[communicatorInternalNameKey] as? String else {
-			throw ImportError.ErrorCouldNotFindElement
+			throw ImportError.errorCouldNotFindElement
 		}
 		
 		guard let onCommandName = record[onCommandInternalNameKey] as? String else {
-			throw ImportError.ErrorCouldNotFindElement
+			throw ImportError.errorCouldNotFindElement
 		}
 		
 		guard let offCommandName = record[offCommadnInternalNameKey] as? String else {
-			throw ImportError.ErrorCouldNotFindElement
+			throw ImportError.errorCouldNotFindElement
 		}
 		
 		self.name = Name(name: name, internalName: internalName)

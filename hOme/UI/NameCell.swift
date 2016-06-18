@@ -22,14 +22,14 @@ class NameCell: UITableViewCell {
 	
 	private var _onNameChanged: ((newName: String) -> Void)?
 	
-	@IBAction func editingDidEnd(sender: AnyObject) {
+	@IBAction func editingDidEnd(_ sender: AnyObject) {
 		if let newName = edit.text {
 			_name = newName
 			_onNameChanged?(newName: newName)
 		}
 	}
 	
-	func setOnNameChanged(onNameChanged: (newName: String) -> Void) {
+	func setOnNameChanged(_ onNameChanged: (newName: String) -> Void) {
 		_onNameChanged = onNameChanged
 	}
 }

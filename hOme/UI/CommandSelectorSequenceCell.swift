@@ -28,9 +28,9 @@ class CommandSelectorSequenceCell: UITableViewCell {
 		set(sequenceSelected) {
 			_sequenceSelected = sequenceSelected
 			if _sequenceSelected {
-				accessoryType = UITableViewCellAccessoryType.Checkmark
+				accessoryType = UITableViewCellAccessoryType.checkmark
 			} else {
-				accessoryType = UITableViewCellAccessoryType.None
+				accessoryType = UITableViewCellAccessoryType.none
 			}
 		}
 	}

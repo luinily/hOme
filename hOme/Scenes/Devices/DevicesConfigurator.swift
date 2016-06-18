@@ -14,24 +14,20 @@ import UIKit
 // MARK: Connect View, Interactor, and Presenter
 
 class DevicesConfigurator {
+
 	// MARK: Object lifecycle
 	
 	class var sharedInstance: DevicesConfigurator {
 		struct Static {
-			static var instance: DevicesConfigurator?
-			static var token: dispatch_once_t = 0
+			static var instance = DevicesConfigurator()
+			static var token: Int = 0
 		}
-		
-		dispatch_once(&Static.token) {
-			Static.instance = DevicesConfigurator()
-		}
-		
-		return Static.instance!
+		return Static.instance
 	}
 	
 	// MARK: Configuration
 	
-	func configure(viewController: DevicesViewController) {
+	func configure(_ viewController: DevicesViewController) {
 		let router = DevicesRouter()
 		router.viewController = viewController
 		

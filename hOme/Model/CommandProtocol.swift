@@ -13,7 +13,7 @@ protocol CommandProtocol: Nameable {
 }
 
 extension CommandProtocol {
-	func isEqualTo(other: CommandProtocol) -> Bool {
+	func isEqualTo(_ other: CommandProtocol) -> Bool {
 		if let other = other as? Self {
 			return self.internalName == other.internalName
 		} else {

@@ -48,12 +48,12 @@ extension CreateDevicePresenterTests {
 		private var _doneButtonStateInfoViewModel: CreateDevice_ValidateDoneButtonState_ViewModel?
 		
 		//MARK: Spied Methods
-		func displayConnectors(connectorsInfo: CreateDevice_GetConnectors_ViewModel) {
+		func displayConnectors(_ connectorsInfo: CreateDevice_GetConnectors_ViewModel) {
 			_hasDisplayConnectorsCalled = true
 			_connectorsInfoViewModel = connectorsInfo
 		}
 		
-		func setDoneButtonState(viewModel: CreateDevice_ValidateDoneButtonState_ViewModel) {
+		func setDoneButtonState(_ viewModel: CreateDevice_ValidateDoneButtonState_ViewModel) {
 			_hasSetDoneButtonStateCalled = true
 			_doneButtonStateInfoViewModel = viewModel
 		}
@@ -75,18 +75,18 @@ extension CreateDevicePresenterTests {
 			return _hadDismissViewBeenCalled
 		}
 		
-		func verifyDidFormatConnectorTypesAs(expectedTypeStrings: [String]) -> Bool {
+		func verifyDidFormatConnectorTypesAs(_ expectedTypeStrings: [String]) -> Bool {
 			if let resultConnectorTypes = _connectorsInfoViewModel?.connectorsTypes {
 				return resultConnectorTypes == expectedTypeStrings
 			}
 			return false
 		}
 		
-		func verifyCallSetDoneButtonStateWithSameValue(expectedValue: Bool) -> Bool {
+		func verifyCallSetDoneButtonStateWithSameValue(_ expectedValue: Bool) -> Bool {
 			return _doneButtonStateInfoViewModel?.doneButtonEnabled == expectedValue
 		}
 		
-		func verifyDidFormatConnectorsAs(expectedConnectorStrings: [[CreateDevice_GetConnectors_ViewModel.connectorName]]) -> Bool {
+		func verifyDidFormatConnectorsAs(_ expectedConnectorStrings: [[CreateDevice_GetConnectors_ViewModel.connectorName]]) -> Bool {
 			if let resultConnector = _connectorsInfoViewModel?.connectors {
 				if resultConnector.count != expectedConnectorStrings.count {
 					return false

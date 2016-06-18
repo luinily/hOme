@@ -27,10 +27,10 @@ class DevicesWorker {
 	}
 	
 	func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
-		_deviceStore.fetchDevices(completionHandler)
+		_deviceStore.fetchDevices(completionHandler: completionHandler)
 	}
 	
 	func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void) {
-		_deviceStore.createDevice(name, connectorInternalName: connectorInternalName, completionHandler: completionHandler)
+		_deviceStore.createDevice(name: name, connectorInternalName: connectorInternalName, completionHandler: completionHandler)
 	}
 }

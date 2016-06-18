@@ -16,7 +16,7 @@ class SequenceCell: UITableViewCell {
 	
 	var sequence: Sequence? {return _sequence}
 	
-	func setSequence(sequence: Sequence) {
+	func setSequence(_ sequence: Sequence) {
 		_sequence = sequence
 		sequenceLabel.text = sequence.name
 	}

@@ -9,12 +9,12 @@
 import Foundation
 import CloudKit
 
-enum DeviceClassError: ErrorType {
-    case NoNameInRecord
-    case NoCommunicatorNameInRecord
-    case NoCommunicatorOfThisName
-    case NoCommandTypeNameInRecord
-    case NoClassOfThisName
+enum DeviceClassError: ErrorProtocol {
+    case noNameInRecord
+    case noCommunicatorNameInRecord
+    case noCommunicatorOfThisName
+    case noCommandTypeNameInRecord
+    case noClassOfThisName
 }
 
 
@@ -51,7 +51,7 @@ class Device {
 
 	}
 	
-	func isEqualTo(other: DeviceProtocol) -> Bool {
+	func isEqualTo(_ other: DeviceProtocol) -> Bool {
 		if let other = other as? Device {
 			return other === self
 		} else {
@@ -104,13 +104,13 @@ extension Device: DeviceProtocol {
 	var onCommand: DeviceCommand? {return getOnCommand()}
 	var offCommand: DeviceCommand? {return getOffCommand()}
 	
-	func setConnector(connector: Connector) {
+	func setConnector(_ connector: Connector) {
 		_connectorInternalName = connector.internalName
 		updateCloudKit()
 	}
 	
-	func setOnCommand(command: DeviceCommand) {
-		if (command.deviceInternalName == _name.internalName) || (command.executionEffectOnDevice == .SetDeviceOn) {
+	func setOnCommand(_ command: DeviceCommand) {
+		if (command.deviceInternalName == _name.internalName) || (command.executionEffectOnDevice == .setDeviceOn) {
 			if command.internalName != _onCommandInternalName {
 				_onCommandInternalName = command.internalName
 				updateCloudKit()
@@ -119,8 +119,8 @@ extension Device: DeviceProtocol {
 		}
 	}
 	
-	func setOffCommand(command: DeviceCommand) {
-		if (command.deviceInternalName == _name.internalName) || (command.executionEffectOnDevice == .SetDeviceOff) {
+	func setOffCommand(_ command: DeviceCommand) {
+		if (command.deviceInternalName == _name.internalName) || (command.executionEffectOnDevice == .setDeviceOff) {
 			if command.internalName != _offCommandInternalName {
 				_offCommandInternalName = command.internalName
 				updateCloudKit()
@@ -136,10 +136,10 @@ extension Device: DeviceProtocol {
 		getOffCommand()?.execute()
 	}
 	
-	func notifyCommandExecution(sender: DeviceCommand) {
-		if sender.executionEffectOnDevice == .SetDeviceOn {
+	func notifyCommandExecution(_ sender: DeviceCommand) {
+		if sender.executionEffectOnDevice == .setDeviceOn {
 			_isOn = true
-		} else if sender.executionEffectOnDevice == .SetDeviceOff {
+		} else if sender.executionEffectOnDevice == .setDeviceOff {
 			_isOn = false
 		}
 	}
@@ -154,10 +154,10 @@ extension Device {
 		self.init(ckRecordName: ckRecord.recordID.recordName, getCommand: getCommand, getConnector: getConnector)
 			
 		guard let name = ckRecord["Name"] as? String else {
-			throw DeviceClassError.NoNameInRecord
+			throw DeviceClassError.noNameInRecord
 		}
 		guard let connectorName = ckRecord["CommunicatorName"] as? String else {
-			throw DeviceClassError.NoCommunicatorNameInRecord
+			throw DeviceClassError.noCommunicatorNameInRecord
 		}
 		
 		if let internalName = ckRecord["internalName"] as? String {
@@ -188,7 +188,7 @@ extension Device {
 		return "Device"
 	}
 	
-	func setUpCKRecord(record: CKRecord) {
+	func setUpCKRecord(_ record: CKRecord) {
 		record["Name"] = _name.name
 		record["internalName"] = _name.internalName
 		record["CommunicatorName"] = _connectorInternalName

@@ -15,7 +15,7 @@ class FlicButton: NSObject, SCLFlicButtonDelegate {
 	private var _actions = [ButtonActionType: CommandProtocol]()
 	private var _flicName: String = "flic"
 	private var _name: String = "flic"
-	private var _identifier: NSUUID?
+	private var _identifier: UUID?
 	private var _onPressedForUI: (() -> Void)?
 	
 	private var _currentCKRecordName: String?
@@ -35,7 +35,7 @@ class FlicButton: NSObject, SCLFlicButtonDelegate {
 		super.init()
 		
 		_button?.delegate = self
-		_button?.triggerBehavior = SCLFlicButtonTriggerBehavior.ClickAndDoubleClickAndHold
+		_button?.triggerBehavior = SCLFlicButtonTriggerBehavior.clickAndDoubleClickAndHold
 		_button?.connect()
 		if newButton {
 			updateCloudKit()
@@ -50,10 +50,10 @@ class FlicButton: NSObject, SCLFlicButtonDelegate {
 		var connectionState = "Unkown"
 		if let button = _button {
 			switch button.connectionState {
-			case .Connected: connectionState = "Connected"
-			case .Connecting: connectionState = "Connecting"
-			case .Disconnected: connectionState = "Disconnected"
-			case .Disconnecting: connectionState = "Disconnected"
+			case .connected: connectionState = "Connected"
+			case .connecting: connectionState = "Connecting"
+			case .disconnected: connectionState = "Disconnected"
+			case .disconnecting: connectionState = "Disconnected"
 			}
 		}
 		print(name + " buttonConnectionState: " + connectionState)
@@ -69,25 +69,25 @@ class FlicButton: NSObject, SCLFlicButtonDelegate {
 		return _actionTypes
 	}
 	
-	func flicButton(button: SCLFlicButton, didReceiveButtonClick queued: Bool, age: Int) {
+	func flicButton(_ button: SCLFlicButton, didReceiveButtonClick queued: Bool, age: Int) {
 		print("button " + _name + " click")
 		_onPressedForUI?()
 		_actions[.press]?.execute()
 	}
 	
-	func flicButton(button: SCLFlicButton, didReceiveButtonDoubleClick queued: Bool, age: Int) {
+	func flicButton(_ button: SCLFlicButton, didReceiveButtonDoubleClick queued: Bool, age: Int) {
 		print("button " + _name + " double click")
 		_onPressedForUI?()
 		_actions[.doublePress]?.execute()
 	}
 	
-	func flicButton(button: SCLFlicButton, didReceiveButtonHold queued: Bool, age: Int) {
+	func flicButton(_ button: SCLFlicButton, didReceiveButtonHold queued: Bool, age: Int) {
 		print("button " + _name + " long click")
 		_onPressedForUI?()
 		_actions[.longPress]?.execute()
 	}
 	
-	func flicButton(button: SCLFlicButton, didDisconnectWithError error: NSError?) {
+	func flicButton(_ button: SCLFlicButton, didDisconnectWithError error: NSError?) {
 		var errorString = ""
 		if let error = error?.description {
 			errorString = error
@@ -108,7 +108,7 @@ extension FlicButton: Nameable {
 		}
 	}
 	
-	private func nameSetter(name: String) {
+	private func nameSetter(_ name: String) {
 		_name = name
 	}
 	var fullName: String {return _name}
@@ -136,14 +136,14 @@ extension FlicButton: Button {
 //MARK: - CloudKitObject
 extension FlicButton: CloudKitObject {
 	
-	convenience init (ckRecord: CKRecord, getCommandOfUniqueName: (uniqueName: String) -> CommandProtocol?, getButtonOfIdentifier: (identifier: NSUUID) -> SCLFlicButton?) throws {
+	convenience init (ckRecord: CKRecord, getCommandOfUniqueName: (uniqueName: String) -> CommandProtocol?, getButtonOfIdentifier: (identifier: UUID) -> SCLFlicButton?) throws {
 
 		guard let name = ckRecord["name"] as? String else {
-			throw CommandClassError.NoDeviceNameInCKRecord
+			throw CommandClassError.noDeviceNameInCKRecord
 		}
 		
 		guard let flicName = ckRecord["flicName"] as? String else {
-			throw CommandClassError.NoDeviceNameInCKRecord
+			throw CommandClassError.noDeviceNameInCKRecord
 		}
 		
 		self.init(button: nil)
@@ -163,14 +163,14 @@ extension FlicButton: CloudKitObject {
 		}
 		
 		if let identifier = ckRecord["identifier"] as? String {
-			_identifier = NSUUID(UUIDString: identifier)
+			_identifier = UUID(uuidString: identifier)
 		}
 		_currentCKRecordName = ckRecord.recordID.recordName
 		
 		if let identifier = _identifier {
 			_button = getButtonOfIdentifier(identifier: identifier)
 			_button?.delegate = self
-			_button?.triggerBehavior = SCLFlicButtonTriggerBehavior.ClickAndDoubleClickAndHold
+			_button?.triggerBehavior = SCLFlicButtonTriggerBehavior.clickAndDoubleClickAndHold
 			_button?.connect()
 			if _button != nil {
 				print("Restored button " + _name)
@@ -187,9 +187,9 @@ extension FlicButton: CloudKitObject {
 		return _currentCKRecordName
 	}
 	
-	func setUpCKRecord(record: CKRecord) {
+	func setUpCKRecord(_ record: CKRecord) {
 		record["type"] = FlicButton.getButtonType().rawValue
-		record["identifier"] = _identifier?.UUIDString
+		record["identifier"] = _identifier?.uuidString
 
 		
 		var data = [String]()

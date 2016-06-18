@@ -40,11 +40,11 @@ extension DeviceCloudKitStoreTests {
 	
 	func makeInvalidRecord() -> [String: Any] {
 		var record = makeValidRecord()
-		record.removeValueForKey("Name")
+		record.removeValue(forKey: "Name")
 		return record
 	}
 	
-	func makeDefaultRecord(name: String, communicatorName: String) -> [String: Any] {
+	func makeDefaultRecord(_ name: String, communicatorName: String) -> [String: Any] {
 		var record = [String: Any]()
 		record["Name"] = name
 		record["internalName"] = ""
@@ -54,7 +54,7 @@ extension DeviceCloudKitStoreTests {
 		return record
 	}
 	
-	func AssertDictionaryEqual(dictionnary1: [String: Any], dictionnary2: [String: Any]) -> Bool {
+	func AssertDictionaryEqual(_ dictionnary1: [String: Any], dictionnary2: [String: Any]) {
 		XCTAssertEqual(dictionnary1.count, dictionnary2.count)
 		
 		if let name1 = dictionnary1["Name"] as? String,
@@ -88,8 +88,6 @@ extension DeviceCloudKitStoreTests {
 		} else {
 			XCTAssert(false, "problem with OffCommand")
 		}
-		
-		return true
 	}
 }
 
@@ -101,7 +99,7 @@ extension DeviceCloudKitStoreTests {
 		var type = ""
 		var record = [String: Any]()
 		
-		func fetchRecordsOfType(type: String, completionHandler: (records: [[String : Any]]) -> Void) {
+		func fetchRecordsOfType(_ type: String, completionHandler: (records: [[String : Any]]) -> Void) {
 			fetchRecordsCalled = true
 			self.type = type
 			
@@ -109,7 +107,7 @@ extension DeviceCloudKitStoreTests {
 			completionHandler(records: [record])
 		}
 		
-		func createRecordOfType(type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
+		func createRecordOfType(_ type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
 			self.type = type
 			createRecordCalled = true
 			record = data
@@ -213,7 +211,7 @@ extension DeviceCloudKitStoreTests {
 		let store = DeviceCloudKitStore(cloudKitWrapper: spy)
 		
 		// Act
-		store.createDevice("Device", connectorInternalName: "Connector") {
+		store.createDevice(name: "Device", connectorInternalName: "Connector") {
 			(deviceInfo) in
 		}
 		
@@ -228,7 +226,7 @@ extension DeviceCloudKitStoreTests {
 		let store = DeviceCloudKitStore(cloudKitWrapper: spy)
 		
 		// Act
-		store.createDevice("Device", connectorInternalName: "Connector") {
+		store.createDevice(name: "Device", connectorInternalName: "Connector") {
 			(deviceInfo) in
 		}
 		
@@ -243,7 +241,7 @@ extension DeviceCloudKitStoreTests {
 		let store = DeviceCloudKitStore(cloudKitWrapper: spy)
 		
 		// Act
-		store.createDevice("Device", connectorInternalName: "Connector") {
+		store.createDevice(name: "Device", connectorInternalName: "Connector") {
 			(deviceInfo) in
 		}
 		
@@ -260,7 +258,7 @@ extension DeviceCloudKitStoreTests {
 		var completionHandlerCalled = false
 		
 		// Act
-		store.createDevice("Device", connectorInternalName: "Connector") {
+		store.createDevice(name: "Device", connectorInternalName: "Connector") {
 			(deviceInfo) in
 			completionHandlerCalled = true
 		}

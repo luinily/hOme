@@ -29,16 +29,16 @@ class SelectDeviceCommandViewController: UITableViewController {
 		table.dataSource = self
 	}
 	
-	override func willMoveToParentViewController(parent: UIViewController?) {
+	override func willMove(toParentViewController parent: UIViewController?) {
 		if let selectedCommand = _selectedCommand {
 			_onCommandSelected?(command: selectedCommand)
 		}
 	}
 	
-	func setDevice(device: DeviceProtocol?, onOffCommandIncluded: Bool = true) {
+	func setDevice(_ device: DeviceProtocol?, onOffCommandIncluded: Bool = true) {
 		_device = device
 		if let application = application, device = device {
-			if let commands = application.getCommandsOfDeviceOfInternalName(device.internalName) {
+			if let commands = application.getCommandsOfDevice(deviceInternalName: device.internalName) {
 				if onOffCommandIncluded {
 					_commands = commands
 				} else {
@@ -51,7 +51,7 @@ class SelectDeviceCommandViewController: UITableViewController {
 		}
 	}
 	
-	func setOnCommandSelected(onCommandSelected: (command: CommandProtocol) -> Void) {
+	func setOnCommandSelected(_ onCommandSelected: (command: CommandProtocol) -> Void) {
 		_onCommandSelected = onCommandSelected
 	}
 }
@@ -65,42 +65,42 @@ extension SelectDeviceCommandViewController: ApplicationUser {
 extension SelectDeviceCommandViewController {
 	
 	//MARK: Sections
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		return "Commands"
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return _commands.count
 	}
 	
 	//MARK: Cells
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell: UITableViewCell?
 			
-		cell = tableView.dequeueReusableCellWithIdentifier("DeviceCommandSelectorCell")
+		cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCommandSelectorCell")
 		
 		if let cell = cell as? SelectDeviceCommandCell {
-			cell.command = _commands[indexPath.row]
+			cell.command = _commands[(indexPath as NSIndexPath).row]
 			cell.commandSelected = cell.command?.name == _selectedCommand?.name
 			return cell
 		} else {
-			return UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
 	
-	override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return false
 	}
 }
 
 //MARK: - Table Delegate
 extension SelectDeviceCommandViewController {
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		_selectedCommand = _commands[indexPath.row]
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		_selectedCommand = _commands[(indexPath as NSIndexPath).row]
 		tableView.reloadData()
 	}
 }

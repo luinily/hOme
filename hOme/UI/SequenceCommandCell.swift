@@ -17,7 +17,7 @@ class SequenceCommandCell: UITableViewCell {
 	@IBOutlet weak var timeLabel: UILabel!
 	@IBOutlet weak var detailLabel: UILabel!
 	
-	func setCommand(command: (time: Int, command: CommandProtocol)) {
+	func setCommand(_ command: (time: Int, command: CommandProtocol)) {
 		_command = command
 		timeLabel.text = String(command.time) + " m"
 		detailLabel.text = command.command.fullName

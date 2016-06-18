@@ -32,22 +32,22 @@ class NewIRKitCommandViewController: UITableViewController {
 	
 	override func viewDidLoad() {
 		updateView()
-		nameTextField.addTarget(self, action: #selector(textFieldDidChange), forControlEvents: .EditingDidEnd)
+		nameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingDidEnd)
 		nameTextField.becomeFirstResponder()
 	}
 	
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if indexPath.section == _getSignalSection {
-			if indexPath.row == _getSignalRow {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if (indexPath as NSIndexPath).section == _getSignalSection {
+			if (indexPath as NSIndexPath).row == _getSignalRow {
 				getData()
-			} else if indexPath.row == _testCommandRow {
+			} else if (indexPath as NSIndexPath).row == _testCommandRow {
 				testCommand()
 			}
-			tableView.cellForRowAtIndexPath(indexPath)?.selected = false
+			tableView.cellForRow(at: indexPath)?.isSelected = false
 		}
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
 		case _nameSection: return _device?.name
 		case _signalSection: return _device?.connector?.name
@@ -56,22 +56,22 @@ class NewIRKitCommandViewController: UITableViewController {
 		}
 	}
 	
-	@IBAction func cancel(sender: AnyObject) {
+	@IBAction func cancel(_ sender: AnyObject) {
 		_onClose?()
-		self.dismissViewControllerAnimated(true, completion: nil)
+		self.dismiss(animated: true, completion: nil)
 	}
 	
-	@IBAction func create(sender: AnyObject) {
+	@IBAction func create(_ sender: AnyObject) {
 		createCommand()
 		_onClose?()
-		self.dismissViewControllerAnimated(true, completion: nil)
+		self.dismiss(animated: true, completion: nil)
 	}
 	
-	func setDevice(device: DeviceProtocol) {
+	func setDevice(_ device: DeviceProtocol) {
 		_device = device
 	}
 	
-	func setOnClose(onClose: () -> Void) {
+	func setOnClose(_ onClose: () -> Void) {
 		_onClose = onClose
 	}
 	
@@ -116,7 +116,7 @@ class NewIRKitCommandViewController: UITableViewController {
 			data.text = "None"
 		}
 		
-		createButton.enabled = checkInputs()
+		createButton.isEnabled = checkInputs()
 		
 		table.reloadData()
 	}
@@ -130,10 +130,10 @@ class NewIRKitCommandViewController: UITableViewController {
 	}
 	
 	private func createCommand() {
-		if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
+		if let appDelegate = UIApplication.shared().delegate as? AppDelegate,
 			device = _device,
 			irSignal = _irSignal {
-				if let command = appDelegate.homeApplication.createNewCommand(device, name: _name) as? IRKitCommand {
+				if let command = appDelegate.homeApplication.createNewCommand(device: device, name: _name) as? IRKitCommand {
 					command.setIRSignal(irSignal)
 					_command = command
 				}

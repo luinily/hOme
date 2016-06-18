@@ -19,7 +19,7 @@ class SequenceTimeCell: UITableViewCell {
 		}
 	}
 
-	@IBAction func editingDidEnd(sender: AnyObject) {
+	@IBAction func editingDidEnd(_ sender: AnyObject) {
 		if let newTime = _timeEditor.text {
 			_time?.time = newTime
 			if let time = _time {
@@ -47,8 +47,8 @@ class SequenceTimeCell: UITableViewCell {
 }
 
 extension SequenceTimeCell: UITextFieldDelegate {
-	func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-		guard let stringCharacterRange = string.rangeOfCharacterFromSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet) else {
+	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		guard let stringCharacterRange = string.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) else {
 			return false
 		}
 		if stringCharacterRange.isEmpty {
@@ -60,7 +60,7 @@ extension SequenceTimeCell: UITextFieldDelegate {
 			
 			switch length {
 			case 2:
-				textField.text = text.stringByAppendingString(":")
+				textField.text = text + ":"
 			default:
 				break
 			}
