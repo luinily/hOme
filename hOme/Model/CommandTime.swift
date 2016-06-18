@@ -21,7 +21,7 @@ struct CommandTime {
 	var hours: Int {
 		get {return _hours}
 		set {
-			_hours = ensureRange(newValue, min: 0, max: 23)
+			_hours = ensureRange(value: newValue, min: 0, max: 23)
 		}
 	}
 		
@@ -29,7 +29,7 @@ struct CommandTime {
 	var minutes: Int {
 		get {return _minutes}
 		set {
-			_minutes = ensureRange(newValue, min: 0, max: 59)
+			_minutes = ensureRange(value: newValue, min: 0, max: 59)
 		}
 	}
 	
