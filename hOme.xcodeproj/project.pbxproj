@@ -50,6 +50,10 @@
 		8F0FD50A1C65E8D300B0C412 /* ScheduleCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F51C65E8D300B0C412 /* ScheduleCommand.swift */; };
 		8F0FD50B1C65E8D300B0C412 /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F61C65E8D300B0C412 /* Sequence.swift */; };
 		8F0FD50C1C65E8D300B0C412 /* SequenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0FD4F71C65E8D300B0C412 /* SequenceManager.swift */; };
+		8F2039B91D150F0400F12A87 /* fliclib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F2039B81D150F0400F12A87 /* fliclib.framework */; };
+		8F2039BA1D150F0400F12A87 /* fliclib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F2039B81D150F0400F12A87 /* fliclib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F2039BC1D150F0900F12A87 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F2039B41D150EDA00F12A87 /* Alamofire.framework */; };
+		8F2039BD1D150F0900F12A87 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F2039B41D150EDA00F12A87 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F20F1E81CDBB66400D31DE4 /* NameEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F20F1E71CDBB66400D31DE4 /* NameEditCell.swift */; };
 		8F24850D1C8C35D400914675 /* FlicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24850C1C8C35D400914675 /* FlicManager.swift */; };
 		8F24C18A1CF08FD3005592F8 /* ConnectorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F24C1891CF08FD3005592F8 /* ConnectorType.swift */; };
@@ -77,8 +81,6 @@
 		8F87C86D1CDDDDD200777324 /* NewSequenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F87C86C1CDDDDD200777324 /* NewSequenceViewController.swift */; };
 		8F87C86F1CDDE1C000777324 /* NameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F87C86E1CDDE1C000777324 /* NameCell.swift */; };
 		8FACED071CED598E002665C5 /* MathUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FACED061CED598E002665C5 /* MathUtilsTests.swift */; };
-		8FACED261CEF59B2002665C5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED251CEF59B2002665C5 /* Alamofire.framework */; };
-		8FACED271CEF59B2002665C5 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FACED251CEF59B2002665C5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8FADCEF31D0C32C80001CCB1 /* DeviceCloudKitStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FADCEF21D0C32C80001CCB1 /* DeviceCloudKitStore.swift */; };
 		8FBD12371C8F033D002BAEA7 /* FlicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD12361C8F033D002BAEA7 /* FlicButton.swift */; };
 		8FBD12391C8F0538002BAEA7 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBD12381C8F0538002BAEA7 /* Button.swift */; };
@@ -107,8 +109,6 @@
 		8FD77E951C79A228009FFEB0 /* IRKitDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD77E941C79A228009FFEB0 /* IRKitDataViewController.swift */; };
 		8FD77E991C79A402009FFEB0 /* IRKitCommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD77E981C79A402009FFEB0 /* IRKitCommandViewController.swift */; };
 		8FFA75A41CFA016B00C5163D /* DeviceMemStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75A31CFA016B00C5163D /* DeviceMemStore.swift */; };
-		8FFA75A61CFC6DD200C5163D /* fliclib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FFA75A51CFC6DD200C5163D /* fliclib.framework */; };
-		8FFA75A71CFC6DD200C5163D /* fliclib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FFA75A51CFC6DD200C5163D /* fliclib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8FFA75A91CFC7C8B00C5163D /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75A81CFC7C8B00C5163D /* DevicesViewController.swift */; };
 		8FFA75AF1D006EA900C5163D /* CloudKitWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75AE1D006EA900C5163D /* CloudKitWrapperTests.swift */; };
 		8FFA75B11D0070D300C5163D /* CloudKitWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFA75B01D0070D300C5163D /* CloudKitWrapper.swift */; };
@@ -139,14 +139,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8F0FD5291C65E8F000B0C412 /* Embed Frameworks */ = {
+		8F2039BB1D150F0500F12A87 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8FFA75A71CFC6DD200C5163D /* fliclib.framework in Embed Frameworks */,
-				8FACED271CEF59B2002665C5 /* Alamofire.framework in Embed Frameworks */,
+				8F2039BA1D150F0400F12A87 /* fliclib.framework in Embed Frameworks */,
+				8F2039BD1D150F0900F12A87 /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,6 +205,8 @@
 		8F0FD4F61C65E8D300B0C412 /* Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		8F0FD4F71C65E8D300B0C412 /* SequenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceManager.swift; sourceTree = "<group>"; };
 		8F0FD5231C65E8DF00B0C412 /* hOme.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = hOme.entitlements; sourceTree = "<group>"; };
+		8F2039B41D150EDA00F12A87 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../../Library/Developer/Xcode/DerivedData/hOme-cweeioglazklpzaoszikvmkyuomn/Build/Products/Debug-iphonesimulator/Alamofire.framework"; sourceTree = "<group>"; };
+		8F2039B81D150F0400F12A87 /* fliclib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = fliclib.framework; path = "fliclib-ios/fliclib.framework"; sourceTree = "<group>"; };
 		8F20F1E71CDBB66400D31DE4 /* NameEditCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameEditCell.swift; sourceTree = "<group>"; };
 		8F24850C1C8C35D400914675 /* FlicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlicManager.swift; sourceTree = "<group>"; };
 		8F2485181C8C968000914675 /* hOme-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "hOme-Bridging-Header.h"; path = "../hOme-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -233,7 +235,6 @@
 		8F87C86C1CDDDDD200777324 /* NewSequenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSequenceViewController.swift; sourceTree = "<group>"; };
 		8F87C86E1CDDE1C000777324 /* NameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameCell.swift; sourceTree = "<group>"; };
 		8FACED061CED598E002665C5 /* MathUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathUtilsTests.swift; sourceTree = "<group>"; };
-		8FACED251CEF59B2002665C5 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Alamofire.framework; path = "/Users/yoann/Library/Developer/Xcode/DerivedData/hOme-cweeioglazklpzaoszikvmkyuomn/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<absolute>"; };
 		8FADCEF21D0C32C80001CCB1 /* DeviceCloudKitStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceCloudKitStore.swift; sourceTree = "<group>"; };
 		8FBD12361C8F033D002BAEA7 /* FlicButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlicButton.swift; sourceTree = "<group>"; };
 		8FBD12381C8F0538002BAEA7 /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
@@ -280,9 +281,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FFA75A61CFC6DD200C5163D /* fliclib.framework in Frameworks */,
+				8F2039B91D150F0400F12A87 /* fliclib.framework in Frameworks */,
+				8F2039BC1D150F0900F12A87 /* Alamofire.framework in Frameworks */,
 				8FCFA76C1CBA4C1D00F3A8FD /* CloudKit.framework in Frameworks */,
-				8FACED261CEF59B2002665C5 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,16 +342,17 @@
 		8F0FD4A31C65E8C000B0C412 = {
 			isa = PBXGroup;
 			children = (
+				8F2039B81D150F0400F12A87 /* fliclib.framework */,
 				8F0231DB1CF9751000DAA5E9 /* fliclibWrapper.h */,
 				8F0231DC1CF9751000DAA5E9 /* SCLFlicButtonSimulator.m */,
 				8F0231DD1CF9751000DAA5E9 /* SCLFlicManagerSimulator.m */,
 				8FFA75A51CFC6DD200C5163D /* fliclib.framework */,
-				8FACED251CEF59B2002665C5 /* Alamofire.framework */,
 				8FCFA76B1CBA4C1D00F3A8FD /* CloudKit.framework */,
 				8F0FD4AE1C65E8C000B0C412 /* hOme */,
 				8F0FD4C61C65E8C000B0C412 /* hOmeTests */,
 				8F0FD4D11C65E8C000B0C412 /* hOmeUITests */,
 				8F0FD4AD1C65E8C000B0C412 /* Products */,
+				8F2039B31D150ED900F12A87 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -439,6 +441,14 @@
 			children = (
 			);
 			name = DevicesTable;
+			sourceTree = "<group>";
+		};
+		8F2039B31D150ED900F12A87 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8F2039B41D150EDA00F12A87 /* Alamofire.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		8F2540E31CA7D4E300D00881 /* NewDevice */ = {
@@ -710,8 +720,8 @@
 				8F0FD4A81C65E8C000B0C412 /* Sources */,
 				8F0FD4A91C65E8C000B0C412 /* Frameworks */,
 				8F0FD4AA1C65E8C000B0C412 /* Resources */,
-				8F0FD5291C65E8F000B0C412 /* Embed Frameworks */,
 				8FD77E8E1C6C2C67009FFEB0 /* ShellScript */,
+				8F2039BB1D150F0500F12A87 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
