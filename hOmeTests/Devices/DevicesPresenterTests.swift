@@ -17,8 +17,10 @@ class DevicesPresenterTests: XCTestCase {
 	// MARK: Subject under test
 	
 	var sut: DevicesPresenter!
-	
-	// MARK: Test lifecycle
+}
+
+// MARK: Test lifecycle
+extension DevicesPresenterTests {
 	
 	override func setUp() {
 		super.setUp()
@@ -28,27 +30,38 @@ class DevicesPresenterTests: XCTestCase {
 	override func tearDown() {
 		super.tearDown()
 	}
-	
-	// MARK: Test setup
-	
+}
+
+// MARK: Test setup
+extension DevicesPresenterTests {
 	func setupDevicesPresenter() {
 		sut = DevicesPresenter()
 	}
-	
-	// MARK: Test doubles
-	
+}
+
+// MARK: Test doubles
+extension DevicesPresenterTests {
 	class DevicesPresenterOutputSpy: DevicesPresenterOutput {
 		var displayFetchedDevicesCalled = false
-		var viewModel: Devices_FetchDevices_ViewModel?
+		var presentDeviceDeletedCalled = false
+		var fetchViewModel: Devices_FetchDevices_ViewModel?
+		var deleteViewModel: Devices_Devicedeleted_ViewModel?
 		
-		func displayFetchedDevices(_ viewModel: Devices_FetchDevices_ViewModel) {
+		func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel) {
 			displayFetchedDevicesCalled = true
-			self.viewModel = viewModel
+			fetchViewModel = viewModel
 		}
+		
+		func presentDeviceDeleted(viewModel: Devices_Devicedeleted_ViewModel) {
+			presentDeviceDeletedCalled = true
+			deleteViewModel = viewModel
+		}
+		
 	}
-	
-	// MARK: Tests
-	
+}
+
+// MARK: Tests
+extension DevicesPresenterTests {
 	func testPresentFetchDevicesShouldCallOutputDisplayFetchedDevices() {
 		// Given
 		let spy = DevicesPresenterOutputSpy()
@@ -57,7 +70,7 @@ class DevicesPresenterTests: XCTestCase {
 		
 		// When
 		
-		sut.presentFetchedDevices(response)
+		sut.presentFetchedDevices(response: response)
 		
 		// Then
 		XCTAssertTrue(spy.displayFetchedDevicesCalled)
@@ -72,20 +85,83 @@ class DevicesPresenterTests: XCTestCase {
 		let response = Devices_FetchedDevices_Response(devices: [deviceInfo])
 		
 		// When
-		
-		sut.presentFetchedDevices(response)
+		sut.presentFetchedDevices(response: response)
 		
 		// Then
-		if let viewModel = spy.viewModel {
-			if let viewModel = viewModel.displayedDevices.first {
-				XCTAssertEqual(viewModel.name, "deviceName")
-			} else {
-				XCTAssert(false, "the model should have one device")
-			}
-		} else {
-			XCTAssert(false, "presentFetchDevices should output a view model")
+		guard let device = spy.fetchViewModel?.displayedDevices.first else {
+			XCTAssert(false, "presentFetchDevices should output a view model that has devices")
+			return
 		}
+		
+		XCTAssertEqual(device.name, "deviceName")
 	}
 	
-
+	func testPresentDeviceDeleted_ShouldCallOutputPresentDeviceDeleted() {
+		// Arrange
+		let spy = DevicesPresenterOutputSpy()
+		sut.output = spy
+		let response = Devices_DeviceDeleted_Response(deviceDeleted: false, devices: [DeviceInfo]())
+		
+		// Act
+		sut.presentDeviceDeleted(response: response)
+		
+		// Assert
+		XCTAssertTrue(spy.presentDeviceDeletedCalled)
+	}
+	
+	func testPresentDeviceDeleted_ShouldFormatDeviceDeleted_CouldDeleteTrue() {
+		// Arrange
+		let spy = DevicesPresenterOutputSpy()
+		sut.output = spy
+		let response = Devices_DeviceDeleted_Response(deviceDeleted: true, devices: [DeviceInfo]())
+		
+		// Act
+		sut.presentDeviceDeleted(response: response)
+		
+		// Assert
+		guard let viewModel = spy.deleteViewModel else {
+			XCTAssert(false, "No view model for presentDeviceDeleted")
+			return
+		}
+		
+		XCTAssertTrue(viewModel.couldDeleteDevice)
+	}
+	
+	func testPresentDeviceDeleted_ShouldFormatDeviceDeleted_HasDevice() {
+		// Arrange
+		let spy = DevicesPresenterOutputSpy()
+		sut.output = spy
+		let name = Name(name: "deviceName", internalName: "internalDeviceName")
+		let deviceInfo = DeviceInfo(name: name, communicatorInternalName: "Communicator", offCommandInternalName: "off", onCommandInternalName: "on")
+		let response = Devices_DeviceDeleted_Response(deviceDeleted: true, devices: [deviceInfo])
+		
+		// Act
+		sut.presentDeviceDeleted(response: response)
+		
+		// Assert
+		guard let device = spy.deleteViewModel?.remainingDevices.first else {
+			XCTAssert(false, "No view model for presentDeviceDeleted")
+			return
+		}
+		
+		XCTAssertEqual(device.name, "deviceName")
+	}
+	
+	func testPresentDeviceDeleted_ShouldFormatDeviceNotDeleted_CouldDeleteFalse() {
+		// Arrange
+		let spy = DevicesPresenterOutputSpy()
+		sut.output = spy
+		let response = Devices_DeviceDeleted_Response(deviceDeleted: false, devices: [DeviceInfo]())
+		
+		// Act
+		sut.presentDeviceDeleted(response: response)
+		
+		// Assert
+		guard let viewModel = spy.deleteViewModel else {
+			XCTAssert(false, "No view model for presentDeviceDeleted")
+			return
+		}
+		
+		XCTAssertFalse(viewModel.couldDeleteDevice)
+	}
 }

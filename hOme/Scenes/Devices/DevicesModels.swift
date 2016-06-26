@@ -14,15 +14,47 @@ import UIKit
 struct Devices_FetchDevices_Request {
 }
 
+struct Devices_DeleteDevice_Request {
+	var internalName: String
+}
+
 struct Devices_FetchedDevices_Response {
 	var devices: [DeviceInfo]
 }
 
+struct Devices_DeviceDeleted_Response {
+	var deviceDeleted: Bool
+	var devices: [DeviceInfo]
+}
+
 struct Devices_FetchDevices_ViewModel {
-	struct DisplayDevice {
-		var internalName: String
-		var name: String
+	var displayedDevices: [DisplayDevice]
+}
+
+struct Devices_Devicedeleted_ViewModel {
+	var couldDeleteDevice: Bool
+	var errorMessage: String
+	var remainingDevices: [DisplayDevice]
+	
+	init(remainingDevicesAfterDeletion: [DisplayDevice]) {
+		couldDeleteDevice = true
+		errorMessage = ""
+		remainingDevices = remainingDevicesAfterDeletion
 	}
 	
-	var displayedDevices: [DisplayDevice]
+	init(couldNotDeleteDeviceErrorMessage: String) {
+		couldDeleteDevice = false
+		errorMessage = couldNotDeleteDeviceErrorMessage
+		remainingDevices = [DisplayDevice]()
+	}
+}
+
+struct DisplayDevice {
+	var internalName: String
+	var name: String
+}
+
+extension Devices_DeviceDeleted_Response: Equatable {}
+func == (lhs: Devices_DeviceDeleted_Response, rhs: Devices_DeviceDeleted_Response) -> Bool {
+	return (lhs.deviceDeleted == rhs.deviceDeleted) && (lhs.devices == lhs.devices)
 }

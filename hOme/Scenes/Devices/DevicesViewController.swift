@@ -8,11 +8,13 @@
 import UIKit
 
 protocol DevicesViewControllerInput {
-	func displayFetchedDevices(_ viewModel: Devices_FetchDevices_ViewModel)
+	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel)
+	func presentDeviceDeleted(viewModel: Devices_Devicedeleted_ViewModel)
 }
 
 protocol DevicesViewControllerOutput {
-	func fetchDevices(_ request: Devices_FetchDevices_Request)
+	func fetchDevices(request: Devices_FetchDevices_Request)
+	func deleteDevice(request: Devices_DeleteDevice_Request)
 }
 
 
@@ -23,7 +25,7 @@ class DevicesViewController: UITableViewController {
 	
 	private let _devicesSection = 0
 	private let _newDeviceSection = 1
-	private var _displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
+	private var _displayDevices: [DisplayDevice] = []
 	
 	// MARK: Object lifecycle
 	
@@ -43,18 +45,21 @@ class DevicesViewController: UITableViewController {
 	
 	func fetchDevices() {
 		let request = Devices_FetchDevices_Request()
-		output.fetchDevices(request)
+		output.fetchDevices(request: request)
+	}
+	
+	func deleteDevice(internalName: String) {
+		let request = Devices_DeleteDevice_Request(internalName: internalName)
+		output.deleteDevice(request: request)
 	}
 	
 	// MARK: Display logic
-	func displayFetchedDevices(_ viewModel: Devices_FetchDevices_ViewModel) {
-		_displayDevices = viewModel.displayedDevices
-		//need to do the reload on the main thread or it gets very slow
-		reloadTableDataInMainThread()
-	}
-	
 	func reloadTableDataInMainThread() {
 		DispatchQueue.main.async(execute: tableView.reloadData)
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+		router.passDataToNextScene(segue)
 	}
 }
 
@@ -123,10 +128,32 @@ extension DevicesViewController {
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
 	}
+	
+	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+		let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
+			action, indexPath in
+			let device = self._displayDevices[indexPath.row]
+			self.deleteDevice(internalName: device.internalName)
+		}
+		
+		return [delete]
+	}
+
 }
 
 extension DevicesViewController: DevicesPresenterOutput {
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
-		router.passDataToNextScene(segue)
+	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel) {
+		_displayDevices = viewModel.displayedDevices
+		//need to do the reload on the main thread or it gets very slow
+		reloadTableDataInMainThread()
+	}
+	
+	func presentDeviceDeleted(viewModel: Devices_Devicedeleted_ViewModel) {
+		if viewModel.couldDeleteDevice {
+			_displayDevices = viewModel.remainingDevices
+			reloadTableDataInMainThread()
+		} else {
+			print(viewModel.errorMessage) 
+		}
 	}
 }

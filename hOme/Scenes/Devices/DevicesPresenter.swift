@@ -12,11 +12,12 @@
 import UIKit
 
 protocol DevicesPresenterInput {
-	func presentFetchedDevices(_ response: Devices_FetchedDevices_Response)
+	func presentFetchedDevices(response: Devices_FetchedDevices_Response)
 }
 
 protocol DevicesPresenterOutput: class {
-	func displayFetchedDevices(_ viewModel: Devices_FetchDevices_ViewModel)
+	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel)
+	func presentDeviceDeleted(viewModel: Devices_Devicedeleted_ViewModel)
 }
 
 class DevicesPresenter: DevicesPresenterInput {
@@ -24,15 +25,37 @@ class DevicesPresenter: DevicesPresenterInput {
 	
 	// MARK: Presentation logic
 	
-	func presentFetchedDevices(_ response: Devices_FetchedDevices_Response) {
-		var displayedDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
-		for device in response.devices {
-			let name = device.name.name
-			let internalName = device.name.internalName
-			let displayDevice = Devices_FetchDevices_ViewModel.DisplayDevice(internalName: internalName, name: name)
+	func presentFetchedDevices(response: Devices_FetchedDevices_Response) {
+		let displayedDevices = makeDisplayDevices(devices: response.devices)
+		let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayedDevices)
+		output.displayFetchedDevices(viewModel: viewModel)
+	}
+	
+	private func makeDisplayDevice(device: DeviceInfo) -> DisplayDevice {
+		let name = device.name.name
+		let internalName = device.name.internalName
+		let displayDevice = DisplayDevice(internalName: internalName, name: name)
+		return displayDevice
+	}
+	
+	private func makeDisplayDevices(devices: [DeviceInfo]) -> [DisplayDevice] {
+		var displayedDevices = [DisplayDevice]()
+		for device in devices {
+			let displayDevice = makeDisplayDevice(device: device)
 			displayedDevices.append(displayDevice)
 		}
-		let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayedDevices)
-		output.displayFetchedDevices(viewModel)
+		return displayedDevices
+	}
+	
+	func presentDeviceDeleted(response: Devices_DeviceDeleted_Response) {
+		let displayedDevices = makeDisplayDevices(devices: response.devices)
+		
+		let viewModel: Devices_Devicedeleted_ViewModel
+		if response.deviceDeleted {
+			viewModel = Devices_Devicedeleted_ViewModel(remainingDevicesAfterDeletion: displayedDevices)
+		} else {
+			viewModel = Devices_Devicedeleted_ViewModel(couldNotDeleteDeviceErrorMessage: "Could not delete device")
+		}
+		output.presentDeviceDeleted(viewModel: viewModel)
 	}
 }

@@ -60,8 +60,13 @@ extension DevicesViewControllerTests {
 extension DevicesViewControllerTests {
 	class DevicesViewControllerOutputSpy: DevicesViewControllerOutput {
 		var fetchDevicesCalled = false
-		func fetchDevices(_ request: Devices_FetchDevices_Request) {
+		var deleteDeviceCalled = false
+		
+		func fetchDevices(request: Devices_FetchDevices_Request) {
 			fetchDevicesCalled = true
+		}
+		func deleteDevice(request: Devices_DeleteDevice_Request) {
+			deleteDeviceCalled = true
 		}
 	}
 	
@@ -96,12 +101,12 @@ extension DevicesViewControllerTests {
 			// Given
 			let spy = DevicesTableSpy()
 			viewController.tableView = spy
-			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
-			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
-			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			var displayDevices: [DisplayDevice] = []
+			displayDevices.append(DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(DisplayDevice(internalName: "iDevice2", name: "Device2"))
 			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
 			// When
-			viewController.displayFetchedDevices(viewModel)
+			viewController.displayFetchedDevices(viewModel: viewModel)
 			// Then
 			XCTAssertTrue(spy.reloadDataCalled, "table reloadData() should be called")
 		}
@@ -126,20 +131,19 @@ extension DevicesViewControllerTests {
 				XCTAssert(false, "No table view")
 				return
 			}
-			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
-			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
-			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			var displayDevices: [DisplayDevice] = []
+			displayDevices.append(DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(DisplayDevice(internalName: "iDevice2", name: "Device2"))
 			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
 			
 			// When
-			viewController.displayFetchedDevices(viewModel)
+			viewController.displayFetchedDevices(viewModel: viewModel)
 			let numberOfRows = viewController.tableView(tableView, numberOfRowsInSection: 0)
 		
 			// Then
 			XCTAssertEqual(numberOfRows, 2)
 		}
 	}
-	
 	
 	func testNumberOfRowsIn2ndSectionShouldAlwaysBeOne() {
 		if let viewController = sut {
@@ -148,13 +152,13 @@ extension DevicesViewControllerTests {
 				XCTAssert(false, "No table view")
 				return
 			}
-			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
-			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
-			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			var displayDevices: [DisplayDevice] = []
+			displayDevices.append(DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(DisplayDevice(internalName: "iDevice2", name: "Device2"))
 			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
 			
 			// Act
-			viewController.displayFetchedDevices(viewModel)
+			viewController.displayFetchedDevices(viewModel: viewModel)
 			let numberOfRows = viewController.tableView(tableView, numberOfRowsInSection: 1)
 			
 			// Assert
@@ -173,13 +177,13 @@ extension DevicesViewControllerTests {
 			let spy = DevicesTableSpy()
 			viewController.tableView = spy
 			
-			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
-			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
-			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			var displayDevices: [DisplayDevice] = []
+			displayDevices.append(DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(DisplayDevice(internalName: "iDevice2", name: "Device2"))
 			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
 			
 			// Act
-			viewController.displayFetchedDevices(viewModel)
+			viewController.displayFetchedDevices(viewModel: viewModel)
 			let indexPath = IndexPath(row: 0, section: 0)
 			let cell = tableView.cellForRow(at: indexPath)
 
@@ -196,13 +200,13 @@ extension DevicesViewControllerTests {
 				XCTAssert(false, "No table view")
 				return
 			}
-			var displayDevices: [Devices_FetchDevices_ViewModel.DisplayDevice] = []
-			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice1", name: "Device1"))
-			displayDevices.append(Devices_FetchDevices_ViewModel.DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			var displayDevices: [DisplayDevice] = []
+			displayDevices.append(DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(DisplayDevice(internalName: "iDevice2", name: "Device2"))
 			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
 			
 			// Act
-			viewController.displayFetchedDevices(viewModel)
+			viewController.displayFetchedDevices(viewModel: viewModel)
 			let indexPath = IndexPath(row: 0, section: 1)
 			let cell = tableView.cellForRow(at: indexPath)
 			
@@ -211,4 +215,73 @@ extension DevicesViewControllerTests {
 		}
 	}
 	
+	func testEditActionsForRowAt_HasDeleteAction_ReturnsOneAction() {
+		if let viewController = sut {
+			// Arrange
+			guard let tableView = viewController.tableView else {
+				XCTAssert(false, "No table view")
+				return
+			}
+			
+			var displayDevices: [DisplayDevice] = []
+			displayDevices.append(DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			viewController.displayFetchedDevices(viewModel: viewModel)
+			let indexPath = IndexPath(row: 0, section: 0)
+		
+		// Act
+			let actions = viewController.tableView(tableView, editActionsForRowAt: indexPath)
+			
+		// Assert
+			XCTAssertEqual(actions?.count, 1)
+		}
+	}
+	
+	func testEditActionsForRowAt_HasDeleteAction_StyleIsDelete() {
+		if let viewController = sut {
+			// Arrange
+			guard let tableView = viewController.tableView else {
+				XCTAssert(false, "No table view")
+				return
+			}
+			
+			var displayDevices: [DisplayDevice] = []
+			displayDevices.append(DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			viewController.displayFetchedDevices(viewModel: viewModel)
+			let indexPath = IndexPath(row: 0, section: 0)
+			
+			// Act
+			let actions = viewController.tableView(tableView, editActionsForRowAt: indexPath)
+			
+			// Assert
+			XCTAssertEqual(actions?.first?.style, .destructive)
+		}
+	}
+	
+	func testEditActionsForRowAt_HasDeleteAction_TitleIsDelete() {
+		if let viewController = sut {
+			// Arrange
+			guard let tableView = viewController.tableView else {
+				XCTAssert(false, "No table view")
+				return
+			}
+			
+			var displayDevices: [DisplayDevice] = []
+			displayDevices.append(DisplayDevice(internalName: "iDevice1", name: "Device1"))
+			displayDevices.append(DisplayDevice(internalName: "iDevice2", name: "Device2"))
+			let viewModel = Devices_FetchDevices_ViewModel(displayedDevices: displayDevices)
+			viewController.displayFetchedDevices(viewModel: viewModel)
+			let indexPath = IndexPath(row: 0, section: 0)
+			
+			// Act
+			let actions = viewController.tableView(tableView, editActionsForRowAt: indexPath)
+			
+			// Assert
+			XCTAssertEqual(actions?.first?.title, "Delete")
+		}
+	}
+
 }

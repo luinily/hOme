@@ -12,11 +12,13 @@
 import UIKit
 
 protocol DevicesInteractorInput {
-	func fetchDevices(_ request: Devices_FetchDevices_Request)
+	func fetchDevices(request: Devices_FetchDevices_Request)
+	func deleteDevice(request: Devices_DeleteDevice_Request)
 }
 
 protocol DevicesInteractorOutput {
-	func presentFetchedDevices(_ response: Devices_FetchedDevices_Response)
+	func presentFetchedDevices(response: Devices_FetchedDevices_Response)
+	func presentDeviceDeleted(response: Devices_DeviceDeleted_Response)
 }
 
 class DevicesInteractor: DevicesInteractorInput {
@@ -25,23 +27,36 @@ class DevicesInteractor: DevicesInteractorInput {
 	
 	// MARK: Business logic
 	
-//	func doSomething(request: DevicesRequest) {
-//		// NOTE: Create some Worker to do the work
-//		
-//		worker = DevicesWorker()
-//		worker.doSomeWork()
-//		
-//		// NOTE: Pass the result to the Presenter
-//		
-//		let response = DevicesResponse()
-//		output.presentSomething(response)
-//	}
-	
-	func fetchDevices(_ request: Devices_FetchDevices_Request) {
+	func fetchDevices(request: Devices_FetchDevices_Request) {
 		worker.fetchDevices() {
 			devices in
 			let response = Devices_FetchedDevices_Response(devices: devices)
-			self.output.presentFetchedDevices(response)
+			self.output.presentFetchedDevices(response: response)
 		}
+	}
+	
+	func deleteDevice(request: Devices_DeleteDevice_Request) {
+		worker.deleteDevice(internalName: request.internalName) {
+			couldDeleteDevice in
+
+			if couldDeleteDevice {
+				self.respondCouldDeleteDevice()
+			} else {
+				self.respondCouldNotDeleteDevice()
+			}
+		}
+	}
+	
+	private func respondCouldDeleteDevice() {
+		worker.fetchDevices() {
+			devices in
+			let response = Devices_DeviceDeleted_Response(deviceDeleted: true, devices: [DeviceInfo]())
+			self.output.presentDeviceDeleted(response: response)
+		}
+	}
+	
+	private func respondCouldNotDeleteDevice() {
+		let response = Devices_DeviceDeleted_Response(deviceDeleted: false, devices: [DeviceInfo]())
+		self.output.presentDeviceDeleted(response: response)
 	}
 }

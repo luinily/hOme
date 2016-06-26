@@ -16,9 +16,10 @@ class DevicesInteractorTests: XCTestCase {
 	// MARK: Subject under test
 	
 	var sut: DevicesInteractor!
-	
-	// MARK: Test lifecycle
-	
+}
+
+// MARK: Test lifecycle
+extension DevicesInteractorTests {
 	override func setUp() {
 		super.setUp()
 		setupDevicesInteractor()
@@ -27,35 +28,53 @@ class DevicesInteractorTests: XCTestCase {
 	override func tearDown() {
 		super.tearDown()
 	}
-	
+}
+
+extension DevicesInteractorTests {
 	// MARK: Test setup
 	
 	func setupDevicesInteractor() {
 		sut = DevicesInteractor()
 	}
-	
+}
 
-	// MARK: Test doubles
-	
+// MARK: Test doubles
+extension DevicesInteractorTests {
 	class DevicesInteractorOutputSpy: DevicesInteractorOutput {
 		var presentFetchedDevicesCalled = false
+		var presentDeviceDeletedCalled = false
+		var deviceDeletedResponse: Devices_DeviceDeleted_Response?
 		
-		func presentFetchedDevices(_ response: Devices_FetchedDevices_Response) {
+		func presentFetchedDevices(response: Devices_FetchedDevices_Response) {
 			presentFetchedDevicesCalled = true
+		}
+		
+		func presentDeviceDeleted(response: Devices_DeviceDeleted_Response) {
+			presentDeviceDeletedCalled = true
+			deviceDeletedResponse = response
 		}
 	}
 	
 	class DevicesWorkerSpy: DevicesWorker {
+		var canDeleteDevice = false
+		
 		var fetchDevicesCalled = false
+		var deleteDeviceCalled = false
 		
 		override func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
 			fetchDevicesCalled = true
 			completionHandler(devices: [])
 		}
+		
+		override func deleteDevice(internalName: String, completionHandler: (couldDeleteDevice: Bool) -> Void) {
+			deleteDeviceCalled = true
+			completionHandler(couldDeleteDevice: canDeleteDevice)
+		}
 	}
 	
 	class DeviceStoreSpy: DeviceStore {
 		var fetchedDevicesCalled = false
+		
 		
 		func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
 			fetchedDevicesCalled = true
@@ -68,10 +87,14 @@ class DevicesInteractorTests: XCTestCase {
 		func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void) {
 			completionHandler(couldCreateDevice: true)
 		}
+		
+		
 	}
-	
-	// MARK: Tests
-	
+}
+
+
+// MARK: Tests
+extension DevicesInteractorTests { 
 	func testFetchDevicesShouldCallOutputPresentFetchedDevices() {
 		// Given
 		let spy = DevicesInteractorOutputSpy()
@@ -82,7 +105,7 @@ class DevicesInteractorTests: XCTestCase {
 		let request = Devices_FetchDevices_Request()
 		
 		// When
-		sut.fetchDevices(request)
+		sut.fetchDevices(request: request)
 		
 		// Then
 		XCTAssertTrue(spy.presentFetchedDevicesCalled)
@@ -98,10 +121,105 @@ class DevicesInteractorTests: XCTestCase {
 		let request = Devices_FetchDevices_Request()
 		
 		// When
-		sut.fetchDevices(request)
+		sut.fetchDevices(request: request)
 		
 		// Then
 		XCTAssertTrue(worker.fetchDevicesCalled)
+	}
 	
+	func testDeleteDeviceShouldCallOutputPresent() {
+		// Given
+		let spy = DevicesInteractorOutputSpy()
+		sut.output = spy
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy())
+		sut.worker = worker
+		
+		let request = Devices_DeleteDevice_Request(internalName: "device")
+		
+		// When
+		sut.deleteDevice(request: request)
+		
+		// Then
+		XCTAssertTrue(spy.presentDeviceDeletedCalled)
+	}
+	
+	func testDeleteDeviceShouldCallWorkerDeleteDevice() {
+		// Given
+		let spy = DevicesInteractorOutputSpy()
+		sut.output = spy
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy())
+		sut.worker = worker
+		
+		let request = Devices_DeleteDevice_Request(internalName: "device")
+		
+		// When
+		sut.deleteDevice(request: request)
+		
+		// Then
+		XCTAssertTrue(worker.deleteDeviceCalled)
+	}
+	
+	
+	func testDeleteDevice_WhenCannotDelete_ShouldCallOutputPresentWithFalseAndEmptyDeviceListResponse() {
+		// Given
+		let spy = DevicesInteractorOutputSpy()
+		sut.output = spy
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy())
+		worker.canDeleteDevice = false
+		sut.worker = worker
+		
+		let request = Devices_DeleteDevice_Request(internalName: "device")
+		
+		// When
+		sut.deleteDevice(request: request)
+		
+		// Then
+		guard let response = spy.deviceDeletedResponse else {
+			XCTAssert(false, "No Response")
+			return
+		}
+		
+		let expectedResponse = Devices_DeviceDeleted_Response(deviceDeleted: false, devices: [DeviceInfo]())
+		XCTAssertEqual(response, expectedResponse)
+	}
+	
+	func testDeleteDevice_WhenCanDelete_ShouldCallWorkerFetchDevices() {
+		// Given
+		let spy = DevicesInteractorOutputSpy()
+		sut.output = spy
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy())
+		worker.canDeleteDevice = true
+		sut.worker = worker
+		
+		let request = Devices_DeleteDevice_Request(internalName: "device")
+		
+		// When
+		sut.deleteDevice(request: request)
+		
+		// Then
+		XCTAssertTrue(worker.fetchDevicesCalled)
+	}
+	
+	func testDeleteDevice_WhenCanDeleteDelete_ShouldCallOutputPresentWithTrue() {
+		// Given
+		let spy = DevicesInteractorOutputSpy()
+		sut.output = spy
+		let worker = DevicesWorkerSpy(deviceStore: DeviceStoreSpy())
+		worker.canDeleteDevice = true
+		sut.worker = worker
+		
+		let request = Devices_DeleteDevice_Request(internalName: "device")
+		
+		// When
+		sut.deleteDevice(request: request)
+		
+		// Then
+		guard let response = spy.deviceDeletedResponse else {
+			XCTAssert(false, "No Response")
+			return
+		}
+		
+		let expectedResponse = Devices_DeviceDeleted_Response(deviceDeleted: true, devices: [DeviceInfo]())
+		XCTAssertEqual(response, expectedResponse)
 	}
 }
