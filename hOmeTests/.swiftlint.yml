@@ -2,7 +2,7 @@
 disabled_rules:
 - trailing_whitespace # 余分に改行がある方が視認性が上がる為、無効
 - type_name # クラス名は長くして情報を詰めておく必要もある為、無効
-- file_length # テストは多いとファイルが長くなるのは仕方ない
+- file_length
 
 # ルール一覧を表示
 #- colon
