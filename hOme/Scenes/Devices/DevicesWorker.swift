@@ -14,6 +14,7 @@ import UIKit
 protocol DeviceStore {
 	func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void)
 	func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void)
+	func deleteDevice(internalName: String, completionHandler: (couldDeleteDevice: Bool) -> Void)
 }
 
 class DevicesWorker {
@@ -35,6 +36,6 @@ class DevicesWorker {
 	}
 	
 	func deleteDevice(internalName: String, completionHandler: (couldDeleteDevice: Bool) -> Void) {
-		
+		_deviceStore.deleteDevice(internalName: internalName, completionHandler: completionHandler)
 	}
 }

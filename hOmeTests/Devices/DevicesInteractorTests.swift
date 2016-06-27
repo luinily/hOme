@@ -88,7 +88,9 @@ extension DevicesInteractorTests {
 			completionHandler(couldCreateDevice: true)
 		}
 		
-		
+		func deleteDevice(internalName: String, completionHandler: (couldDeleteDevice: Bool) -> Void) {
+			
+		}
 	}
 }
 

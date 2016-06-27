@@ -96,10 +96,11 @@ extension DeviceCloudKitStoreTests {
 	class WrapperSpy: CloudKitWrapperProtocol {
 		var fetchRecordsCalled = false
 		var createRecordCalled = false
+		var deleteDeviceCalled = false
 		var type = ""
 		var record = [String: Any]()
 		
-		func fetchRecordsOfType(_ type: String, completionHandler: (records: [[String : Any]]) -> Void) {
+		func fetchRecordsOfType(type: String, completionHandler: (records: [[String : Any]]) -> Void) {
 			fetchRecordsCalled = true
 			self.type = type
 			
@@ -107,11 +108,15 @@ extension DeviceCloudKitStoreTests {
 			completionHandler(records: [record])
 		}
 		
-		func createRecordOfType(_ type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
+		func createRecordOfType(type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
 			self.type = type
 			createRecordCalled = true
 			record = data
 			conpletionHandler(couldCreateDevice: true, error: nil)
+		}
+		
+		func deleteRecord(recordName: String, completionHandler: (couldDeleteRecord: Bool) -> Void) {
+			deleteDeviceCalled = true
 		}
 	}
 }
@@ -265,6 +270,21 @@ extension DeviceCloudKitStoreTests {
 		
 		// Assert
 		XCTAssertTrue(completionHandlerCalled)
+	}
+	
+	func testDeleteDevice_ShouldCallDeleteDevice() {
+		// Arrange
+		let spy = WrapperSpy()
+		spy.record = makeInvalidRecord()
+		let store = DeviceCloudKitStore(cloudKitWrapper: spy)
+		
+		// Act
+		store.deleteDevice(internalName: "Device") {
+			(didDeleteDevice) in
+		}
+		
+		// Assert
+		XCTAssertTrue(spy.deleteDeviceCalled)
 	}
 	
 }

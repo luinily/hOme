@@ -63,7 +63,7 @@ extension CloudKitWrapperTests {
 		let record = makeRecord1()
 		// Act
 		
-		let dic = _wrapper.convertRecordToDic(record)
+		let dic = _wrapper.convertRecordToDic(record: record)
 		
 		// Assert
 		XCTAssertEqual(dic.count, 2)
@@ -76,7 +76,7 @@ extension CloudKitWrapperTests {
 		
 		// Act
 		
-		let dic = _wrapper.convertRecordToDic(record)
+		let dic = _wrapper.convertRecordToDic(record: record)
 		let hasKeyParam1 = dic["param1"] != nil
 		let hasKeyParam2 = dic["param2"] != nil
 		// Assert
@@ -88,7 +88,7 @@ extension CloudKitWrapperTests {
 		let record = makeRecord1()
 		
 		// Act
-		let dic = _wrapper.convertRecordToDic(record)
+		let dic = _wrapper.convertRecordToDic(record: record)
 		
 		// Assert
 		if let param1 = dic["param1"] as? String, param2 = dic["param2"] as? Int {
@@ -105,7 +105,7 @@ extension CloudKitWrapperTests {
 		let record2 = makeRecord2()
 		
 		// Act
-		let dics = _wrapper.convertRecordsToDic([record1, record2])
+		let dics = _wrapper.convertRecordsToDic(records: [record1, record2])
 		
 		// Assert
 		XCTAssertEqual(dics.count, 2)
@@ -117,7 +117,7 @@ extension CloudKitWrapperTests {
 		
 		// Act
 		do {
-			let record = try _wrapper.convertDicToRecord("myRecord", data: dic)
+			let record = try _wrapper.convertDicToRecord(recordType: "myRecord", data: dic)
 			
 			// Assert
 			if let name = record["Name"] as? String {
@@ -139,7 +139,7 @@ extension CloudKitWrapperTests {
 		
 		// Act
 		do {
-			let record = try _wrapper.convertDicToRecord("myRecord", data: dic)
+			let record = try _wrapper.convertDicToRecord(recordType: "myRecord", data: dic)
 			
 			// Assert
 			if let name = record["internalName"] as? String {
@@ -160,7 +160,7 @@ extension CloudKitWrapperTests {
 		
 		// Act
 		do {
-			let record = try _wrapper.convertDicToRecord("myRecord", data: dic)
+			let record = try _wrapper.convertDicToRecord(recordType: "myRecord", data: dic)
 			
 			// Assert
 			if let communicatorName = record["CommunicatorName"] as? String {
@@ -181,7 +181,7 @@ extension CloudKitWrapperTests {
 		
 		// Act
 		do {
-			let record = try _wrapper.convertDicToRecord("myRecord", data: dic)
+			let record = try _wrapper.convertDicToRecord(recordType: "myRecord", data: dic)
 			
 			// Assert
 			if let OffCommand = record["OffCommand"] as? String {
@@ -202,7 +202,7 @@ extension CloudKitWrapperTests {
 		
 		// Act
 		do {
-			let record = try _wrapper.convertDicToRecord("myRecord", data: dic)
+			let record = try _wrapper.convertDicToRecord(recordType: "myRecord", data: dic)
 			
 			// Assert
 			if let onCommand = record["OnCommand"] as? String {
@@ -223,7 +223,7 @@ extension CloudKitWrapperTests {
 		
 		// Act
 		do {
-			let record = try _wrapper.convertDicToRecord("myRecord", data: dic)
+			let record = try _wrapper.convertDicToRecord(recordType: "myRecord", data: dic)
 	
 			// Assert
 			XCTAssertEqual(record.recordType, "myRecord")
@@ -240,7 +240,7 @@ extension CloudKitWrapperTests {
 		
 		// Act
 		do {
-			let record = try _wrapper.convertDicToRecord("myRecord", data: dic)
+			let record = try _wrapper.convertDicToRecord(recordType: "myRecord", data: dic)
 			
 			// Assert
 			XCTAssertEqual(record.recordID.recordName, "internalName")

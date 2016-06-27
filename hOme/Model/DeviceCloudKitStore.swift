@@ -22,24 +22,24 @@ class DeviceCloudKitStore: DeviceStore {
 	}
 	
 	func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
-		cloudKitWrapper.fetchRecordsOfType(deviceRecordType) {
+		cloudKitWrapper.fetchRecordsOfType(type: deviceRecordType) {
 			records in
-			let devices = self.convertRecordsToDeviceInfo(records)
+			let devices = self.convertRecordsToDeviceInfo(records: records)
 			completionHandler(devices: devices)
 		}
 	}
 	
-	private func convertRecordsToDeviceInfo(_ records: [[String: Any]]) -> [DeviceInfo] {
+	private func convertRecordsToDeviceInfo(records: [[String: Any]]) -> [DeviceInfo] {
 		var result = [DeviceInfo]()
 		for record in records {
-			if let deviceInfo = convertRecordToDeviceInfo(record) {
+			if let deviceInfo = convertRecordToDeviceInfo(record: record) {
 				result.append(deviceInfo)
 			}
 		}
 		return result
 	}
 	
-	private func convertRecordToDeviceInfo(_ record: [String: Any]) -> DeviceInfo? {
+	private func convertRecordToDeviceInfo(record: [String: Any]) -> DeviceInfo? {
 		do {
 			return try DeviceInfo(record: record)
 		} catch {
@@ -48,9 +48,9 @@ class DeviceCloudKitStore: DeviceStore {
 	}
 	
 	func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void) {
-		let deviceInfo = makeDeviceInfo(name, connectorInternalName: connectorInternalName)
+		let deviceInfo = makeDeviceInfo(name: name, connectorInternalName: connectorInternalName)
 		let dic = deviceInfo.toDictionary()
-		cloudKitWrapper.createRecordOfType(deviceRecordType, data: dic) {
+		cloudKitWrapper.createRecordOfType(type: deviceRecordType, data: dic) {
 			(couldCreateDevice, error) in
 			if couldCreateDevice {
 				completionHandler(couldCreateDevice: true)
@@ -65,12 +65,12 @@ class DeviceCloudKitStore: DeviceStore {
 		}
 	}
 	
-	private func makeDeviceInfo(_ name: String, connectorInternalName: String) -> DeviceInfo {
+	private func makeDeviceInfo(name: String, connectorInternalName: String) -> DeviceInfo {
 		let name = Name(name: name, internalName: makeNewInternalName())
 		return DeviceInfo(name: name, communicatorInternalName: connectorInternalName, offCommandInternalName: "", onCommandInternalName: "")
 	}
 	
-	private func convertDeviceInfoToDic(_ info: DeviceInfo) -> [String: Any] {
+	private func convertDeviceInfoToDic(info: DeviceInfo) -> [String: Any] {
 		return info.toDictionary()
 	}
 	
@@ -78,6 +78,9 @@ class DeviceCloudKitStore: DeviceStore {
 		return createNewUniqueName()
 	}
 	
+	func deleteDevice(internalName: String, completionHandler: (couldDeleteDevice: Bool) -> Void) {
+		cloudKitWrapper.deleteRecord(recordName: internalName, completionHandler: (completionHandler))
+	}
 }
 
 extension DeviceCloudKitStore: Manager {

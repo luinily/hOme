@@ -10,8 +10,10 @@ import Foundation
 import CloudKit
 
 protocol CloudKitWrapperProtocol {
-	func fetchRecordsOfType(_ type: String, completionHandler: (records: [[String: Any]]) -> Void)
-	func createRecordOfType(_ type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void)
+	func fetchRecordsOfType(type: String, completionHandler: (records: [[String: Any]]) -> Void)
+	func createRecordOfType(type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void)
+	func deleteRecord(recordName: String, completionHandler: (couldDeleteRecord: Bool) -> Void)
+	
 }
 
 enum CloudKitError: ErrorProtocol {
@@ -29,21 +31,21 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 		_dataBase = _container.privateCloudDatabase
 	}
 	
-	func fetchRecordsOfType(_ type: String, completionHandler: (records: [[String: Any]]) -> Void) {
-		let query = createQueryForRecordType(type)
-		performQuery(query, completionHandler: completionHandler)
+	func fetchRecordsOfType(type: String, completionHandler: (records: [[String: Any]]) -> Void) {
+		let query = createQueryForRecordType(recordType: type)
+		performQuery(query: query, completionHandler: completionHandler)
 	}
 	
-	private func performQuery(_ query: CKQuery, completionHandler: (records: [[String: Any]]) -> Void) {
+	private func performQuery(query: CKQuery, completionHandler: (records: [[String: Any]]) -> Void) {
 		_dataBase.perform(query, inZoneWith: nil) {
 			(records, error) in
-			self.receivedRecordsFromCloudkit(records, error: error, completionHandler: completionHandler)
+			self.receivedRecordsFromCloudkit(records: records, error: error, completionHandler: completionHandler)
 		}
 	}
 	
-	private func receivedRecordsFromCloudkit(_ records: [CKRecord]?, error: NSError?, completionHandler: (records: [[String: Any]]) -> Void) {
+	private func receivedRecordsFromCloudkit(records: [CKRecord]?, error: NSError?, completionHandler: (records: [[String: Any]]) -> Void) {
 		if let records = records {
-			let dics = convertRecordsToDic(records)
+			let dics = convertRecordsToDic(records: records)
 			completionHandler(records: dics)
 		} else {
 			print(error)
@@ -52,16 +54,16 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 	}
 	
 	
-	func convertRecordsToDic(_ records: [CKRecord]) -> [[String: Any]] {
+	func convertRecordsToDic(records: [CKRecord]) -> [[String: Any]] {
 		var result = [[String: Any]]()
 		
 		for record in records {
-			result.append(convertRecordToDic(record))
+			result.append(convertRecordToDic(record: record))
 		}
 		return result
 	}
 	
-	func convertRecordToDic(_ record: CKRecord) -> [String: Any] {
+	func convertRecordToDic(record: CKRecord) -> [String: Any] {
 		var dic = [String: Any]()
 		for key in record.allKeys() {
 			dic[key] = record[key]
@@ -69,26 +71,26 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 		return dic
 	}
 	
-	private func createQueryForRecordType(_ recordType: String) -> CKQuery {
+	private func createQueryForRecordType(recordType: String) -> CKQuery {
 		let predicate = Predicate(value: true)
 		return CKQuery(recordType: "Device", predicate: predicate)
 	}
 	
-	func createRecordOfType(_ type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
+	func createRecordOfType(type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
 		do {
-			let record = try convertDicToRecord(type, data: data)
-			saveRecord(record, conpletionHandler: conpletionHandler)
+			let record = try convertDicToRecord(recordType: type, data: data)
+			saveRecord(record: record, conpletionHandler: conpletionHandler)
 		} catch {
 			conpletionHandler(couldCreateDevice: false, error: nil)
 		}
 		
 	}
 	
-	private func saveRecord(_ record: CKRecord, conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
+	private func saveRecord(record: CKRecord, conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
 		_dataBase.save(record) {
 			(record, error) in
 			if let error = error {
-				let cloudKitError = self.convertError(error)
+				let cloudKitError = self.convertError(error: error)
 				conpletionHandler(couldCreateDevice: false, error: cloudKitError)
 			} else {
 				conpletionHandler(couldCreateDevice: true, error: nil)
@@ -96,24 +98,24 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 		}
 	}
 	
-	private func convertError(_ error: NSError) -> CloudKitError? {
+	private func convertError(error: NSError) -> CloudKitError? {
 		switch error.code {
 		case CKErrorCode.serverRecordChanged.rawValue: return CloudKitError.recordAlreadyExisting
 		default: return nil
 		}
 	}
 	
-	func convertDicsToRecords(_ recordsType: String, data: [[String: Any]]) throws -> [CKRecord] {
+	func convertDicsToRecords(recordsType: String, data: [[String: Any]]) throws -> [CKRecord] {
 		var records = [CKRecord]()
 		for dic in data {
-			let record = try convertDicToRecord(recordsType, data: dic)
+			let record = try convertDicToRecord(recordType: recordsType, data: dic)
 			records.append(record)
 		}
 		return records
 	}
 	
-	func convertDicToRecord(_ recordType: String, data: [String: Any]) throws -> CKRecord {
-		let recordID = try makeRecordID(data)
+	func convertDicToRecord(recordType: String, data: [String: Any]) throws -> CKRecord {
+		let recordID = try makeRecordID(data: data)
 		let record = CKRecord(recordType: recordType, recordID: recordID)
 		for key in data.keys {
 			if let value = data[key] as? CKRecordValue {
@@ -125,12 +127,23 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 		return record
 	}
 	
-	private func makeRecordID(_ data: [String: Any]) throws -> CKRecordID {
+	private func makeRecordID(data: [String: Any]) throws -> CKRecordID {
 		if let name = data["internalName"] as? String {
-			return CKRecordID(recordName: name)
+			return makeRecordID(recordName: name)
 		} else {
 			throw CloudKitError.couldNotFindInternalName
 		}
 	}
 	
+	func deleteRecord(recordName: String, completionHandler: (couldDeleteRecord: Bool) -> Void) {
+		let id = makeRecordID(recordName: recordName)
+		_dataBase.delete(withRecordID: id) {
+			deletedRecordID, error in
+			completionHandler(couldDeleteRecord: deletedRecordID != nil)
+		}
+	}
+	
+	private func makeRecordID(recordName: String) -> CKRecordID {
+		return CKRecordID(recordName: recordName)
+	}
 }

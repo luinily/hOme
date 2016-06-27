@@ -91,34 +91,34 @@ extension DevicesViewController {
 	}
 	
 	private func makeDeviceCellForRow(_ row: Int) -> UITableViewCell {
-		func setupCell(_ cell: UITableViewCell) {
+		func setupCell(cell: UITableViewCell) {
 			let device = _displayDevices[row]
 			cell.textLabel?.text = device.name
 		}
 		
 		if let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCell") {
-			setupCell(cell)
+			setupCell(cell: cell)
 			return cell
 		}
 		
 		let cell = UITableViewCell(style: .default, reuseIdentifier: "DeviceCell")
 		cell.accessoryType = .detailButton
-		setupCell(cell)
+		setupCell(cell: cell)
 		return cell
 	}
 	
 	private func makeNewDeviceCell() -> UITableViewCell {
-		func setupCell(_ cell: UITableViewCell) {
+		func setupCell(cell: UITableViewCell) {
 			cell.textLabel?.text = "Create New Device..."
 		}
 		
 		if let cell = tableView.dequeueReusableCell(withIdentifier: "NewDeviceCell") {
-			setupCell(cell)
+			setupCell(cell: cell)
 			return cell
 		}
 		
 		let cell = UITableViewCell(style: .default, reuseIdentifier: "NewDeviceCell")
-		setupCell(cell)
+		setupCell(cell: cell)
 		
 		return cell
 	}
