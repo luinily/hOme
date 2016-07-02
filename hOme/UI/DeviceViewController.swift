@@ -68,10 +68,18 @@ class DeviceViewController: UITableViewController {
 		}
 	}
 	
-	func setDevice(_ device: DeviceProtocol) {
+	func setDevice(device: DeviceProtocol) {
 		_device = device
 		if let application = application {
 			setCommands(application.getCommandsOfDevice(deviceInternalName: device.internalName))
+		}
+	}
+	
+	func setDevice(internalName: String) {
+		if let application = application {
+			if let device = application.getDevice(internalName: internalName) {
+				setDevice(device: device)
+			}
 		}
 	}
 

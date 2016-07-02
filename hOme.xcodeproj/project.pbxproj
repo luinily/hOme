@@ -77,6 +77,7 @@
 		8F5E81D11CB4210400A88CDE /* SequenceSelectCommandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5E81D01CB4210400A88CDE /* SequenceSelectCommandCell.swift */; };
 		8F5E81D31CB4210C00A88CDE /* SequenceTimeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5E81D21CB4210C00A88CDE /* SequenceTimeCell.swift */; };
 		8F60DC621CEB655700807D34 /* CommandTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F60DC611CEB655700807D34 /* CommandTimeTests.swift */; };
+		8F7B7E301D278CBA0010191B /* DeviceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7B7E2F1D278CBA0010191B /* DeviceCell.swift */; };
 		8F7D7C241C66F81000271601 /* SequencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7D7C231C66F81000271601 /* SequencesViewController.swift */; };
 		8F87C86D1CDDDDD200777324 /* NewSequenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F87C86C1CDDDDD200777324 /* NewSequenceViewController.swift */; };
 		8F87C86F1CDDE1C000777324 /* NameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F87C86E1CDDE1C000777324 /* NameCell.swift */; };
@@ -233,6 +234,7 @@
 		8F5E81D01CB4210400A88CDE /* SequenceSelectCommandCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceSelectCommandCell.swift; sourceTree = "<group>"; };
 		8F5E81D21CB4210C00A88CDE /* SequenceTimeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceTimeCell.swift; sourceTree = "<group>"; };
 		8F60DC611CEB655700807D34 /* CommandTimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandTimeTests.swift; sourceTree = "<group>"; };
+		8F7B7E2F1D278CBA0010191B /* DeviceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceCell.swift; path = Scenes/Devices/DeviceCell.swift; sourceTree = "<group>"; };
 		8F7D7C231C66F81000271601 /* SequencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequencesViewController.swift; sourceTree = "<group>"; };
 		8F87C86C1CDDDDD200777324 /* NewSequenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSequenceViewController.swift; sourceTree = "<group>"; };
 		8F87C86E1CDDE1C000777324 /* NameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameCell.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				8FFA75A81CFC7C8B00C5163D /* DevicesViewController.swift */,
 				8F0231EF1CF9EC6000DAA5E9 /* DevicesRouter.swift */,
 				8F0231F11CF9EC6000DAA5E9 /* DevicesWorker.swift */,
+				8F7B7E2F1D278CBA0010191B /* DeviceCell.swift */,
 			);
 			name = DevicesScene;
 			sourceTree = "<group>";
@@ -952,6 +955,7 @@
 				8F0FD4FA1C65E8D300B0C412 /* BonjourHelper.swift in Sources */,
 				8FFEA1681C9E607E000C21A9 /* SelectDeviceCommandViewController.swift in Sources */,
 				8FCFA76A1CB9014200F3A8FD /* CommandOnOffSettingViewController.swift in Sources */,
+				8F7B7E301D278CBA0010191B /* DeviceCell.swift in Sources */,
 				8F2BEE7B1CF03F08005C8D50 /* CreateDeviceInteractor.swift in Sources */,
 				8F0FD4FC1C65E8D300B0C412 /* CommandManager.swift in Sources */,
 				8FFEA1621C971C77000C21A9 /* SelectCommandViewController.swift in Sources */,

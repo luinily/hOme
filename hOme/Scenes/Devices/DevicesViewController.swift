@@ -21,7 +21,7 @@ protocol DevicesViewControllerOutput {
 
 class DevicesViewController: UITableViewController {
 	var output: DevicesViewControllerOutput!
-	var router: DevicesRouter!
+	var router: DevicesRouterInput!
 	
 	private let _devicesSection = 0
 	private let _newDeviceSection = 1
@@ -57,10 +57,6 @@ class DevicesViewController: UITableViewController {
 	func reloadTableDataInMainThread() {
 		DispatchQueue.main.async(execute: tableView.reloadData)
 	}
-	
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
-		router.passDataToNextScene(segue)
-	}
 }
 
 extension DevicesViewController: DevicesViewControllerInput { }
@@ -90,14 +86,22 @@ extension DevicesViewController {
 		
 	}
 	
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+		if let cell = sender as? DeviceCell {
+			if let device = cell.device {
+				router.passDataToDeviceView(segue: segue, device: device)
+			}
+		}
+	}
+	
 	private func makeDeviceCellForRow(_ row: Int) -> UITableViewCell {
 		func setupCell(cell: UITableViewCell) {
 			let device = _displayDevices[row]
 			cell.textLabel?.text = device.name
 		}
 		
-		if let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCell") {
-			setupCell(cell: cell)
+		if let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCell") as? DeviceCell {
+			cell.device = _displayDevices[row]
 			return cell
 		}
 		
@@ -125,10 +129,6 @@ extension DevicesViewController {
 }
 
 extension DevicesViewController {
-	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-	}
-	
 	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 		let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
 			action, indexPath in

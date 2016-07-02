@@ -70,6 +70,14 @@ extension DevicesViewControllerTests {
 		}
 	}
 	
+	class DevicesRouterSpy: DevicesRouterInput {
+		var passDatatoDeviceViewCalled = false
+		
+		func passDataToDeviceView(segue: UIStoryboardSegue, device: DisplayDevice) {
+			passDatatoDeviceViewCalled = true
+		}
+	}
+	
 	class DevicesTableSpy: UITableView {
 		var reloadDataCalled = false
 		override func reloadData() {
@@ -283,5 +291,6 @@ extension DevicesViewControllerTests {
 			XCTAssertEqual(actions?.first?.title, "Delete")
 		}
 	}
+
 
 }
