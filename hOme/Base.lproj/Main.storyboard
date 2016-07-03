@@ -347,10 +347,10 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="4dg-X5-meF"/>
-                                            <exclude reference="PXA-GQ-Ykd"/>
                                             <exclude reference="2ov-gW-lrK"/>
                                             <exclude reference="yI0-Tc-JsG"/>
+                                            <exclude reference="4dg-X5-meF"/>
+                                            <exclude reference="PXA-GQ-Ykd"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -879,15 +879,42 @@
                         <outlet property="connectorTextField" destination="Q0I-zS-W8s" id="jZm-RM-UN7"/>
                         <outlet property="doneButton" destination="Tde-lh-wjx" id="y2s-e4-XDb"/>
                         <outlet property="nameTextField" destination="Mk2-O4-rMC" id="KOl-dn-8QE"/>
+                        <outlet property="pickerView" destination="lns-XB-9OP" id="NYj-ci-D9e"/>
                     </connections>
                 </tableViewController>
-                <pickerView contentMode="scaleToFill" id="UB5-lh-t2e">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                <view contentMode="scaleToFill" id="lns-XB-9OP">
+                    <rect key="frame" x="0.0" y="0.0" width="601" height="235"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </pickerView>
+                    <subviews>
+                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UB5-lh-t2e"/>
+                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vpT-TE-QKB">
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="jeo-ws-poU"/>
+                            </constraints>
+                            <items>
+                                <barButtonItem style="plain" systemItem="flexibleSpace" id="rmo-31-gd5"/>
+                                <barButtonItem title="Done" id="xNZ-nm-wMv">
+                                    <connections>
+                                        <action selector="pickerDone:" destination="1SF-nx-YEC" id="aGr-Wd-oLo"/>
+                                    </connections>
+                                </barButtonItem>
+                            </items>
+                        </toolbar>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="vpT-TE-QKB" secondAttribute="trailing" id="3Qm-Ad-Lgw"/>
+                        <constraint firstItem="UB5-lh-t2e" firstAttribute="top" secondItem="lns-XB-9OP" secondAttribute="top" id="7xT-Qs-7Z2"/>
+                        <constraint firstAttribute="bottom" secondItem="UB5-lh-t2e" secondAttribute="bottom" id="PSJ-34-ycS"/>
+                        <constraint firstItem="UB5-lh-t2e" firstAttribute="leading" secondItem="lns-XB-9OP" secondAttribute="leading" id="aMe-OF-rmL"/>
+                        <constraint firstAttribute="trailing" secondItem="UB5-lh-t2e" secondAttribute="trailing" id="fpa-HG-7b6"/>
+                        <constraint firstItem="vpT-TE-QKB" firstAttribute="top" secondItem="lns-XB-9OP" secondAttribute="top" id="vgx-EZ-7U6"/>
+                        <constraint firstItem="vpT-TE-QKB" firstAttribute="leading" secondItem="lns-XB-9OP" secondAttribute="leading" id="yd4-bc-Q7g"/>
+                    </constraints>
+                </view>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Bz-5J-CtD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="76" y="921"/>
+            <point key="canvasLocation" x="75" y="1074"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lzc-C2-9ZD">
@@ -2005,7 +2032,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="HcO-ec-qTb"/>
-        <segue reference="hyj-tM-weM"/>
         <segue reference="LDo-57-f9I"/>
+        <segue reference="Mac-Bx-usv"/>
     </inferredMetricsTieBreakers>
 </document>

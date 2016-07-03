@@ -32,9 +32,11 @@ class CreateDeviceViewController: UITableViewController {
 	var output: CreateDeviceViewControllerOutput!
 	var router: CreateDeviceRouter!
 	@IBOutlet weak var connectorPicker: UIPickerView!
+	@IBOutlet var pickerView: UIView!
 	@IBOutlet weak var nameTextField: UITextField!
 	@IBOutlet weak var connectorTextField: UITextField!
 	@IBOutlet weak var doneButton: UIBarButtonItem!
+	
 	
 	private let _nameCellPath = IndexPath(row: 0, section: 0)
 	private let _connectorCellPath = IndexPath(row: 1, section: 0)
@@ -62,7 +64,7 @@ class CreateDeviceViewController: UITableViewController {
 	}
 	
 	private func configurePicker() {
-		connectorTextField.inputView = connectorPicker
+		connectorTextField.inputView = pickerView
 	}
 	
 	// MARK: Event handling
@@ -129,6 +131,10 @@ class CreateDeviceViewController: UITableViewController {
 			return !text.isEmpty
 		}
 		return false
+	}
+	
+	@IBAction func pickerDone(_ sender: AnyObject) {
+		connectorTextField.resignFirstResponder()
 	}
 	// MARK: Display logic
 }
