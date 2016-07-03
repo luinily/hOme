@@ -23,14 +23,13 @@ class Application: NSObject {
 		let calendar = Calendar.current()
 		let components = calendar.components([.weekday, .hour, .minute], from: date)
 		
-		let hour = components.hour
-		let minute = components.minute
-		
-		print("MainTic("+String(hour)+":"+String(minute)+")")
-		if let day = Weekday(rawValue: (components.weekday! + 4)%6), hour = hour, minute = minute {
-			if let commands = _data.getScheduleCommandForTime(day: day, hour: hour, minute: minute) {
-				for command in commands {
-					command.execute()
+		if let hour = components.hour, minute = components.minute {
+			print("MainTic("+String(hour)+":"+String(minute)+")")
+			if let day = Weekday(rawValue: (components.weekday! + 4)%6) {
+				if let commands = _data.getScheduleCommandForTime(day: day, hour: hour, minute: minute) {
+					for command in commands {
+						command.execute()
+					}
 				}
 			}
 		}
