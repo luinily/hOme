@@ -76,16 +76,16 @@ class Data {
 
 //MARK: - DeviceManager
 extension Data {
-	func createAndAddNewDeviceOfName(name: String, connector: Connector) -> DeviceProtocol {
-		return _deviceManager.CreateDeviceOfName(name, connector: connector, getCommand: self.getCommandOfInternalName, getConnector: self.getConnectorOfInternalName)
+	func createAndAddNewDeviceOfName(_ name: String, connector: Connector) -> DeviceProtocol {
+		return _deviceManager.CreateDevice(name: name, connector: connector, getCommand: self.getCommand, getConnector: self.getConnector)
 	}
 	
-	func deleteDevice(device: DeviceProtocol) {
+	func deleteDevice(_ device: DeviceProtocol) {
 		_deviceManager.deleteDevice(device)
 	}
 	
-	func getDeviceOfInternalName(internalName: String) -> DeviceProtocol? {
-		return _deviceManager.getDeviceOfInternalName(internalName)
+	func getDeviceOfInternalName(_ internalName: String) -> DeviceProtocol? {
+		return _deviceManager.getDevice(internalName: internalName)
 	}
 	
 	func getDeviceCount() -> Int {
@@ -96,7 +96,7 @@ extension Data {
 		return _deviceManager.getDevices()
 	}
 	
- 	private func tryImportDeviceManager(completionHandler: (deviceManager: DeviceManager?) -> Void) {
+ 	private func tryImportDeviceManager(_ completionHandler: (deviceManager: DeviceManager?) -> Void) {
 		CloudKitHelper.sharedHelper.importRecord("DeviceManager") {
 			(record) in
 			do {
@@ -104,8 +104,8 @@ extension Data {
 				if let record = record {
 					deviceManager = try DeviceManager(
 						ckRecord: record,
-						getCommand: self.getCommandOfInternalName,
-						getConnector: self.getConnectorOfInternalName
+						getCommand: self.getCommand,
+						getConnector: self.getConnector
 					)
 				}
 				completionHandler(deviceManager: deviceManager)
@@ -124,28 +124,28 @@ extension Data {
 	}
 	
 	func createAndAddNewSequence(name: String) -> Sequence {
-		return _sequenceManager.createSequence(name)
+		return _sequenceManager.createSequence(name: name)
 	}
 	
-	func deleteCommand(command: CommandProtocol) {
+	func deleteCommand(_ command: CommandProtocol) {
 		_commandManager.deleteCommand(command)
 	}
 	
-	func getCommandOfInternalName(internalName: String) -> CommandProtocol? {
-		if let command = _commandManager.getCommandOfInternalName(internalName) {
+	func getCommand(internalName: String) -> CommandProtocol? {
+		if let command = _commandManager.getCommand(internalName: internalName) {
 			return command
-		} else if let sequence = _sequenceManager.getSequenceOfInternalName(internalName) {
+		} else if let sequence = _sequenceManager.getSequence(internalName: internalName) {
 			return sequence
 		}
 		return nil
 	}
 	
-	func getCommandsOfDeviceOfInternalName(internalName: String) -> [CommandProtocol]? {
-		return _commandManager.getCommandsOfDeviceOfInternalName(internalName)
+	func getCommandsOfDevice(deviceInternalName: String) -> [CommandProtocol]? {
+		return _commandManager.getCommandsOfDevice(deviceInternalName: deviceInternalName)
 	}
 	
-	func getCommandCountForDeviceOfInternalName(internalName: String) -> Int {
-		return _commandManager.getCommandCountForDeviceOfInternalName(internalName)
+	func getCommandCountForDeviceOfInternalName(_ internalName: String) -> Int {
+		return _commandManager.getCommandCountForDevice(deviceInternalName: internalName)
 	}
 	
 	func getSequences() -> [Sequence] {
@@ -156,15 +156,15 @@ extension Data {
 		return _sequenceManager.count
 	}
 	
-	func getSequenceOfInternalName(internalName: String) -> Sequence? {
-		return _sequenceManager.getSequenceOfInternalName(internalName)
+	func getSequence(internalName: String) -> Sequence? {
+		return _sequenceManager.getSequence(internalName: internalName)
 	}
 	
-	func createAndAddSequenceOfName(name: String) -> Sequence {
-		return _sequenceManager.createSequence(name)
+	func createAndAddSequence(name: String) -> Sequence {
+		return _sequenceManager.createSequence(name: name)
 	}
 	
-	func deleteSequence(sequence: Sequence) {
+	func deleteSequence(_ sequence: Sequence) {
 		_sequenceManager.deleteSequence(sequence)
 	}
 	
@@ -177,7 +177,7 @@ extension Data {
 					commandManager = try CommandManager(
 						ckRecord: record,
 						getDevice: self.getDeviceOfInternalName,
-						getConnector: self.getConnectorOfInternalName
+						getConnector: self.getConnector
 					)
 				}
 				completionHandler(commandManager: commandManager)
@@ -195,7 +195,7 @@ extension Data {
 				if let record = record {
 					sequenceManager = try SequenceManager(
 						ckRecord: record,
-						getCommandOfUniqueName: self.getCommandOfInternalName
+						getCommandOfUniqueName: self.getCommand
 					)
 				}
 				completionHandler(sequenceManager: sequenceManager)
@@ -209,20 +209,20 @@ extension Data {
 //MARK: - ConnectorManager
 extension Data {
 	
-	func createAndAddNewConnector(type: ConnectorType, name: String, internalName: String) -> Connector? {
-		return _connectorManager.createConnector(type, name: name, internalName: internalName)
+	func createAndAddNewConnector(_ type: ConnectorType, name: String, internalName: String) -> Connector? {
+		return _connectorManager.createConnector(type: type, name: name, internalName: internalName)
 	}
 	
-	func createAndAddNewConnector(type: ConnectorType, name: String) -> Connector? {
-		return _connectorManager.createConnector(type, name: name)
+	func createAndAddNewConnector(_ type: ConnectorType, name: String) -> Connector? {
+		return _connectorManager.createConnector(type: type, name: name)
 	}
 	
-	func deleteConnector(connector: Connector) {
+	func deleteConnector(_ connector: Connector) {
 		_connectorManager.deleteConnector(connector)
 	}
 	
-	func getConnectorOfInternalName(internalName: String) -> Connector? {
-		return _connectorManager.getCommunicatorOfUniqueName(internalName)
+	func getConnector(internalName: String) -> Connector? {
+		return _connectorManager.getCommunicator(internalName: internalName)
 	}
 	
 	func getConnectorCount() -> Int {
@@ -233,8 +233,16 @@ extension Data {
 		return _connectorManager.connectors
 	}
 	
-	func getConnectorsOfType(type: ConnectorType) -> [Connector] {
-		return _connectorManager.getConnectorsOfType(type)
+	func getConnectorsTypes() -> [ConnectorType] {
+		return _connectorManager.getConnectorsTypes()
+	}
+	
+	func getConnectorsByType() -> [ConnectorType: [Connector]] {
+		return _connectorManager.getConnectorsByType()
+	}
+	
+	func getConnectors(type: ConnectorType) -> [Connector] {
+		return _connectorManager.getConnectors(type: type)
 	}
 	
 	private func tryImportConnectorManager(completionHandler: (communicatorManager: ConnectorManager?) -> Void) {
@@ -259,17 +267,17 @@ extension Data {
 		return _schedule.getSchedule()
 	}
 	
-	func createAndAddNewScheduleCommand(command: CommandProtocol, days: Set<Weekday>, hour: Int, minute: Int) -> ScheduleCommand {
-		return _schedule.createAndAddNewScheduleCommand(command, days: days, hour: hour, minute: minute, getCommand: self.getCommandOfInternalName)
+	func createAndAddNewScheduleCommand(_ command: CommandProtocol, days: Set<Weekday>, hour: Int, minute: Int) -> ScheduleCommand {
+		return _schedule.createAndAddNewScheduleCommand(command, days: days, hour: hour, minute: minute, getCommand: self.getCommand)
 	}
 	
-	private func tryImportSequdule(completionHandler: (schedule: Schedule?) -> Void) {
+	private func tryImportSequdule(_ completionHandler: (schedule: Schedule?) -> Void) {
 		CloudKitHelper.sharedHelper.importRecord("Schedule") {
 			(record) in
 			do {
 				var schedule: Schedule? = nil
 				if let record = record {
-					schedule = try Schedule(ckRecord: record, getCommandOfUniqueName: self.getCommandOfInternalName)
+					schedule = try Schedule(ckRecord: record, getCommandOfUniqueName: self.getCommand)
 				}
 				completionHandler(schedule: schedule)
 			} catch {
@@ -281,11 +289,11 @@ extension Data {
 
 //MARK: - ButtonManager
 extension Data {
-	func createAndAddNewButton(buttonType: ButtonType, name: String, completionHandler: () -> Void) {
-		return _buttonManager.createNewButton(buttonType, name: name, completionHandler: completionHandler)
+	func createAndAddNewButton(_ buttonType: ButtonType, name: String, completionHandler: () -> Void) {
+		return _buttonManager.createNewButton(buttonType: buttonType, name: name, completionHandler: completionHandler)
 	}
 	
-	func deleteButton(button: Button) {
+	func deleteButton(_ button: Button) {
 		_buttonManager.deleteButton(button)
 	}
 	
@@ -297,17 +305,17 @@ extension Data {
 		return _buttonManager.buttons
 	}
 	
-	func getButtonOfInternalName(internalName: String) -> Button? {
-		return _buttonManager.getButtonOfInternalName(internalName)
+	func getButtonOfInternalName(_ internalName: String) -> Button? {
+		return _buttonManager.getButton(internalName: internalName)
 	}
 	
-	private func tryImportButtonManager(completionHandler: (buttonManager: ButtonManager?) -> Void) {
+	private func tryImportButtonManager(_ completionHandler: (buttonManager: ButtonManager?) -> Void) {
 		CloudKitHelper.sharedHelper.importRecord("ButtonManager") {
 			(record) in
 			do {
 				var buttonManager: ButtonManager? = nil
 				if let record = record {
-					buttonManager = try ButtonManager(ckRecord: record, getCommandOfUniqueName: self.getCommandOfInternalName)
+					buttonManager = try ButtonManager(ckRecord: record, getCommandOfUniqueName: self.getCommand)
 				}
 				completionHandler(buttonManager: buttonManager)
 			} catch {
@@ -316,7 +324,7 @@ extension Data {
 		}
 	}
 	
-	func handleOpenURL(url: NSURL) -> Bool {
+	func handleOpenURL(_ url: URL) -> Bool {
 //		return _buttonManager.handleOpenURL(url)
 		return true
 	}
@@ -325,6 +333,6 @@ extension Data {
 //MARK: - Schedule
 extension Data {
 	func getScheduleCommandForTime(day: Weekday, hour: Int, minute: Int) -> [ScheduleCommand]? {
-		return _schedule.getCommandsForMinute(day, hour: hour, minute: minute)
+		return _schedule.getCommands(day: day, hour: hour, minute: minute)
 	}
 }

@@ -9,11 +9,11 @@
 import Foundation
 import CloudKit
 
-enum SequenceManagerError: ErrorType {
-    case NameAlreadyUsed
-    case NoNameInCKRecord
-    case DifferentNumberOfSequenceNamesAndSequenceRecordsNames
-    case CouldNotFindRecord
+enum SequenceManagerError: ErrorProtocol {
+    case nameAlreadyUsed
+    case noNameInCKRecord
+    case differentNumberOfSequenceNamesAndSequenceRecordsNames
+    case couldNotFindRecord
 }
 
 class SequenceManager {
@@ -21,9 +21,9 @@ class SequenceManager {
     private var _sequences: [String: Sequence]
 	private var _currentCKRecordName: String?
 	
-    var sequencesNames: [String] {return _sequences.keys.sort()}
+    var sequencesNames: [String] {return _sequences.keys.sorted()}
 	var sequences: [Sequence] {
-		return _sequences.values.sort() {
+		return _sequences.values.sorted() {
 			(sequence1, sequence2) in
 			return sequence1.name < sequence2.name
 		}
@@ -44,12 +44,12 @@ class SequenceManager {
 		
     }
 	
-    func getSequenceOfInternalName(internalName: String) -> Sequence? {
+    func getSequence(internalName: String) -> Sequence? {
         return _sequences[internalName]
     }
 	
-	func deleteSequence(sequence: Sequence) {
-		_sequences.removeValueForKey(sequence.internalName)
+	func deleteSequence(_ sequence: Sequence) {
+		_sequences.removeValue(forKey: sequence.internalName)
 		updateCloudKit()
 		CloudKitHelper.sharedHelper.remove(sequence)
 	}
@@ -61,8 +61,8 @@ extension SequenceManager: Manager {
 		return "Sequence"
 	}
 	
-	func isNameUnique(name: String) -> Bool {
-		return _sequences.indexForKey(name) == nil
+	func isNameUnique(_ name: String) -> Bool {
+		return _sequences.index(forKey: name) == nil
 	}
 }
 
@@ -74,7 +74,7 @@ extension SequenceManager: CloudKitObject {
 		_currentCKRecordName = ckRecord.recordID.recordName
 		
 		guard let sequenceRecordNames = ckRecord["sequenceRecordNames"] as? [String] else {
-			throw SequenceManagerError.NoNameInCKRecord
+			throw SequenceManagerError.noNameInCKRecord
 		}
 		
 		for recordName in sequenceRecordNames {
@@ -83,7 +83,7 @@ extension SequenceManager: CloudKitObject {
 				do {
 					if let record = record {
 						let sequence = try Sequence(record: record, getCommand: getCommandOfUniqueName)
-						if self._sequences.indexForKey(sequence.internalName) == nil {
+						if self._sequences.index(forKey: sequence.internalName) == nil {
 							self._sequences[sequence.internalName] = sequence
 						}
 					}
@@ -106,7 +106,7 @@ extension SequenceManager: CloudKitObject {
 		return "SequenceManager"
 	}
 	
-	func setUpCKRecord(record: CKRecord) {
+	func setUpCKRecord(_ record: CKRecord) {
 		var sequenceRecordNames = [String]()
 		
 		_sequences.forEach({

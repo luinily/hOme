@@ -28,9 +28,9 @@ class SelectDeviceCommandCell: UITableViewCell {
 		set(commandSelected) {
 			_commandSelected = commandSelected
 			if _commandSelected {
-				accessoryType = UITableViewCellAccessoryType.Checkmark
+				accessoryType = UITableViewCellAccessoryType.checkmark
 			} else {
-				accessoryType = UITableViewCellAccessoryType.None
+				accessoryType = UITableViewCellAccessoryType.none
 			}
 		}
 	}

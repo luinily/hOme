@@ -12,23 +12,23 @@ import CloudKit
 class Application: NSObject {
     private var _data = Data()
 
-    private var _mainTimer = NSTimer()
-    private let _oneMinute: NSTimeInterval = 60
+    private var _mainTimer = Timer()
+    private let _oneMinute: TimeInterval = 60
     private var _isRunning: Bool = false
 	
 	var running: Bool { return _isRunning }
 	
 	func tic() {
-		let date = NSDate()
-		let calendar = NSCalendar.currentCalendar()
-		let components = calendar.components([.Weekday, .Hour, .Minute], fromDate: date)
+		let date = Date()
+		let calendar = Calendar.current()
+		let components = calendar.components([.weekday, .hour, .minute], from: date)
 		
 		let hour = components.hour
 		let minute = components.minute
 		
 		print("MainTic("+String(hour)+":"+String(minute)+")")
-		if let day = Weekday(rawValue: (components.weekday + 4)%6) {
-			if let commands = _data.getScheduleCommandForTime(day, hour: hour, minute: minute) {
+		if let day = Weekday(rawValue: (components.weekday! + 4)%6), hour = hour, minute = minute {
+			if let commands = _data.getScheduleCommandForTime(day: day, hour: hour, minute: minute) {
 				for command in commands {
 					command.execute()
 				}
@@ -39,7 +39,7 @@ class Application: NSObject {
 	
 	
 	private func mainLoopTic() {
-		_mainTimer = NSTimer.scheduledTimerWithTimeInterval(_oneMinute, target: self, selector: #selector(Application.tic), userInfo: nil, repeats: true)
+		_mainTimer = Timer.scheduledTimer(timeInterval: _oneMinute, target: self, selector: #selector(Application.tic), userInfo: nil, repeats: true)
 		_mainTimer.fire()
 	}
 	
@@ -70,27 +70,23 @@ extension Application {
 //MARK: - Commands
 extension Application {
 	//---- commands
-	func getCommandsOfDeviceOfInternalName(internalName: String) -> [CommandProtocol]? {
-		return _data.getCommandsOfDeviceOfInternalName(internalName)
+	func getCommandsOfDevice(deviceInternalName: String) -> [CommandProtocol]? {
+		return _data.getCommandsOfDevice(deviceInternalName: deviceInternalName)
 	}
 	
-	func getCommandCountForDeviceOfInternalName(internalName: String) -> Int {
-		return _data.getCommandCountForDeviceOfInternalName(internalName)
+	func getCommandCountForDevice(deviceInternalName: String) -> Int {
+		return _data.getCommandCountForDeviceOfInternalName(deviceInternalName)
 	}
-	
-	func getCommandOfName(internalName: String) -> CommandProtocol? {
-		return _data.getCommandOfInternalName(internalName)
-	}
-	
-	func getCommandOfInternalName(internalName: String) -> CommandProtocol? {
-		return _data.getCommandOfInternalName(internalName)
+
+	func getCommand(internalName: String) -> CommandProtocol? {
+		return _data.getCommand(internalName: internalName)
 	}
 	
 	func createNewCommand(device: DeviceProtocol, name: String) -> CommandProtocol? {
-		return _data.createAndAddNewCommand(device, name: name, commandType: device.commandType)
+		return _data.createAndAddNewCommand(device: device, name: name, commandType: device.commandType)
 	}
 	
-	func deleteCommand(command: CommandProtocol) {
+	func deleteCommand(_ command: CommandProtocol) {
 		_data.deleteCommand(command)
 	}
 }
@@ -106,23 +102,23 @@ extension Application {
 	}
 	
 	func createNewSequence(name: String) -> Sequence? {
-		return _data.createAndAddSequenceOfName(name)
+		return _data.createAndAddSequence(name: name)
 	}
 	
-	func getSequenceOfInternalName(internalName: String) -> Sequence? {
-		return _data.getSequenceOfInternalName(internalName)
+	func getSequence(internalName: String) -> Sequence? {
+		return _data.getSequence(internalName: internalName)
 	}
 	
-	func deleteSequence(sequence: Sequence) {
+	func deleteSequence(_ sequence: Sequence) {
 		_data.deleteSequence(sequence)
 	}
 }
 
 //MARK: - Devices
 extension Application {
-	func createNewDeviceOfName(name: String, connector: Connector) -> DeviceProtocol {
+	func createNewDevice(name: String, connector: Connector) -> DeviceProtocol {
 		let device = _data.createAndAddNewDeviceOfName(name, connector: connector)
-		_data.createAndAddNewCommand(device, name: "OnOffCommand", commandType: .onOffCommand)
+		_ = _data.createAndAddNewCommand(device: device, name: "OnOffCommand", commandType: .onOffCommand)
 		
 		return device
 	}
@@ -135,17 +131,22 @@ extension Application {
 		return _data.getDevices()
 	}
 	
-	func getDeviceOfInternalName(internalName: String) -> DeviceProtocol? {
+	func fetchDevices(completionHandler: (devices: [DeviceProtocol]) -> Void) {
+		let devices = _data.getDevices()
+		completionHandler(devices: devices)
+	}
+	
+	func getDevice(internalName: String) -> DeviceProtocol? {
 		return _data.getDeviceOfInternalName(internalName)
 	}
 	
-	func deleteDevice(device: DeviceProtocol) {
+	func deleteDevice(_ device: DeviceProtocol) {
 		_data.deleteDevice(device)
 	}
 }
 
 //MARK: - Connectors
-extension Application {
+extension Application: ConnectorUser {
 	func createAndAddNewConnector(type: ConnectorType, name: String, internalName: String) -> Connector? {
 		return _data.createAndAddNewConnector(type, name: name, internalName: internalName)
 	}
@@ -154,7 +155,7 @@ extension Application {
 		return _data.createAndAddNewConnector(type, name: name)
 	}
 	
-	func deleteConnector(connector: Connector) {
+	func deleteConnector(_ connector: Connector) {
 		_data.deleteConnector(connector)
 	}
 	
@@ -166,12 +167,20 @@ extension Application {
 		return _data.getConnectors()
 	}
 	
-	func getConnectorsOfType(type: ConnectorType) -> [Connector] {
-		return _data.getConnectorsOfType(type)
+	func getConnectorsTypes() -> [ConnectorType] {
+		return _data.getConnectorsTypes()
 	}
 	
-	func getConnectorOfInternalName(internalName: String) -> Connector? {
-		return _data.getConnectorOfInternalName(internalName)
+	func getConnectorsByType() -> [ConnectorType: [Connector]] {
+		return _data.getConnectorsByType()
+	}
+	
+	func getConnectors(type: ConnectorType) -> [Connector] {
+		return _data.getConnectors(type: type)
+	}
+	
+	func getConnector(internalName: String) -> Connector? {
+		return _data.getConnector(internalName: internalName)
 	}
 	
 }
@@ -179,11 +188,11 @@ extension Application {
 //MARK: - Buttons
 extension Application {
 	//--- buttons ----
-	func createNewButton(type: ButtonType, name: String, completionHandler: () -> Void) {
+	func createNewButton(_ type: ButtonType, name: String, completionHandler: () -> Void) {
 		_data.createAndAddNewButton(type, name: name, completionHandler: completionHandler)
 	}
 	
-	func deleteButton(button: Button) {
+	func deleteButton(_ button: Button) {
 		_data.deleteButton(button)
 	}
 	
@@ -195,11 +204,11 @@ extension Application {
 		return _data.getButtons()
 	}
 	
-	func getButtonOfInternalName(internalName: String) -> Button? {
+	func getButton(internalName: String) -> Button? {
 		return _data.getButtonOfInternalName(internalName)
 	}
 	
-	func handleOpenURL(url: NSURL) -> Bool {
+	func handleOpenURL(_ url: URL) -> Bool {
 		return _data.handleOpenURL(url)
 	}
 }

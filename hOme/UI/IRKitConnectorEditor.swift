@@ -23,13 +23,13 @@ class IRKitConnectorEditor: UITableViewController {
 		reloadData()
 	}
 	
-	@IBAction func nameEditingDidEnd(sender: AnyObject) {
+	@IBAction func nameEditingDidEnd(_ sender: AnyObject) {
 		if let newName = nameTextField.text {
 			_connector?.name = newName
 		}
 	}
 	
-	func setConnector(connector: IRKitConnector) {
+	func setConnector(_ connector: IRKitConnector) {
 		_connector = connector
 	}
 	

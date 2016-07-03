@@ -31,7 +31,7 @@ class NewDeviceNameCell: UITableViewCell {
 		}
 	}
 	
-	@IBAction func onValueChanged(sender: AnyObject) {
+	@IBAction func onValueChanged(_ sender: AnyObject) {
 		if let newName = textEdit.text {
 			_name = newName
 			_onNameChanged?(newName: newName)

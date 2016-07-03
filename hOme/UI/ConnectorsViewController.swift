@@ -22,7 +22,7 @@ class ConnectorsViewController: UITableViewController {
 
 	}
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? SelectConectorCell {
 			if let connector = cell.connector as? IRKitConnector {
 				if let viewController = segue.destinationViewController as? IRKitConnectorEditor {
@@ -40,18 +40,18 @@ extension ConnectorsViewController: ApplicationUser {
 
 //MARK: - Table Data Source
 extension ConnectorsViewController {
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 2
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		if section == _sectionConnectors {
 			return "Connectors"
 		}
 		return ""
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if let application = application {
 			switch section {
 			case _sectionConnectors:
@@ -66,17 +66,17 @@ extension ConnectorsViewController {
 		return 0
 	}
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		var cell: UITableViewCell? = nil
 		
-		switch indexPath.section {
+		switch (indexPath as NSIndexPath).section {
 		case _sectionConnectors:
-			cell = tableView.dequeueReusableCellWithIdentifier("ConnectorCell")
+			cell = tableView.dequeueReusableCell(withIdentifier: "ConnectorCell")
 			if let cell = cell as? SelectConectorCell {
-				cell.connector = _connectors[indexPath.row]
+				cell.connector = _connectors[(indexPath as NSIndexPath).row]
 			}
 		case _sectionNewConnector:
-			cell = tableView.dequeueReusableCellWithIdentifier("NewConnectorCell")
+			cell = tableView.dequeueReusableCell(withIdentifier: "NewConnectorCell")
 		default:
 			cell = nil
 		}
@@ -84,15 +84,15 @@ extension ConnectorsViewController {
 		if let cell = cell {
 			return cell
 		} else {
-			return UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
 	
-	override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-		let delete = UITableViewRowAction(style: .Destructive, title: "Delete") {
+	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+		let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
 			action, indexPath in
 			if let application = self.application,
-				cell = tableView.cellForRowAtIndexPath(indexPath) as? SelectConectorCell {
+				cell = tableView.cellForRow(at: indexPath) as? SelectConectorCell {
 				if let connector = cell.connector {
 					application.deleteConnector(connector)
 					tableView.reloadData()
@@ -106,7 +106,7 @@ extension ConnectorsViewController {
 
 //MARK: - Table Delegate
 extension ConnectorsViewController {
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
 	}
 }

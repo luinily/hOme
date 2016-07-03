@@ -21,17 +21,17 @@ class CommandMathUtilsTests: XCTestCase {
 	}
 	
 	func testEnsureRange_lower() {
-		let result = ensureRange(0, min: 1, max: 2)
+		let result = ensureRange(value: 0, min: 1, max: 2)
 		XCTAssertEqual(result, 1)
 	}
 	
 	func testEnsureRange_higher() {
-		let result = ensureRange(2.4, min: 1.1, max: 2)
+		let result = ensureRange(value: 2.4, min: 1.1, max: 2)
 		XCTAssertEqual(result, 2)
 	}
 	
 	func testEnsureRange_inRange() {
-		let result = ensureRange(2.5, min: 2, max: 3)
+		let result = ensureRange(value: 2.5, min: 2, max: 3)
 		XCTAssertEqual(result, 2.5)
 	}
 	

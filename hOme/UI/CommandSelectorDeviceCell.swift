@@ -31,10 +31,10 @@ class CommandSelectorDeviceCell: UITableViewCell {
 			if selectedCommand?.deviceInternalName == device?.internalName {
 				_selectedCommand = selectedCommand
 				commandLabel.text = selectedCommand?.name
-				accessoryType = UITableViewCellAccessoryType.Checkmark
+				accessoryType = UITableViewCellAccessoryType.checkmark
 			} else {
 				_selectedCommand = nil
-				accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+				accessoryType = UITableViewCellAccessoryType.disclosureIndicator
 			}
 		}
 	}

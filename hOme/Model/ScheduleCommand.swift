@@ -56,31 +56,31 @@ class ScheduleCommand {
 		}
 	}
 	
-	private func setDays(days: [String]) {
+	private func setDays(_ days: [String]) {
 		for day in days {
 			if let day = stringToDay(day) {
-				_days.unionInPlace([day])
+				_days.formUnion([day])
 			}
 			
 		}
 	}
 	
-	private func stringToDay(day: String) -> Weekday? {
+	private func stringToDay(_ day: String) -> Weekday? {
 		switch day {
 		case "Monday":
-			return Weekday.Monday
+			return Weekday.monday
 		case "Tuesday":
-			return Weekday.Tuesday
+			return Weekday.tuesday
 		case "Wednesday":
-			return Weekday.Wednesday
+			return Weekday.wednesday
 		case "Thursday":
-			return Weekday.Thursday
+			return Weekday.thursday
 		case "Friday":
-			return Weekday.Friday
+			return Weekday.friday
 		case "Saturday":
-			return Weekday.Saturday
+			return Weekday.saturday
 		case "Sunday":
-			return Weekday.Sunday
+			return Weekday.sunday
 		default:
 			print("weekday not found")
 			return nil
@@ -89,25 +89,25 @@ class ScheduleCommand {
 	
 	private func makeDaysStringArray() -> [String] {
 		var result = [String]()
-		if _days.contains(.Monday) {
+		if _days.contains(.monday) {
 			result.append("Monday")
 		}
-		if _days.contains(.Tuesday) {
+		if _days.contains(.tuesday) {
 			result.append("Tuesday")
 		}
-		if _days.contains(.Wednesday) {
+		if _days.contains(.wednesday) {
 			result.append("Wednesday")
 		}
-		if _days.contains(.Thursday) {
+		if _days.contains(.thursday) {
 			result.append("Thursday")
 		}
-		if _days.contains(.Friday) {
+		if _days.contains(.friday) {
 			result.append("Friday")
 		}
-		if _days.contains(.Saturday) {
+		if _days.contains(.saturday) {
 			result.append("Saturday")
 		}
-		if _days.contains(.Sunday) {
+		if _days.contains(.sunday) {
 			result.append("Sunday")
 		}
 		return result
@@ -121,21 +121,21 @@ class ScheduleCommand {
 //MARK: - CloudKitObject
 extension ScheduleCommand: CloudKitObject {
 	convenience init (ckRecord: CKRecord, getCommand: (commandInternalName: String) -> CommandProtocol?) throws {
-		self.init(oneTimeCommandInternalName: "", day: .Monday, time: (hour: 0, minute: 0), getCommand: getCommand)
+		self.init(oneTimeCommandInternalName: "", day: .monday, time: (hour: 0, minute: 0), getCommand: getCommand)
 		
 		_currentCKRecordName = ckRecord.recordID.recordName
 		
 		guard let commandName = ckRecord["commandName"] as? String else {
-			throw CommandClassError.NoDeviceNameInCKRecord
+			throw CommandClassError.noDeviceNameInCKRecord
 		}
 		guard let days = ckRecord["days"] as? [String] else {
-			throw CommandClassError.NoDeviceNameInCKRecord
+			throw CommandClassError.noDeviceNameInCKRecord
 		}
 		guard let hour = ckRecord["hour"] as? Int else {
-			throw CommandClassError.NoDeviceNameInCKRecord
+			throw CommandClassError.noDeviceNameInCKRecord
 		}
 		guard let minute = ckRecord["minute"] as? Int else {
-			throw CommandClassError.NoDeviceNameInCKRecord
+			throw CommandClassError.noDeviceNameInCKRecord
 		}
 		
 		self._commandInternalName = commandName
@@ -160,7 +160,7 @@ extension ScheduleCommand: CloudKitObject {
 		return "ScheduleCommand"
 	}
 	
-	func setUpCKRecord(record: CKRecord) {
+	func setUpCKRecord(_ record: CKRecord) {
 		record["commandName"] = _commandInternalName
 		record["days"] = makeDaysStringArray()
 		record["hour"] = _time.hour

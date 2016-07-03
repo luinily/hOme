@@ -14,7 +14,7 @@ class CommandOnOffSettingViewController: UITableViewController {
 	@IBOutlet var table: UITableView!
 	private var _command: DeviceCommand? = nil
 	
-	func setCommand(command: DeviceCommand) {
+	func setCommand(_ command: DeviceCommand) {
 		_command = command
 	}
 }
@@ -23,24 +23,24 @@ class CommandOnOffSettingViewController: UITableViewController {
 extension CommandOnOffSettingViewController {
 	
 	//MARK: Sections
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		return ""
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return 4
 	}
 	
 	//MARK: Cells
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("CommandOnOffCell")
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: "CommandOnOffCell")
 		
 		if let label = cell?.textLabel {
-			switch indexPath.row {
+			switch (indexPath as NSIndexPath).row {
 			case 0: label.text = "None"
 			case 1: label.text = "On"
 			case 2: label.text = "Off"
@@ -54,30 +54,30 @@ extension CommandOnOffSettingViewController {
 		if let cell = cell {
 			return cell
 		} else {
-			return UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
 	
-	private func setCheckMark(cell: UITableViewCell?, indexPath: NSIndexPath) {
-		cell?.accessoryType = .None
+	private func setCheckMark(_ cell: UITableViewCell?, indexPath: IndexPath) {
+		cell?.accessoryType = .none
 		if let command = _command {
-			if indexPath.row == command.executionEffectOnDevice.rawValue {
-				cell?.accessoryType = .Checkmark
+			if (indexPath as NSIndexPath).row == command.executionEffectOnDevice.rawValue {
+				cell?.accessoryType = .checkmark
 			} else {
-				cell?.accessoryType = .None
+				cell?.accessoryType = .none
 			}
 		}
 	}
 	
-	override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return false
 	}
 }
 
 // MARK: Table Delegate
 extension CommandOnOffSettingViewController {
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if let action = ExecutionEffectOnDevice(rawValue: indexPath.row) {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if let action = ExecutionEffectOnDevice(rawValue: (indexPath as NSIndexPath).row) {
 			_command?.executionEffectOnDevice = action
 		}
 		table.reloadData()

@@ -17,7 +17,7 @@ class SequenceCommandViewController: UITableViewController {
 	private var _time = CommandTime()
 	private var _command: CommandProtocol?
 	
-	private func onTimeChange(newTime: CommandTime) {
+	private func onTimeChange(_ newTime: CommandTime) {
 		_time = newTime
 	}
 	
@@ -25,30 +25,30 @@ class SequenceCommandViewController: UITableViewController {
 
 //Mark: - Table Data Source
 extension SequenceCommandViewController {
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return 2
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		return ""
 	}
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		var cell: UITableViewCell?
 		
-		switch indexPath.row {
+		switch (indexPath as NSIndexPath).row {
 		case _timeSelectorRow:
-			cell = tableView.dequeueReusableCellWithIdentifier("SequenceCommandTimePickerCell")
+			cell = tableView.dequeueReusableCell(withIdentifier: "SequenceCommandTimePickerCell")
 			if let cell = cell as? SequenceTimeCell {
 				cell.time = _time
 				cell.onChange = onTimeChange
 			}
 		case _commandRow:
-			cell = tableView.dequeueReusableCellWithIdentifier("SequenceCommandCell")
+			cell = tableView.dequeueReusableCell(withIdentifier: "SequenceCommandCell")
 		default:
 			cell = nil
 		}
@@ -56,7 +56,7 @@ extension SequenceCommandViewController {
 		if let cell = cell {
 			return cell
 		} else {
-			return UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
 }

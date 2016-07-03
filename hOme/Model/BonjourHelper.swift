@@ -8,11 +8,11 @@
 
 import Foundation
 
-class BonjourHelper: NSObject, NSNetServiceBrowserDelegate, NSNetServiceDelegate {
+class BonjourHelper: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 	
 	//to find the IP
-	private let _browser = NSNetServiceBrowser()
-	private var _service = NSNetService()
+	private let _browser = NetServiceBrowser()
+	private var _service = NetService()
 	private var _searchedServiceName: String?
 	private var _onIPFound: ((ipAddress: String) -> Void)?
 	private var _onServicesFound: ((serviceNames: [String]) -> Void)?
@@ -25,47 +25,47 @@ class BonjourHelper: NSObject, NSNetServiceBrowserDelegate, NSNetServiceDelegate
 		_browser.delegate = self
 	}
 	
-	func findServicesOfType(serviceType: String, onServicesFound: (serviceNames: [String]) -> Void) {
+	func findServicesOfType(_ serviceType: String, onServicesFound: (serviceNames: [String]) -> Void) {
 		_searchIP = false
 		_onServicesFound = onServicesFound
 		_foundServiceNames.removeAll()
-		_browser.searchForServicesOfType(serviceType, inDomain: _domain)
+		_browser.searchForServices(ofType: serviceType, inDomain: _domain)
 	}
 	
-	func searchIPOfServiceOfServiceType(serviceType: String, serviceName: String, onIPFound : (ipAddress: String) -> Void) {
+	func searchIPOfServiceOfServiceType(_ serviceType: String, serviceName: String, onIPFound : (ipAddress: String) -> Void) {
 		_searchIP = true
 		_onIPFound = onIPFound
 		_searchedServiceName = serviceName
-		_browser.searchForServicesOfType(serviceType, inDomain: _domain)
+		_browser.searchForServices(ofType: serviceType, inDomain: _domain)
 	}
 	
-	func netServiceDidResolveAddress(sender: NSNetService) {
+	func netServiceDidResolveAddress(_ sender: NetService) {
 		//https://github.com/stakes/Frameless/blob/master/Frameless/FramerBonjour.swift
 		if let addresses = sender.addresses {
 			for address in addresses {
-				let ptr = UnsafePointer<sockaddr_in>(address.bytes)
-				var addr = ptr.memory.sin_addr
-				let buf = UnsafeMutablePointer<Int8>.alloc(Int(INET6_ADDRSTRLEN))
-				let family = ptr.memory.sin_family
-				var ipc: UnsafePointer<Int8> = nil
+				let ptr = UnsafePointer<sockaddr_in>((address as NSData).bytes)
+				var addr = ptr.pointee.sin_addr
+				let buf = UnsafeMutablePointer<Int8>(allocatingCapacity: Int(INET6_ADDRSTRLEN))
+				let family = ptr.pointee.sin_family
+				var ipc: UnsafePointer<Int8>? = nil
 				if family == __uint8_t(AF_INET) {
 					ipc = inet_ntop(Int32(family), &addr, buf, __uint32_t(INET6_ADDRSTRLEN))
 				}
-				if let ipAddress = String.fromCString(ipc) {
+				if let ipAddress = String(validatingUTF8: ipc!) {
 					_onIPFound?(ipAddress: ipAddress)
-					print("found IP: " + ipAddress + " [" + sender.name + "]")
+					print("found IP: " + ipAddress + " [" + sender.name + "]", terminator: "")
 				}
 			}
 		}
 	}
 	
-	func netServiceBrowser(aNetServiceBrowser: NSNetServiceBrowser, didFindService aNetService: NSNetService, moreComing: Bool) {
+	func netServiceBrowser(_ aNetServiceBrowser: NetServiceBrowser, didFind aNetService: NetService, moreComing: Bool) {
 		if _searchIP {
 			if let name = _searchedServiceName {
-				if aNetService.name.caseInsensitiveCompare(name) == NSComparisonResult.OrderedSame {
+				if aNetService.name.caseInsensitiveCompare(name) == ComparisonResult.orderedSame {
 					_service = aNetService
 					_service.delegate = self
-					_service.resolveWithTimeout(5.0)
+					_service.resolve(withTimeout: 5.0)
 				}
 			}
 		} else {
@@ -74,6 +74,6 @@ class BonjourHelper: NSObject, NSNetServiceBrowserDelegate, NSNetServiceDelegate
 				_onServicesFound?(serviceNames: _foundServiceNames)
 			}
 		}
-		print("found Bonjour service: " + _service.name)
+		print("found Bonjour service: " + _service.name, terminator: "")
 	}
 }

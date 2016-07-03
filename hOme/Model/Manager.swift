@@ -8,9 +8,10 @@
 
 import Foundation
 
+
 protocol Manager {
 	func getUniqueNameBase() -> String
-	func isNameUnique(name: String) -> Bool
+	func isNameUnique(_ name: String) -> Bool
 }
 
 extension Manager {

@@ -24,11 +24,11 @@ class IRKitDeviceOnOffSettingCell: UITableViewCell {
 	private func setLabelText() {
 		if let command = _command {
 			switch command.executionEffectOnDevice {
-			case .SetDeviceOn:
+			case .setDeviceOn:
 				settingLabel.text = "On"
-			case .SetDeviceOff:
+			case .setDeviceOff:
 				settingLabel.text = "Off"
-			case .SetDeviceOnOrOff:
+			case .setDeviceOnOrOff:
 				settingLabel.text = "On and Off"
 			default:
 				settingLabel.text = "None"

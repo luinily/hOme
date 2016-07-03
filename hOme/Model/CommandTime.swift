@@ -8,8 +8,8 @@
 
 import Foundation
 
-enum CommandTimeError: ErrorType {
-	case StringFormatInvalid
+enum CommandTimeError: ErrorProtocol {
+	case stringFormatInvalid
 
 }
 
@@ -21,7 +21,7 @@ struct CommandTime {
 	var hours: Int {
 		get {return _hours}
 		set {
-			_hours = ensureRange(newValue, min: 0, max: 23)
+			_hours = ensureRange(value: newValue, min: 0, max: 23)
 		}
 	}
 		
@@ -29,7 +29,7 @@ struct CommandTime {
 	var minutes: Int {
 		get {return _minutes}
 		set {
-			_minutes = ensureRange(newValue, min: 0, max: 59)
+			_minutes = ensureRange(value: newValue, min: 0, max: 59)
 		}
 	}
 	
@@ -48,14 +48,14 @@ struct CommandTime {
 			return hours + ":" + minutes
 		}
 		set {
-			if let separationIndex = newValue.characters.indexOf(":") {
-				let hoursString = newValue.substringToIndex(separationIndex)
+			if let separationIndex = newValue.characters.index(of: ":") {
+				let nextCharIndex = newValue.index(after: separationIndex)
+				let hoursString = newValue.substring(to: separationIndex)
 				if let newHours = Int(hoursString) {
 					hours = newHours
 				}
 				
-				
-				let minutesString = newValue.substringFromIndex(separationIndex.successor())
+				let minutesString = newValue.substring(from: nextCharIndex)
 				if let newMinutes = Int(minutesString) {
 					minutes = newMinutes
 				}

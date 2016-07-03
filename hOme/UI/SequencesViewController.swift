@@ -21,7 +21,7 @@ class SequencesViewController: UITableViewController {
 		sequencesTable.dataSource = self
 	}
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? SequenceCell,
 			sequenceVC = segue.destinationViewController as? SequenceViewController {
 			if let sequence = cell.sequence {
@@ -34,12 +34,12 @@ class SequencesViewController: UITableViewController {
 		}
 	}
 	
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		reloadData()
 	}
 	
-	private func ShowSequence(sequence: Sequence) {
-		performSegueWithIdentifier("ShowSequenceSegue", sender: self)
+	private func ShowSequence(_ sequence: Sequence) {
+		performSegue(withIdentifier: "ShowSequenceSegue", sender: self)
 	}
 	
 	private func reloadData() {
@@ -57,18 +57,18 @@ extension SequencesViewController: ApplicationUser {
 extension SequencesViewController {
 	
 	//MARK: Sections
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 2
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		if section == _sectionSequences {
 			return "Sequences"
 		}
 		return ""
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if section == _sectionSequences {
 			if let application = application {
 				return application.getSequenceCount()
@@ -80,37 +80,37 @@ extension SequencesViewController {
 	}
 	
 	//MARK: Cells
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		var cell: UITableViewCell? = nil
 		
-		if indexPath.section == _sectionSequences {
-			cell = tableView.dequeueReusableCellWithIdentifier("SequenceCell")
+		if (indexPath as NSIndexPath).section == _sectionSequences {
+			cell = tableView.dequeueReusableCell(withIdentifier: "SequenceCell")
 			if let cell = cell as? SequenceCell,
 				application = application {
-				cell.setSequence(application.getSequences()[indexPath.row])
+				cell.setSequence(application.getSequences()[(indexPath as NSIndexPath).row])
 			}
-		} else if indexPath.section == _sectionNewSequence {
-			cell = tableView.dequeueReusableCellWithIdentifier("NewSequenceCell")
+		} else if (indexPath as NSIndexPath).section == _sectionNewSequence {
+			cell = tableView.dequeueReusableCell(withIdentifier: "NewSequenceCell")
 		}
 		
 		if let cell = cell {
 			return cell
 		} else {
-			return UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
 	
-	override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-		return indexPath.section == _sectionSequences
+	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		return (indexPath as NSIndexPath).section == _sectionSequences
 	}
 }
 
 // MARK: Table Delegate
 extension SequencesViewController {
-	override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-		let delete = UITableViewRowAction(style: .Destructive, title: "Delete") {
+	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+		let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
 			action, indexPath in
-			if let cell = tableView.cellForRowAtIndexPath(indexPath) as? SequenceCell,
+			if let cell = tableView.cellForRow(at: indexPath) as? SequenceCell,
 				application = self.application {
 				if let sequence = cell.sequence {
 					application.deleteSequence(sequence)

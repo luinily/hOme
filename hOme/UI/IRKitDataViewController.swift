@@ -18,7 +18,7 @@ class IRKitDataViewController: UIViewController {
 		reloadData()
 	}
 	
-	func setIRKitData(data: String) {
+	func setIRKitData(_ data: String) {
 		_irKitData = data
 	}
 	

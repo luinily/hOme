@@ -9,14 +9,10 @@
 import Foundation
 import CloudKit
 
-enum CommandType: Int {
-	case irkitCommand = 1
-	case onOffCommand = 2
-}
-enum CommandManagerClassError: ErrorType {
-	case CouldNotFindCommandDataInCK
-	case ClouldNotFindCommunicator
-	case CommandClassInvalid
+enum CommandManagerClassError: ErrorProtocol {
+	case couldNotFindCommandDataInCK
+	case clouldNotFindCommunicator
+	case commandClassInvalid
 }
 
 class CommandManager {
@@ -32,9 +28,9 @@ class CommandManager {
 		_currentCKRecordName = ckRecordName
 	}
 	
-	func createCommand(device: DeviceProtocol, name: String, commandType: CommandType?, getDevice: (deviceInternalName: String) -> DeviceProtocol?) -> CommandProtocol? {
+	func createCommand(_ device: DeviceProtocol, name: String, commandType: CommandType?, getDevice: (deviceInternalName: String) -> DeviceProtocol?) -> CommandProtocol? {
 		
-		func createCommand(name name: Name, device: DeviceProtocol, commandType: CommandType) -> DeviceCommand {
+		func createCommand(name: Name, device: DeviceProtocol, commandType: CommandType) -> DeviceCommand {
 			var newCommand: DeviceCommand
 			switch commandType {
 			case .onOffCommand: newCommand = OnOffCommand(deviceInternalName: device.internalName, getDevice: getDevice)
@@ -61,7 +57,7 @@ class CommandManager {
 		return nil
 	}
 	
-	func deleteCommand(command: CommandProtocol) {
+	func deleteCommand(_ command: CommandProtocol) {
 		if let ckCommand = command as? CloudKitObject {
 			_commands[command.internalName] = nil
 			CloudKitHelper.sharedHelper.remove(ckCommand)
@@ -73,32 +69,28 @@ class CommandManager {
 		return _commands
 	}
 	
-	func getCommand(commandInternalName: String) -> CommandProtocol? {
-		return _commands[commandInternalName]
-	}
-	
-	func getCommandOfInternalName(internalName: String) -> CommandProtocol? {
+	func getCommand(internalName: String) -> CommandProtocol? {
 		return _commands[internalName]
 	}
 	
-	func getCommandsOfDeviceOfInternalName(internalName: String) -> [CommandProtocol] {
+	func getCommandsOfDevice(deviceInternalName: String) -> [CommandProtocol] {
 		return _commands.values.filter() {
 			command in
 			if let command = command as? DeviceCommand {
-				return command.deviceInternalName == internalName
+				return command.deviceInternalName == deviceInternalName
 			}
 			return false
 		}
 	}
 	
-	private func addCommand(command: CommandProtocol) {
-		if _commands.indexForKey(command.internalName) == nil {
+	private func addCommand(_ command: CommandProtocol) {
+		if _commands.index(forKey: command.internalName) == nil {
 			_commands[command.internalName] = command
 		}
 	}
 	
-	func getCommandCountForDeviceOfInternalName(internalName: String) -> Int {
-		return getCommandsOfDeviceOfInternalName(internalName).count
+	func getCommandCountForDevice(deviceInternalName: String) -> Int {
+		return getCommandsOfDevice(deviceInternalName: deviceInternalName).count
 	}
 	
 }
@@ -109,8 +101,8 @@ extension CommandManager: Manager {
 		return "Command"
 	}
 	
-	func isNameUnique(name: String) -> Bool {
-		return _commands.indexForKey(name) == nil
+	func isNameUnique(_ name: String) -> Bool {
+		return _commands.index(forKey: name) == nil
 	}
 }
 
@@ -126,7 +118,7 @@ extension CommandManager: CloudKitObject {
 		}
 	}
 	
-	private func importCommand(commandRecordName: String, getDevice: (internalName: String) -> DeviceProtocol?) {
+	private func importCommand(_ commandRecordName: String, getDevice: (internalName: String) -> DeviceProtocol?) {
 		CloudKitHelper.sharedHelper.importRecord(commandRecordName) {
 			(record) in
 			do {
@@ -134,7 +126,7 @@ extension CommandManager: CloudKitObject {
 					
 					
 					guard let deviceInternalName = record["deviceInternalName"] as? String else {
-						throw CommandManagerClassError.CommandClassInvalid
+						throw CommandManagerClassError.commandClassInvalid
 					}
 					
 					
@@ -161,7 +153,7 @@ extension CommandManager: CloudKitObject {
 					}
 					
 					if let command = command {
-						if self._commands.indexForKey(command.internalName) == nil {
+						if self._commands.index(forKey: command.internalName) == nil {
 							self._commands[command.internalName] = command
 						}
 					}
@@ -173,19 +165,19 @@ extension CommandManager: CloudKitObject {
 		}
 	}
 	
-	private func getCommandType(record: CKRecord) throws -> CommandType {
+	private func getCommandType(_ record: CKRecord) throws -> CommandType {
 		guard let commandTypeRawValue = record["type"] as? Int else {
-			throw CommandManagerClassError.CommandClassInvalid
+			throw CommandManagerClassError.commandClassInvalid
 		}
 		
 		guard let commandType = CommandType(rawValue: commandTypeRawValue) else {
-			throw CommandManagerClassError.CommandClassInvalid
+			throw CommandManagerClassError.commandClassInvalid
 		}
 		
 		return commandType
 	}
 	
-	private func addOnOffCommand(deviceInternalName: String, getDevice: (internalName: String) -> DeviceProtocol?) {
+	private func addOnOffCommand(_ deviceInternalName: String, getDevice: (internalName: String) -> DeviceProtocol?) {
 		if _commands[deviceInternalName] == nil {
 			let command = OnOffCommand(deviceInternalName: deviceInternalName, getDevice: getDevice)
 			addCommand(command)
@@ -201,7 +193,7 @@ extension CommandManager: CloudKitObject {
 		return _currentCKRecordName
 	}
 	
-	func setUpCKRecord(record: CKRecord) {
+	func setUpCKRecord(_ record: CKRecord) {
 		_currentCKRecordName = record.recordID.recordName
 		
 		var commandList = [String]()

@@ -15,12 +15,12 @@ protocol DeviceProtocol: Nameable, CloudKitObject {
 	var onCommand: DeviceCommand? {get}
 	var offCommand: DeviceCommand? {get}
 	
-	func setConnector(connector: Connector)
-	func setOnCommand(command: DeviceCommand)
-	func setOffCommand(command: DeviceCommand)
+	func setConnector(_ connector: Connector)
+	func setOnCommand(_ command: DeviceCommand)
+	func setOffCommand(_ command: DeviceCommand)
 	func switchOn()
 	func switchOff()
-	func notifyCommandExecution(sender: DeviceCommand)
+	func notifyCommandExecution(_ sender: DeviceCommand)
 }
 
 //MARK: - Equatable

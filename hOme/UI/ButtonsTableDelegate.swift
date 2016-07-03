@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ButtonsTableDelegate: NSObject, UITableViewDataSource, UITableViewDelegate {
 	
@@ -16,22 +17,22 @@ class ButtonsTableDelegate: NSObject, UITableViewDataSource, UITableViewDelegate
 	private var _showButtonView: ((button: Button) -> Void)?
 	private var _buttons = [Button]()
 	
-	func setShowButtonView(showButtonView: (button: Button) -> Void) {
+	func setShowButtonView(_ showButtonView: (button: Button) -> Void) {
 		_showButtonView = showButtonView
 	}
 	
-	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	func numberOfSections(in tableView: UITableView) -> Int {
 		return 2
 	}
 
-	func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		if section == _sectionButtons {
 			return "Buttons"
 		}
 		return ""
 	}
 	
-	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if section == _sectionButtons {
 			if let application = application {
 				_buttons = application.getButtons()
@@ -43,30 +44,30 @@ class ButtonsTableDelegate: NSObject, UITableViewDataSource, UITableViewDelegate
 		return 0
 	}
 	
-	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "Cell")
 		
 		if let label = cell.textLabel {
-			if indexPath.section == _sectionButtons {
+			if (indexPath as NSIndexPath).section == _sectionButtons {
 				if let application = application {
-					label.text = application.getButtons()[indexPath.row].name
+					label.text = application.getButtons()[(indexPath as NSIndexPath).row].name
 				}
-			} else if indexPath.section ==  _sectionNewButton {
+			} else if (indexPath as NSIndexPath).section ==  _sectionNewButton {
 				label.text = "Add New Button..."
 			}
 			
 		}
 		
-		if indexPath.section == _sectionButtons {
-			cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+		if (indexPath as NSIndexPath).section == _sectionButtons {
+			cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
 		}
 		return cell
 	}
 	
-	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if indexPath.section == _sectionButtons {
-				_showButtonView?(button: _buttons[indexPath.row])
-		} else if indexPath.section == _sectionNewButton {
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if (indexPath as NSIndexPath).section == _sectionButtons {
+				_showButtonView?(button: _buttons[(indexPath as NSIndexPath).row])
+		} else if (indexPath as NSIndexPath).section == _sectionNewButton {
 			_showNewButtonView?()
 			application?.createNewButton(ButtonType.flic, name: "button") {
 				tableView.reloadData()
@@ -74,11 +75,11 @@ class ButtonsTableDelegate: NSObject, UITableViewDataSource, UITableViewDelegate
 		}
 	}
 	
-	func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-		let delete = UITableViewRowAction(style: .Destructive, title: "Delete") {
+	func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+		let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
 			action, indexPath in
 			if let application = self.application {
-				application.deleteButton(self._buttons[indexPath.row])
+				application.deleteButton(self._buttons[(indexPath as NSIndexPath).row])
 				tableView.reloadData()
 			}
 		}
@@ -86,17 +87,17 @@ class ButtonsTableDelegate: NSObject, UITableViewDataSource, UITableViewDelegate
 		return [delete]
 	}
 	
-	func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-		return indexPath.section == _sectionButtons
+	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		return (indexPath as NSIndexPath).section == _sectionButtons
 	}
 	
-	private func setButtons(buttons: [Button]) {
+	private func setButtons(_ buttons: [Button]) {
 		for button in _buttons {
-			button.setOnPressForUI(nil)
+			button.setOnPressForUI(onPress: nil)
 		}
 		_buttons = buttons
 		for button in _buttons {
-			button.setOnPressForUI(nil)
+			button.setOnPressForUI(onPress: nil)
 		}
 	}
 }

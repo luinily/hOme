@@ -20,7 +20,7 @@ class NameEditCell: UITableViewCell {
 		}
 	}
 
-	@IBAction func editingDidEnd(sender: AnyObject) {
+	@IBAction func editingDidEnd(_ sender: AnyObject) {
 		if let newName = edit.text {
 			_nameable?.name = newName
 		}

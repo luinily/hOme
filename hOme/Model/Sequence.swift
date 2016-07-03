@@ -9,15 +9,15 @@
 import Foundation
 import CloudKit
 
-enum SequenceClassError: ErrorType {
-    case NoNameInRecord
-    case NoCommandNames
-    case RecordTimeInvalid
+enum SequenceClassError: ErrorProtocol {
+    case noNameInRecord
+    case noCommandNames
+    case recordTimeInvalid
 }
 class Sequence: NSObject {
     private var _name: Name
     private var _commands = [Int: [CommandProtocol]]()
-    private var _timer: NSTimer?
+    private var _timer: Timer?
     private var _time: Int
     private var _maxTime: Int
 	private var _currentCKRecordName: String? = nil
@@ -55,8 +55,8 @@ class Sequence: NSObject {
 		return _commands.count
 	}
 	
-	func getCommands() -> [(Int, [CommandProtocol])] {
-		return _commands.sort() {
+	func getCommands() -> [(key: Int, value: [CommandProtocol])] {
+		return _commands.sorted() {
 			(command1, command2) in
 			return command1.0 < command2.0
 		}
@@ -79,8 +79,8 @@ class Sequence: NSObject {
 	}
 	
 	func removeCommand(time: Int, commandToRemove: CommandProtocol) {
-		if let index = _commands[time]?.indexOf(({$0.isEqualTo(commandToRemove)})) {
-			_commands[time]?.removeAtIndex(index)
+		if let index = _commands[time]?.index(where: ({$0.isEqualTo(commandToRemove)})) {
+			_commands[time]?.remove(at: index)
 			if let commands = _commands[time] {
 				if commands.isEmpty {
 					_commands[time] = nil
@@ -89,7 +89,7 @@ class Sequence: NSObject {
 		}
 	}
 	
-	func executeTaskForTimer(timer: NSTimer) {
+	func executeTaskForTimer(_ timer: Timer) {
 		if let commands = _commands[_time] {
 			for command in commands {
 				command.execute()
@@ -121,7 +121,7 @@ extension Sequence: Nameable {
 extension Sequence: CommandProtocol {
 	func execute () {
 		_time = 0
-		_timer = NSTimer.scheduledTimerWithTimeInterval(60, target: self, selector: #selector(Sequence.executeTaskForTimer(_:)), userInfo: nil, repeats: true)
+		_timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(Sequence.executeTaskForTimer(_:)), userInfo: nil, repeats: true)
 		_timer?.fire()
 		
 	}
@@ -133,7 +133,7 @@ extension Sequence: CloudKitObject {
 		self.init(iCloudRecordName: record.recordID.recordName)
 		
 		guard let name = record["Name"] as? String else {
-			throw SequenceClassError.NoNameInRecord
+			throw SequenceClassError.noNameInRecord
 		}
 		
 		if let data = record["Data"] as? [String] {
@@ -159,7 +159,7 @@ extension Sequence: CloudKitObject {
 		}
 		
 		guard let internalName = record["InternalName"] as? String else {
-			throw SequenceClassError.NoNameInRecord
+			throw SequenceClassError.noNameInRecord
 		}
 		
 		_name = Name(name: name, internalName: internalName)
@@ -180,7 +180,7 @@ extension Sequence: CloudKitObject {
 		return "SequenceClass"
 	}
 	
-	func setUpCKRecord(record: CKRecord) {
+	func setUpCKRecord(_ record: CKRecord) {
 		record["Name"] = _name.name
 		record["InternalName"] = _name.internalName
 		var data = [String]()

@@ -14,7 +14,7 @@ class EditNameViewController: UITableViewController {
 	
 	@IBOutlet weak var nameEdit: UITextField!
 	
-	@IBAction func onNameEdited(sender: AnyObject) {
+	@IBAction func onNameEdited(_ sender: AnyObject) {
 		if let text = nameEdit.text {
 			name = text
 		}

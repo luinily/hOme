@@ -9,11 +9,11 @@
 import Foundation
 import CloudKit
 
-enum ConnectorClassError: ErrorType {
-    case NoNameInCKRecord
+enum ConnectorClassError: ErrorProtocol {
+    case noNameInCKRecord
 }
 
-protocol Connector: Nameable, CloudKitObject {
+protocol Connector: Nameable {
 	var connectorType: ConnectorType {
 		get
 	}

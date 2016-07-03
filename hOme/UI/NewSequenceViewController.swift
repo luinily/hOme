@@ -21,23 +21,23 @@ class NewSequenceViewController: UITableViewController {
 	
 	@IBOutlet weak var doneButton: UIBarButtonItem!
 	
-	@IBAction func cancel(sender: AnyObject) {
-		self.dismissViewControllerAnimated(true, completion: nil)
+	@IBAction func cancel(_ sender: AnyObject) {
+		self.dismiss(animated: true, completion: nil)
 	}
 	
 	
-	@IBAction func done(sender: AnyObject) {
-		application?.createNewSequence(_name)
+	@IBAction func done(_ sender: AnyObject) {
+		_ = application?.createNewSequence(name: _name)
 		_onDone?()
-		self.dismissViewControllerAnimated(true, completion: nil)
+		self.dismiss(animated: true, completion: nil)
 	}
 	
-	func setOnDone(onDone: () -> Void) {
+	func setOnDone(_ onDone: () -> Void) {
 		_onDone = onDone
 	}
 	
-	private func onNameChanged(newName: String) {
-		doneButton.enabled = newName != ""
+	private func onNameChanged(_ newName: String) {
+		doneButton.isEnabled = newName != ""
 	}
 }
 
@@ -49,21 +49,21 @@ extension NewSequenceViewController: ApplicationUser {
 //MARK: - Table Data Source
 extension NewSequenceViewController {
 	//MARK: Sections
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return 1
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		return "Name"
 	}
 	
 	//MARK: Cells
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("NewSequenceNameCell")
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: "NewSequenceNameCell")
 		if let cell = cell as? NameCell {
 			cell.name = _name
 			cell.setOnNameChanged(onNameChanged)
@@ -72,7 +72,7 @@ extension NewSequenceViewController {
 		if let cell = cell {
 			return cell
 		} else {
-			return UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
 }

@@ -2,7 +2,7 @@
 //  DeviceCell.swift
 //  hOme
 //
-//  Created by Coldefy Yoann on 2016/04/17.
+//  Created by Coldefy Yoann on 2016/07/02.
 //  Copyright © 2016年 YoannColdefy. All rights reserved.
 //
 
@@ -10,13 +10,14 @@ import Foundation
 import UIKit
 
 class DeviceCell: UITableViewCell {
-	@IBOutlet weak var label: UILabel!
-	private var _device: DeviceProtocol?
-	var device: DeviceProtocol? {
+	private var _device: DisplayDevice?
+	var device: DisplayDevice? {
 		get {return _device}
 		set {
 			_device = newValue
-			label.text = newValue?.name
+			nameLabel.text = _device?.name
 		}
 	}
+	
+	@IBOutlet weak var nameLabel: UILabel!
 }

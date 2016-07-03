@@ -12,9 +12,9 @@ import CloudKit
 
 
 
-enum IRKitConnectorClassError: ErrorType {
-    case NameAldreadyExists
-	case NoBonjourName
+enum IRKitConnectorClassError: ErrorProtocol {
+    case nameAldreadyExists
+	case noBonjourName
 }
 
 final class IRKitConnector: NSObject {
@@ -56,7 +56,7 @@ final class IRKitConnector: NSObject {
 	}
 
 	//MARK: data sending/reception
-	func sendDataToIRKit(data: IRKITSignal, completionHandler: (() -> Void)?) {
+	func sendDataToIRKit(_ data: IRKITSignal, completionHandler: (() -> Void)?) {
 		_dataToSend.append((data, completionHandler))
 		if !_sendingData {
 			_sendingData = true
@@ -64,10 +64,16 @@ final class IRKitConnector: NSObject {
 		}
 	}
     
-    func getDataFromIRKit(onComplete: (data: IRKITSignal) -> Void) {
+    func getDataFromIRKit(_ onComplete: (data: IRKITSignal) -> Void) {
         _gotData = false
 		if let ipAddress = _ipAddress {
-			Alamofire.request(.GET, "http://" + ipAddress + "/messages", headers: ["X-Requested-With": "curl"]).responseJSON {
+			_ = Alamofire.request(
+								.GET,
+								"http://" + ipAddress + "/messages",
+								parameters: nil,
+								encoding: ParameterEncoding.json,
+								headers: ["X-Requested-With": "curl"]
+				).responseJSON {
 				response in
 				print("request : ")
 				print(response.request)  // original URL request
@@ -86,7 +92,7 @@ final class IRKitConnector: NSObject {
 		}
     }
 
-    func getData(onComplete : (data: IRKITSignal) -> Void) {
+    func getData(_ onComplete : (data: IRKITSignal) -> Void) {
         getDataFromIRKit(onComplete)
     }
 	
@@ -96,7 +102,7 @@ final class IRKitConnector: NSObject {
 			
 			let json = data.data.getJSON()
 			if let ipAddress = _ipAddress, json = json {
-				Alamofire.upload(.POST, "http://" + ipAddress + "/messages", headers: ["X-Requested-With": "curl"], data: json).responseJSON {
+				_ = Alamofire.upload(.POST, "http://" + ipAddress + "/messages", headers: ["X-Requested-With": "curl"], data: json).responseJSON {
 					response in
 					print("Send IRkit Data")
 					data.completionHandler?()
@@ -116,7 +122,7 @@ final class IRKitConnector: NSObject {
 	
 	//MARK: IP
 	private func findIPWithoutHandler() {
-		findIP({})
+		findIP(completionHandler: {})
 	}
 	
 	func findIP(completionHandler: () -> Void) {
@@ -159,16 +165,16 @@ extension IRKitConnector: CloudKitObject {
 		self.init(ckRecordName: ckRecord.recordID.recordName, name: Name(name: "", internalName: ""))
 		
 		guard let name = ckRecord["Name"] as? String else {
-			throw ConnectorClassError.NoNameInCKRecord
+			throw ConnectorClassError.noNameInCKRecord
 		}
 		
 		guard let bonjourName = ckRecord["BonjourName"] as? String else {
-			throw IRKitConnectorClassError.NoBonjourName
+			throw IRKitConnectorClassError.noBonjourName
 		}
 		
 		_name = name
 		_bonjourName = bonjourName
-		dispatch_async(dispatch_get_main_queue(), findIPWithoutHandler)
+		DispatchQueue.main.async(execute: findIPWithoutHandler)
 	}
 	
 	func getNewCKRecordName() -> String {
@@ -183,7 +189,7 @@ extension IRKitConnector: CloudKitObject {
 		return "IRKitConnector"
 	}
 	
-	func setUpCKRecord(record: CKRecord) {
+	func setUpCKRecord(_ record: CKRecord) {
 		record["ConnectorType"] = getCommandType().rawValue
 		record["Name"] = _name
 		record["BonjourName"] = _bonjourName

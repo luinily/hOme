@@ -9,9 +9,9 @@
 import Foundation
 import CloudKit
 
-enum DeviceManagerClassError: ErrorType {
-    case NoDeviceNamesInRecord
-    case CouldNotFindDeviceInCK
+enum DeviceManagerClassError: ErrorProtocol {
+    case noDeviceNamesInRecord
+    case couldNotFindDeviceInCK
 }
 
 class DeviceManager {
@@ -19,20 +19,20 @@ class DeviceManager {
 	private var _currentCKRecordName: String?
 	
 	var devices: [DeviceProtocol] {
-		return _devices.values.sort() {
+		return _devices.values.sorted() {
 			(device1, device2) in
 			return device1.name < device2.name
 			}
 		}
     
     var count: Int {return _devices.count}
-    var devicesNames: [String] {return _devices.keys.sort()}
+    var devicesNames: [String] {return _devices.keys.sorted()}
     
     init() {
         _devices = [String: DeviceProtocol]()
     }
 	
-	func CreateDeviceOfName(name: String, connector: Connector, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) -> DeviceProtocol {
+	func CreateDevice(name: String, connector: Connector, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) -> DeviceProtocol {
 		
 		let newName = Name(name: name, internalName: createNewUniqueName())
 		let newDevice = Device(name: newName, connectorInternalName: connector.internalName, getCommand: getCommand, getConnector: getConnector)
@@ -43,19 +43,19 @@ class DeviceManager {
 		return newDevice
 	}
     
-	func deleteDevice(device: DeviceProtocol) {
-		_devices.removeValueForKey(device.internalName)
+	func deleteDevice(_ device: DeviceProtocol) {
+		_devices.removeValue(forKey: device.internalName)
 		CloudKitHelper.sharedHelper.remove(device)
 		updateCloudKit()
 		
 	}
     
-    func getDeviceOfInternalName(deviceInternalName: String) -> DeviceProtocol? {
-        return _devices[deviceInternalName] //returns nil if not in the dictionary (? magic)
+    func getDevice(internalName: String) -> DeviceProtocol? {
+        return _devices[internalName] //returns nil if not in the dictionary (? magic)
     }
 	
 	func getDevices() -> [DeviceProtocol] {
-		return _devices.values.sort() {
+		return _devices.values.sorted() {
 			(lhand, rhand) in
 			return lhand.name > rhand.name
 		}
@@ -69,8 +69,8 @@ extension DeviceManager: Manager {
 		return "Device"
 	}
 	
-	func isNameUnique(name: String) -> Bool {
-		return _devices.indexForKey(name) == nil
+	func isNameUnique(_ name: String) -> Bool {
+		return _devices.index(forKey: name) == nil
 	}
 }
 
@@ -82,7 +82,7 @@ extension DeviceManager: CloudKitObject {
 		_currentCKRecordName = ckRecord.recordID.recordName
 		
 		guard let devicesRecordNames = ckRecord["devicesRecordNames"] as? [String] else {
-			throw DeviceManagerClassError.NoDeviceNamesInRecord
+			throw DeviceManagerClassError.noDeviceNamesInRecord
 		}
 		
 		for recordName in devicesRecordNames {
@@ -91,7 +91,7 @@ extension DeviceManager: CloudKitObject {
 				do {
 					if let record = record {
 						let device = try Device(ckRecord: record, getCommand: getCommand, getConnector: getConnector)
-						if self._devices.indexForKey(device.internalName) == nil {
+						if self._devices.index(forKey: device.internalName) == nil {
 							self._devices[device.internalName] = device
 						}
 					}
@@ -114,7 +114,7 @@ extension DeviceManager: CloudKitObject {
 		return "DeviceManager"
 	}
 	
-	func setUpCKRecord(record: CKRecord) {
+	func setUpCKRecord(_ record: CKRecord) {
 		var devicesRecordNames = [String]()
 		for device in _devices {
 			devicesRecordNames.append(device.1.getNewCKRecordName())

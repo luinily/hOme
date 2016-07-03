@@ -8,16 +8,16 @@
 
 import Foundation
 
-enum CommandClassError: ErrorType {
-	case NoNameInCKRecord
-	case NoDeviceNameInCKRecord
+enum CommandClassError: ErrorProtocol {
+	case noNameInCKRecord
+	case noDeviceNameInCKRecord
 }
 
 enum ExecutionEffectOnDevice: Int {
-	case None = 0
-	case SetDeviceOn = 1
-	case SetDeviceOff = 2
-	case SetDeviceOnOrOff = 3
+	case none = 0
+	case setDeviceOn = 1
+	case setDeviceOff = 2
+	case setDeviceOnOrOff = 3
 }
 
 protocol DeviceCommand: CommandProtocol {

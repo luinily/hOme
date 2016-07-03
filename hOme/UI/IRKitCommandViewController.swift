@@ -15,17 +15,17 @@ class IRKitCommandViewController: UITableViewController {
 	private var _command: IRKitCommand?
 	private let _nameSection = 0
 	private let _infosSection = 1
-	private let _nameCellIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-	private let _commandOnOfftypeCellIndexPath = NSIndexPath(forRow: 1, inSection: 0)
-	private let _formatCellIndedxPath = NSIndexPath(forRow: 0, inSection: 1)
-	private let _frequenceCellIndexPath = NSIndexPath(forRow: 1, inSection: 1)
-	private let _dataCellIndexPath = NSIndexPath(forRow: 2, inSection: 1)
+	private let _nameCellIndexPath = IndexPath(row: 0, section: 0)
+	private let _commandOnOfftypeCellIndexPath = IndexPath(row: 1, section: 0)
+	private let _formatCellIndedxPath = IndexPath(row: 0, section: 1)
+	private let _frequenceCellIndexPath = IndexPath(row: 1, section: 1)
+	private let _dataCellIndexPath = IndexPath(row: 2, section: 1)
 	
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		table.reloadData()
 	}
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? IRKitDataCell {
 			if let view = segue.destinationViewController as? IRKitDataViewController {
 				view.setIRKitData(String(cell.data))
@@ -38,11 +38,11 @@ class IRKitCommandViewController: UITableViewController {
 		}
 	}
 	
-	func setCommand(command: IRKitCommand) {
+	func setCommand(_ command: IRKitCommand) {
 		_command = command
 	}
 	
-	private func isNameValid(name: String) -> Bool {
+	private func isNameValid(_ name: String) -> Bool {
 		return !name.isEmpty
 	}
 
@@ -57,11 +57,11 @@ extension IRKitCommandViewController: ApplicationUser {
 extension IRKitCommandViewController {
 	
 	//MARK: Sections
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 2
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
 		case _nameSection: return ""
 		case _infosSection: return "IRKit"
@@ -69,7 +69,7 @@ extension IRKitCommandViewController {
 		}
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
 		case _nameSection: return 2
 		case _infosSection: return 3
@@ -78,7 +78,7 @@ extension IRKitCommandViewController {
 	}
 	
 	//MARK: Cells
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		var cell: UITableViewCell? = nil
 		
 		switch indexPath {
@@ -99,13 +99,13 @@ extension IRKitCommandViewController {
 		if let cell = cell {
 			return cell
 		} else {
-			return UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
 	
 	private func makeNameCell() -> UITableViewCell? {
 		if let command = _command {
-			let cell = tableView.dequeueReusableCellWithIdentifier("IRKitNameCell")
+			let cell = tableView.dequeueReusableCell(withIdentifier: "IRKitNameCell")
 			if let cell = cell as? IRKitNameCell {
 				cell.nameableObject = command
 				cell.setIsNameValid(isNameValid)
@@ -117,7 +117,7 @@ extension IRKitCommandViewController {
 	
 	private func makeCommandOnOffTypeCell() -> UITableViewCell? {
 		if let command = _command {
-			let cell = tableView.dequeueReusableCellWithIdentifier("IRKitCommandOnOffSettingCell")
+			let cell = tableView.dequeueReusableCell(withIdentifier: "IRKitCommandOnOffSettingCell")
 			if let cell = cell as? IRKitDeviceOnOffSettingCell {
 				cell.command = command
 			}
@@ -128,7 +128,7 @@ extension IRKitCommandViewController {
 	
 	private func makeFormatCell() -> UITableViewCell? {
 		if let command = _command {
-			let cell = tableView.dequeueReusableCellWithIdentifier("IRKitDetailCell")
+			let cell = tableView.dequeueReusableCell(withIdentifier: "IRKitDetailCell")
 			if let label = cell?.textLabel {
 				label.text = "Format"
 			}
@@ -142,7 +142,7 @@ extension IRKitCommandViewController {
 	
 	private func makeFrequenceCell() -> UITableViewCell? {
 		if let command = _command {
-			let cell = tableView.dequeueReusableCellWithIdentifier("IRKitDetailCell")
+			let cell = tableView.dequeueReusableCell(withIdentifier: "IRKitDetailCell")
 			if let label = cell?.textLabel {
 				label.text = "Frequence"
 			}
@@ -156,7 +156,7 @@ extension IRKitCommandViewController {
 
 	private func makeDataCell() -> UITableViewCell? {
 		if let command = _command {
-			let cell = tableView.dequeueReusableCellWithIdentifier("IRKitDataCell")
+			let cell = tableView.dequeueReusableCell(withIdentifier: "IRKitDataCell")
 			if let cell = cell as? IRKitDataCell {
 				cell.data = command.irSignal.data
 			}
@@ -165,7 +165,7 @@ extension IRKitCommandViewController {
 		return nil
 	}
 	
-	override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return false
 	}
 }

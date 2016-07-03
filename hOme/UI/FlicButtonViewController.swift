@@ -20,11 +20,11 @@ class FlicButtonViewController: UITableViewController {
 	
 	override func viewDidLoad() {
 		reloadView()
-		nameTextField.addTarget(self, action: #selector(nameDidChange), forControlEvents: .EditingDidEnd)
+		nameTextField.addTarget(self, action: #selector(nameDidChange), for: .editingDidEnd)
 		nameTextField.becomeFirstResponder()
 	}
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		guard let button = _button else {
 			return
 		}
@@ -32,38 +32,38 @@ class FlicButtonViewController: UITableViewController {
 		if let viewController = segue.destinationViewController as? SelectCommandViewController {
 			if segue.identifier == "SelectFlicClickCommandSegue" {
 				viewController.setOnCommandSelected(onSelectClickAction)
-				viewController.setSelectedCommand(button.getButtonAction(ButtonActionType.press))
+				viewController.setSelectedCommand(button.getButtonAction(actionType: .press))
 			} else if segue.identifier == "SelectFlicDoubleClickCommandSegue" {
 				viewController.setOnCommandSelected(onSelectDoubleClickAction)
-				viewController.setSelectedCommand(button.getButtonAction(ButtonActionType.doublePress))
+				viewController.setSelectedCommand(button.getButtonAction(actionType: .doublePress))
 			} else if segue.identifier == "SelectFlicHoldCommandSegue" {
 				viewController.setOnCommandSelected(onSelectHoldAction)
-				viewController.setSelectedCommand(button.getButtonAction(ButtonActionType.longPress))
+				viewController.setSelectedCommand(button.getButtonAction(actionType: .longPress))
 			}
 			
 		}
 	}
 	
-	override func willMoveToParentViewController(parent: UIViewController?) {
+	override func willMove(toParentViewController parent: UIViewController?) {
 		_onReturnToParent?()
 	}
 	
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if indexPath.section == 2 {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if (indexPath as NSIndexPath).section == 2 {
 			_button?.reconnectButton()
 		}
 	}
-	func setButton(button: FlicButton) {
+	func setButton(_ button: FlicButton) {
 		_button = button
 	}
 	
-	func setOnReturnToParent(onReturnToParent: () -> Void) {
+	func setOnReturnToParent(_ onReturnToParent: () -> Void) {
 		_onReturnToParent = onReturnToParent
 	}
 	
-	private func showSelectCommandView(button: Button) {
+	private func showSelectCommandView(_ button: Button) {
 		if button is FlicButton {
-			performSegueWithIdentifier("EditFlicButtonSegue", sender: self)
+			performSegue(withIdentifier: "EditFlicButtonSegue", sender: self)
 		}
 	}
 	
@@ -75,36 +75,36 @@ class FlicButtonViewController: UITableViewController {
 		
 		if let button = _button {
 			nameTextField.text = button.name
-			if let command = button.getButtonAction(ButtonActionType.press) {
+			if let command = button.getButtonAction(actionType: .press) {
 				clickLabel.text = command.fullName
 			}
-			if let command = button.getButtonAction(ButtonActionType.doublePress) {
+			if let command = button.getButtonAction(actionType: .doublePress) {
 				doubleClickLabel.text = command.fullName
 			}
-			if let command = button.getButtonAction(ButtonActionType.longPress) {
+			if let command = button.getButtonAction(actionType: .longPress) {
 				holdLabel.text = command.fullName
 			}
 		}
 	}
 	
-	func nameDidChange(sender: UITextField) {
+	func nameDidChange(_ sender: UITextField) {
 		if let name = sender.text {
 			_button?.name = name
 		}
 	}
 	
-	private func onSelectClickAction(command: CommandProtocol?) {
-		_button?.setButtonAction(ButtonActionType.press, action: command)
+	private func onSelectClickAction(_ command: CommandProtocol?) {
+		_button?.setButtonAction(actionType: .press, action: command)
 		reloadView()
 	}
 	
-	private func onSelectDoubleClickAction(command: CommandProtocol?) {
-		_button?.setButtonAction(ButtonActionType.doublePress, action: command)
+	private func onSelectDoubleClickAction(_ command: CommandProtocol?) {
+		_button?.setButtonAction(actionType: .doublePress, action: command)
 		reloadView()
 	}
 	
-	private func onSelectHoldAction(command: CommandProtocol?) {
-		_button?.setButtonAction(ButtonActionType.longPress, action: command)
+	private func onSelectHoldAction(_ command: CommandProtocol?) {
+		_button?.setButtonAction(actionType: .longPress, action: command)
 		reloadView()
 	}
 }

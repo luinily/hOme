@@ -9,10 +9,10 @@
 import Foundation
 import CloudKit
 
-enum IRKitCommandClassError: ErrorType {
-    case NoFormatInCKRecord
-    case NoFrequenceInCKRecord
-    case NoDataInCKRecord
+enum IRKitCommandClassError: ErrorProtocol {
+    case noFormatInCKRecord
+    case noFrequenceInCKRecord
+    case noDataInCKRecord
 }
 
 final class IRKitCommand {
@@ -20,7 +20,7 @@ final class IRKitCommand {
     private var _irSignal = IRKITSignal()
 	private var _deviceInternalName: String
 	private var _getDevice: (deviceInternalName: String) -> DeviceProtocol?
-	private var _executionEffectOnDevice: ExecutionEffectOnDevice = .None
+	private var _executionEffectOnDevice: ExecutionEffectOnDevice = .none
 	private var _currentCKRecordName: String?
 	private var _notifyDeviceOfExecution: (sender: DeviceCommand) -> Void
 
@@ -46,11 +46,11 @@ final class IRKitCommand {
 		_notifyDeviceOfExecution = notifyDeviceOfExecution
 	}
 	
-	func isEqualTo(other: IRKitCommand) -> Bool {
+	func isEqualTo(_ other: IRKitCommand) -> Bool {
 		return (_name == other._name) && (_deviceInternalName == other._deviceInternalName) && (_irSignal == other._irSignal)
 	}
 	
-	func setIRSignal(signal: IRKITSignal) {
+	func setIRSignal(_ signal: IRKITSignal) {
 		_irSignal = signal
 		updateCloudKit()
 	}
@@ -122,17 +122,17 @@ extension IRKitCommand: CloudKitObject {
 
 		
 		guard let name = ckRecord["name"] as? String else {
-			throw CommandClassError.NoNameInCKRecord
+			throw CommandClassError.noNameInCKRecord
 		}
 		guard let format = ckRecord["format"] as? String else {
-			throw IRKitCommandClassError.NoFormatInCKRecord
+			throw IRKitCommandClassError.noFormatInCKRecord
 		}
 		guard let frequence = ckRecord["frequence"] as? Int else {
-			throw IRKitCommandClassError.NoFrequenceInCKRecord
+			throw IRKitCommandClassError.noFrequenceInCKRecord
 		}
 		
 		guard let data = ckRecord["data"] as? [Int] else {
-			throw IRKitCommandClassError.NoDataInCKRecord
+			throw IRKitCommandClassError.noDataInCKRecord
 		}
 		
 		if let deviceInternalName = ckRecord["deviceInternalName"] as? String {
@@ -167,7 +167,7 @@ extension IRKitCommand: CloudKitObject {
 		return _currentCKRecordName
 	}
 	
-	func setUpCKRecord(record: CKRecord) {
+	func setUpCKRecord(_ record: CKRecord) {
 		record["deviceName"] = nil
 		
 		record["type"] = IRKitCommand.getCommandType().rawValue

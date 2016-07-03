@@ -28,7 +28,7 @@ class SelectCommandViewController: UITableViewController {
 	}
 	
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? CommandSelectorDeviceCell {
 			if let view = segue.destinationViewController as? SelectDeviceCommandViewController {
 				if let device = cell.device {
@@ -46,15 +46,15 @@ class SelectCommandViewController: UITableViewController {
 		}
 	}
 	
-	func setSelectedCommand(selectedCommand: CommandProtocol?) {
+	func setSelectedCommand(_ selectedCommand: CommandProtocol?) {
 		_selectedCommand = selectedCommand
 	}
 	
-	func setOnCommandSelected(onCommandSelected: (command: CommandProtocol?) -> Void) {
+	func setOnCommandSelected(_ onCommandSelected: (command: CommandProtocol?) -> Void) {
 		_onCommandSelected = onCommandSelected
 	}
 	
-	private func onCommandSelected(command: CommandProtocol?) {
+	private func onCommandSelected(_ command: CommandProtocol?) {
 		_selectedCommand = command
 		table.reloadData()
 		_onCommandSelected?(command: command)
@@ -68,11 +68,11 @@ extension SelectCommandViewController: ApplicationUser {
 
 //MARK: - Table Data Source
 extension SelectCommandViewController {
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 3
 	}
 	
-	override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		switch section {
 		case _deviceSection: return "Devices"
 		case _sequenceSection: return "Sequences"
@@ -80,7 +80,7 @@ extension SelectCommandViewController {
 		}
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		if let application = application {
 			switch section {
 			case _deviceSection: return application.getDeviceCount()
@@ -92,40 +92,40 @@ extension SelectCommandViewController {
 		return 0
 	}
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		var cell: UITableViewCell? = nil
-		if indexPath.section == _deviceSection {
-			cell = tableView.dequeueReusableCellWithIdentifier("CommandSelectorDeviceCell")
-		} else if indexPath.section == _sequenceSection {
-			cell = tableView.dequeueReusableCellWithIdentifier("CommandSelectorSequenceCell")
-		} else if indexPath.section == _removeSection {
-			cell = tableView.dequeueReusableCellWithIdentifier("CommandSelectorRemoveCell")
+		if (indexPath as NSIndexPath).section == _deviceSection {
+			cell = tableView.dequeueReusableCell(withIdentifier: "CommandSelectorDeviceCell")
+		} else if (indexPath as NSIndexPath).section == _sequenceSection {
+			cell = tableView.dequeueReusableCell(withIdentifier: "CommandSelectorSequenceCell")
+		} else if (indexPath as NSIndexPath).section == _removeSection {
+			cell = tableView.dequeueReusableCell(withIdentifier: "CommandSelectorRemoveCell")
 		}
 		
 		if let cell = cell as? CommandSelectorDeviceCell {
-			cell.device = application?.getDevices()[indexPath.row]
+			cell.device = application?.getDevices()[(indexPath as NSIndexPath).row]
 			cell.selectedCommand = _selectedCommand as? DeviceCommand
 			return cell
 		} else if let cell = cell as? CommandSelectorSequenceCell {
-			cell.sequence = application?.getSequences()[indexPath.row]
+			cell.sequence = application?.getSequences()[(indexPath as NSIndexPath).row]
 			cell.sequenceSelected = cell.sequence?.name == _selectedCommand?.name
 			return cell
 		} else if let cell = cell {
 			return cell
 		} else {
-			return UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
 }
 
 //MARK: - Table Delegate
 extension SelectCommandViewController {
-	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-		if indexPath.section == _sequenceSection {
-			if let cell = tableView.cellForRowAtIndexPath(indexPath) as? CommandSelectorSequenceCell {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if (indexPath as NSIndexPath).section == _sequenceSection {
+			if let cell = tableView.cellForRow(at: indexPath) as? CommandSelectorSequenceCell {
 				onCommandSelected(cell.sequence)
 			}
-		} else if indexPath.section == _removeSection {
+		} else if (indexPath as NSIndexPath).section == _removeSection {
 			onCommandSelected(nil)
 		}
 		table.reloadData()
