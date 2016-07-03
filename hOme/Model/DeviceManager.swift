@@ -81,25 +81,24 @@ extension DeviceManager: CloudKitObject {
 		
 		_currentCKRecordName = ckRecord.recordID.recordName
 		
-		guard let devicesRecordNames = ckRecord["devicesRecordNames"] as? [String] else {
-			throw DeviceManagerClassError.noDeviceNamesInRecord
-		}
-		
-		for recordName in devicesRecordNames {
-			CloudKitHelper.sharedHelper.importRecord(recordName) {
-				(record) in
-				do {
-					if let record = record {
-						let device = try Device(ckRecord: record, getCommand: getCommand, getConnector: getConnector)
-						if self._devices.index(forKey: device.internalName) == nil {
-							self._devices[device.internalName] = device
-						}
-					}
-				} catch {
-				}
+		importDevicesFromCloudKitStore(getCommand: getCommand, getConnector: getConnector)
+	}
+	
+	private func importDevicesFromCloudKitStore(getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) {
+		let store = DeviceCloudKitStore()
+		store.fetchDevices() {
+			devices in
+			for deviceInfo in devices {
+				self.createAndAddDevice(deviceInfo: deviceInfo, getCommand: getCommand, getConnector: getConnector)
 			}
 		}
-		
+	}
+	
+	private func createAndAddDevice(deviceInfo: DeviceInfo, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) {
+		let device = Device(deviceInfo: deviceInfo, getCommand: getCommand, getConnector: getConnector)
+		if self._devices.index(forKey: device.internalName) == nil {
+			self._devices[device.internalName] = device
+		}
 	}
 	
 	func getNewCKRecordName() -> String {

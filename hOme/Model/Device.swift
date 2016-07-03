@@ -51,6 +51,14 @@ class Device {
 
 	}
 	
+	init (deviceInfo: DeviceInfo, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) {
+		_name = deviceInfo.name
+		_connectorInternalName = deviceInfo.communicatorInternalName
+		_getCommand = getCommand
+		_getConnector = getConnector
+		_currentCKRecordName = deviceInfo.name.internalName
+	}
+	
 	func isEqualTo(_ other: DeviceProtocol) -> Bool {
 		if let other = other as? Device {
 			return other === self
