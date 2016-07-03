@@ -54,6 +54,8 @@ class Device {
 	init (deviceInfo: DeviceInfo, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) {
 		_name = deviceInfo.name
 		_connectorInternalName = deviceInfo.communicatorInternalName
+		_onCommandInternalName = deviceInfo.onCommandInternalName
+		_offCommandInternalName = deviceInfo.offCommandInternalName
 		_getCommand = getCommand
 		_getConnector = getConnector
 		_currentCKRecordName = deviceInfo.name.internalName
