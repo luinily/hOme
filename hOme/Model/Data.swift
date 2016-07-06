@@ -332,7 +332,7 @@ extension Data {
 
 //MARK: - Schedule
 extension Data {
-	func getScheduleCommandForTime(day: Weekday, hour: Int, minute: Int) -> [ScheduleCommand]? {
+	func getScheduleCommandForTime(day: Weekday, hour: Int, minute: Int) -> [ScheduleCommand] {
 		return _schedule.getCommands(day: day, hour: hour, minute: minute)
 	}
 }

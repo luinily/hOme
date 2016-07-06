@@ -19,23 +19,36 @@ class Application: NSObject {
 	var running: Bool { return _isRunning }
 	
 	func tic() {
-		let date = Date()
-		let calendar = Calendar.current()
-		let components = calendar.components([.weekday, .hour, .minute], from: date)
-		
-		if let hour = components.hour, minute = components.minute {
-			print("MainTic("+String(hour)+":"+String(minute)+")")
-			if let day = Weekday(rawValue: (components.weekday! + 4)%6) {
-				if let commands = _data.getScheduleCommandForTime(day: day, hour: hour, minute: minute) {
-					for command in commands {
-						command.execute()
-					}
-				}
-			}
+		if let currentTime = getCurrentTime() {
+			executeCommandsFor(day: currentTime.day, hour: currentTime.hour, minute: currentTime.minute)
+		} else {
+			print("Could not get current time")
 		}
 	}
 	
+	private func executeCommandsFor(day: Weekday, hour: Int, minute: Int) {
+		let commands = _data.getScheduleCommandForTime(day: day, hour: hour, minute: minute)
+		
+		print("MainTic("+String(hour)+":"+String(minute)+"): " + String(commands.count) + " commands to execute")
+		
+		for command in commands {
+			command.execute()
+		}
+	}
 	
+	private func getCurrentTime() -> (day: Weekday, hour: Int, minute: Int)? {
+		let date = Date()
+		let calendar = Calendar.current
+		let components = calendar.components([.weekday, .hour, .minute], from: date)
+		
+		if let day = Weekday(rawValue: (components.weekday! + 4)%6),
+			   hour = components.hour,
+			   minute = components.minute {
+			return (day: day, hour: hour, minute: minute)
+		}
+		
+		return nil
+	}
 	
 	private func mainLoopTic() {
 		_mainTimer = Timer.scheduledTimer(timeInterval: _oneMinute, target: self, selector: #selector(Application.tic), userInfo: nil, repeats: true)

@@ -85,8 +85,12 @@ class Schedule {
 		return result
 	}
 	
-	func getCommands(day: Weekday, hour: Int, minute: Int) -> [ScheduleCommand]? {
-		return _schedule[day]?[hour]?[minute]
+	func getCommands(day: Weekday, hour: Int, minute: Int) -> [ScheduleCommand] {
+		if let commands = _schedule[day]?[hour]?[minute] {
+			return commands
+		} else {
+			return [ScheduleCommand]()
+		}
 	}
 	
 	private func addCommandToSchedule(_ command: ScheduleCommand) {
