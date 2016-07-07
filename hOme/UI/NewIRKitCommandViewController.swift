@@ -134,7 +134,7 @@ class NewIRKitCommandViewController: UITableViewController {
 			device = _device,
 			irSignal = _irSignal {
 				if let command = appDelegate.homeApplication.createNewCommand(device: device, name: _name) as? IRKitCommand {
-					command.setIRSignal(irSignal)
+					command.setIRSignal(signal: irSignal)
 					_command = command
 				}
 		}

@@ -10,19 +10,25 @@ import Foundation
 import UIKit
 
 class IRKitCommandViewController: UITableViewController {
-	
-	@IBOutlet var table: UITableView!
 	private var _command: IRKitCommand?
+	
+	private let _numberOfSections = 2
+	//Mark: Name Section Constants
 	private let _nameSection = 0
-	private let _infosSection = 1
+	private let _numberOfCellsInNameSection = 2
 	private let _nameCellIndexPath = IndexPath(row: 0, section: 0)
 	private let _commandOnOfftypeCellIndexPath = IndexPath(row: 1, section: 0)
-	private let _formatCellIndedxPath = IndexPath(row: 0, section: 1)
+	
+	//Mark: info Section Constants
+	private let _infosSection = 1
+	private let _numberOfCellsInInfoSection = 4
+	private let _formatCellIndexPath = IndexPath(row: 0, section: 1)
 	private let _frequenceCellIndexPath = IndexPath(row: 1, section: 1)
 	private let _dataCellIndexPath = IndexPath(row: 2, section: 1)
+	private let _dataReloadCellIndexPath = IndexPath(row: 3, section: 1)
 	
 	override func viewWillAppear(_ animated: Bool) {
-		table.reloadData()
+		tableView.reloadData()
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -58,7 +64,7 @@ extension IRKitCommandViewController {
 	
 	//MARK: Sections
 	override func numberOfSections(in tableView: UITableView) -> Int {
-		return 2
+		return _numberOfSections
 	}
 	
 	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -71,35 +77,37 @@ extension IRKitCommandViewController {
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		switch section {
-		case _nameSection: return 2
-		case _infosSection: return 3
+		case _nameSection: return _numberOfCellsInNameSection
+		case _infosSection: return _numberOfCellsInInfoSection
 		default: return 0
 		}
 	}
 	
 	//MARK: Cells
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		var cell: UITableViewCell? = nil
-		
-		switch indexPath {
-		case _nameCellIndexPath:
-			cell = makeNameCell()
-		case _commandOnOfftypeCellIndexPath:
-			cell = makeCommandOnOffTypeCell()
-		case _formatCellIndedxPath:
-			cell = makeFormatCell()
-		case _frequenceCellIndexPath:
-			cell = makeFrequenceCell()
-		case _dataCellIndexPath:
-			cell = makeDataCell()
-		default:
-			cell = nil
-		}
-		
-		if let cell = cell {
+		if let cell = makeCellForIndexPath(indexPath: indexPath) {
 			return cell
 		} else {
 			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
+		}
+	}
+	
+	private func makeCellForIndexPath(indexPath: IndexPath) -> UITableViewCell? {
+		switch indexPath {
+		case _nameCellIndexPath:
+			return makeNameCell()
+		case _commandOnOfftypeCellIndexPath:
+			return makeCommandOnOffTypeCell()
+		case _formatCellIndexPath:
+			return makeFormatCell()
+		case _frequenceCellIndexPath:
+			return makeFrequenceCell()
+		case _dataCellIndexPath:
+			return makeDataCell()
+		case _dataReloadCellIndexPath:
+			return makeReloadDataCell()
+		default:
+			return nil
 		}
 	}
 	
@@ -165,6 +173,10 @@ extension IRKitCommandViewController {
 		return nil
 	}
 	
+	private func makeReloadDataCell() -> UITableViewCell? {
+		return tableView.dequeueReusableCell(withIdentifier: "IRKitGetDataCell")
+	}
+	
 	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return false
 	}
@@ -172,5 +184,17 @@ extension IRKitCommandViewController {
 
 // MARK: Table Delegate
 extension IRKitCommandViewController {
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		if indexPath == _dataReloadCellIndexPath {
+			reloadCommandData()
+		}
+	}
 	
+	private func reloadCommandData() {
+		if let command = _command {
+			command.reloadIRSignal() {
+				self.tableView.reloadData()
+			}
+		}
+	}
 }

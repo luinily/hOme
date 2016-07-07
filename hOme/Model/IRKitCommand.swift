@@ -50,9 +50,19 @@ final class IRKitCommand {
 		return (_name == other._name) && (_deviceInternalName == other._deviceInternalName) && (_irSignal == other._irSignal)
 	}
 	
-	func setIRSignal(_ signal: IRKITSignal) {
+	func setIRSignal(signal: IRKITSignal) {
 		_irSignal = signal
 		updateCloudKit()
+	}
+	
+	func reloadIRSignal(completionHandler: () -> Void) {
+		if let irKit = getConnector() {
+			irKit.getData() {
+				irSignal in
+				self.setIRSignal(signal: irSignal)
+				completionHandler()
+			}
+		}
 	}
 	
 	private func getConnector() -> IRKitConnector? {
