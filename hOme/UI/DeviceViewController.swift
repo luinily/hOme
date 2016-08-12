@@ -44,24 +44,24 @@ class DeviceViewController: UITableViewController {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? SelectConectorCell,
-				view = segue.destinationViewController as? SelectConnectorViewController {
+				let view = segue.destination as? SelectConnectorViewController {
 			if let connector = cell.connector {
 				view.connectorType = connector.connectorType
 				view.selectedConnector = connector
 				view.setOnConnectorSelected(getSelectedConnector)
 			}
 		} else if let cell = sender as? CommandOnOffCell,
-				view = segue.destinationViewController as? SelectDeviceCommandViewController {
+				let view = segue.destination as? SelectDeviceCommandViewController {
 			view.selectedCommand = cell.command
 			_selectingOnCommand = cell.isOnCommand
 			view.setDevice(_device, onOffCommandIncluded: false)
 			view.setOnCommandSelected(onOnOffCommandSelected)
 		} else if let cell = sender as? DeviceCommandCell,
-			view = segue.destinationViewController as? IRKitCommandViewController {
+			let view = segue.destination as? IRKitCommandViewController {
 			if let command = cell.command as? IRKitCommand {
 				view.setCommand(command)
 			}
-		} else if let view = segue.destinationViewController as? NewIRKitCommandViewController {
+		} else if let view = segue.destination as? NewIRKitCommandViewController {
 			if let device = _device {
 				view.setDevice(device)
 			}
@@ -141,7 +141,7 @@ extension DeviceViewController {
 		case _sectionOnOffCommand:
 			return 2
 		case _sectionCommands:
-			if let application = application, device = _device {
+			if let application = application, let device = _device {
 				setCommands(application.getCommandsOfDevice(deviceInternalName: device.internalName))
 				return _commands.count
 			}

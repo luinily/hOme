@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CommandClassError: ErrorProtocol {
+enum CommandClassError: Error {
 	case noNameInCKRecord
 	case noDeviceNameInCKRecord
 }

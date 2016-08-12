@@ -87,12 +87,12 @@ class FlicButton: NSObject, SCLFlicButtonDelegate {
 		_actions[.longPress]?.execute()
 	}
 	
-	func flicButton(_ button: SCLFlicButton, didDisconnectWithError error: NSError?) {
-		var errorString = ""
-		if let error = error?.description {
-			errorString = error
-		}
-		print(name + " didDisconnectWithError: " + errorString)
+	func flicButton(_ button: SCLFlicButton, didDisconnectWithError error: Error?) {
+//		var errorString = ""
+//		if let error = error?.description {
+//			errorString = error
+//		}
+//		print(name + " didDisconnectWithError: " + errorString)
 		
 		reconnectButton()
 	}

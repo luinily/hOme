@@ -49,7 +49,7 @@ extension FlicManager: SCLFlicManagerDelegate {
 		NSLog("FlicManager did change state..")
 	}
 	
-	func flicManager(_ manager: SCLFlicManager, didGrab button: SCLFlicButton?, withError error: NSError?) {
+	func flicManager(_ manager: SCLFlicManager, didGrab button: SCLFlicButton?, withError error: Error?) {
 		let button = FlicButton(button: button)
 		_onButtonGrabbed?(button: button)
 	}

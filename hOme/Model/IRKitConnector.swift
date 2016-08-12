@@ -12,7 +12,7 @@ import CloudKit
 
 
 
-enum IRKitConnectorClassError: ErrorProtocol {
+enum IRKitConnectorClassError: Error {
     case nameAldreadyExists
 	case noBonjourName
 }
@@ -67,9 +67,10 @@ final class IRKitConnector: NSObject {
     func getDataFromIRKit(_ onComplete: (data: IRKITSignal) -> Void) {
         _gotData = false
 		if let ipAddress = _ipAddress {
+			let url = "http://" + ipAddress + "/messages"
 			_ = Alamofire.request(
-								.GET,
-								"http://" + ipAddress + "/messages",
+								url,
+								withMethod: .get,
 								parameters: nil,
 								encoding: ParameterEncoding.json,
 								headers: ["X-Requested-With": "curl"]
@@ -101,8 +102,12 @@ final class IRKitConnector: NSObject {
 			_dataToSend.removeFirst()
 			
 			let json = data.data.getJSON()
-			if let ipAddress = _ipAddress, json = json {
-				_ = Alamofire.upload(.POST, "http://" + ipAddress + "/messages", headers: ["X-Requested-With": "curl"], data: json).responseJSON {
+			if let ipAddress = _ipAddress, let json = json {
+				let url = "http://" + ipAddress + "/messages"
+				_ = Alamofire.upload(json,
+				                     to: url,
+				                     withMethod: .post,
+				                     headers: ["X-Requested-With": "curl"]).responseJSON {
 					response in
 					print("Send IRkit Data")
 					data.completionHandler?()

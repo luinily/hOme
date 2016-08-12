@@ -12,9 +12,9 @@ import CloudKit
 
 
 protocol CloudKitDatabase {
-	func saveRecord(_ record: CKRecord, completionHandler: (CKRecord?, NSError?) -> Void)
-	func fetchRecordWithID(_ recordID: CKRecordID, completionHandler: (CKRecord?, NSError?) -> Void)
-	func deleteRecordWithID(_ recordID: CKRecordID, completionHandler: (CKRecordID?, NSError?) -> Void)
+	func save(_ record: CKRecord, completionHandler: (CKRecord?, Error?) -> Void)
+	func fetch(withRecordID recordID: CKRecordID, completionHandler: (CKRecord?, Error?) -> Void)
+	func delete(withRecordID recordID: CKRecordID, completionHandler: (CKRecordID?, Error?) -> Void)
 }
 
 extension CKDatabase: CloudKitDatabase {}
@@ -25,8 +25,8 @@ enum CloudKitActionType {
 	case delete
 }
 
-typealias CloudKitCompletionHandler = (record: CKRecord?, error: NSError?) -> Void
-typealias DeleteCloudKitCompletionHandler = (recordID: CKRecordID?, error: NSError?) -> Void
+typealias CloudKitCompletionHandler = (record: CKRecord?, error: Error?) -> Void
+typealias DeleteCloudKitCompletionHandler = (recordID: CKRecordID?, error: Error?) -> Void
 typealias CloudKitAction = (record: CKRecord?,
 						    recordID: CKRecordID?,
 							action: CloudKitActionType,
@@ -151,20 +151,19 @@ class CloudKitHelper {
 		self._actionsToPerform.removeFirst()
 		self.doNextAction()
 	}
+	
 	private func doNextAction() {
 		if let action = _actionsToPerform.first {
 			switch action.action {
 			case .save:
-				if let record = action.record, completionHandler = action.completionHandler {
-					_dataBase.saveRecord(record, completionHandler: completionHandler)
-				}
+				if let record = action.record, let completionHandler = action.completionHandler {
+					_dataBase.save(record, completionHandler: completionHandler)				}
 			case .fetch:
-				if let recordID = action.recordID, completionHandler = action.completionHandler {
-					_dataBase.fetchRecordWithID(recordID, completionHandler: completionHandler)
-				}
+				if let recordID = action.recordID, let completionHandler = action.completionHandler {
+					_dataBase.fetch(withRecordID: recordID, completionHandler: completionHandler)				}
 			case .delete:
-				if let recordID = action.recordID, completionHandler = action.deleteCloudKitCompletionHandler {
-					_dataBase.deleteRecordWithID(recordID, completionHandler: completionHandler)
+				if let recordID = action.recordID, let completionHandler = action.deleteCloudKitCompletionHandler {
+					_dataBase.delete(withRecordID: recordID, completionHandler: completionHandler)
 				}
 			}
 		} else {

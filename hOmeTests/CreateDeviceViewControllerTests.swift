@@ -39,7 +39,7 @@ extension CreateDeviceViewControllerTests {
 // MARK: Test setup
 extension CreateDeviceViewControllerTests {
 	private func setupCreateOrderViewController() {
-		let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main())
+		let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
 		_createDeviceViewController = storyboard.instantiateViewController(withIdentifier: "CreateDeviceViewController") as? CreateDeviceViewController
 	}
 	

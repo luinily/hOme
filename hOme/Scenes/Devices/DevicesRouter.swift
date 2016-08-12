@@ -32,7 +32,7 @@ class DevicesRouter: DevicesRouterInput {
 //	}
 	
 	func passDataToDeviceView(segue: UIStoryboardSegue, device: DisplayDevice) {
-		if let deviceviewController = segue.destinationViewController as? DeviceViewController {
+		if let deviceviewController = segue.destination as? DeviceViewController {
 			deviceviewController.setDevice(internalName: device.internalName)
 		}
 	}

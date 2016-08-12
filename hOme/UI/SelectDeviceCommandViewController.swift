@@ -37,7 +37,7 @@ class SelectDeviceCommandViewController: UITableViewController {
 	
 	func setDevice(_ device: DeviceProtocol?, onOffCommandIncluded: Bool = true) {
 		_device = device
-		if let application = application, device = device {
+		if let application = application, let device = device {
 			if let commands = application.getCommandsOfDevice(deviceInternalName: device.internalName) {
 				if onOffCommandIncluded {
 					_commands = commands

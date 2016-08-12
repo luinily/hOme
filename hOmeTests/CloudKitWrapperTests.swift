@@ -91,7 +91,7 @@ extension CloudKitWrapperTests {
 		let dic = _wrapper.convertRecordToDic(record: record)
 		
 		// Assert
-		if let param1 = dic["param1"] as? String, param2 = dic["param2"] as? Int {
+		if let param1 = dic["param1"] as? String, let param2 = dic["param2"] as? Int {
 			let goodParams = (param1 == "param1") && (param2 == 2)
 			XCTAssertTrue(goodParams)
 		} else {

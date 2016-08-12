@@ -24,7 +24,7 @@ class NewDeviceViewController: UIViewController {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? SelectConectorCell {
-			if let viewController = segue.destinationViewController as? SelectConnectorViewController {
+			if let viewController = segue.destination as? SelectConnectorViewController {
 				viewController.setOnConnectorSelected(onSelectedConnector)
 				viewController.selectedConnector = cell.connector
 			}

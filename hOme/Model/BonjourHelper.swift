@@ -45,7 +45,7 @@ class BonjourHelper: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
 			for address in addresses {
 				let ptr = UnsafePointer<sockaddr_in>((address as NSData).bytes)
 				var addr = ptr.pointee.sin_addr
-				let buf = UnsafeMutablePointer<Int8>(allocatingCapacity: Int(INET6_ADDRSTRLEN))
+				let buf = UnsafeMutablePointer<Int8>.allocate(capacity: Int(INET6_ADDRSTRLEN))
 				let family = ptr.pointee.sin_family
 				var ipc: UnsafePointer<Int8>? = nil
 				if family == __uint8_t(AF_INET) {

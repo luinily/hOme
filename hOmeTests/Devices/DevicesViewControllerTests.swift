@@ -43,8 +43,7 @@ extension DevicesViewControllerTests {
 // MARK: Test setup
 extension DevicesViewControllerTests {
 	func setupDevicesViewController() {
-		let bundle = Bundle.main()
-		let storyboard = UIStoryboard(name: "Main", bundle: bundle)
+		let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
 		sut = storyboard.instantiateViewController(withIdentifier: "DevicesViewController") as? DevicesViewController
 	}
 	

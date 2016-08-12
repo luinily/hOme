@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CommandTimeError: ErrorProtocol {
+enum CommandTimeError: Error {
 	case stringFormatInvalid
 
 }

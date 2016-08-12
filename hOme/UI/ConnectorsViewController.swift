@@ -25,7 +25,7 @@ class ConnectorsViewController: UITableViewController {
 	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? SelectConectorCell {
 			if let connector = cell.connector as? IRKitConnector {
-				if let viewController = segue.destinationViewController as? IRKitConnectorEditor {
+				if let viewController = segue.destination as? IRKitConnectorEditor {
 					viewController.setConnector(connector)
 				}
 			}
@@ -92,7 +92,7 @@ extension ConnectorsViewController {
 		let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
 			action, indexPath in
 			if let application = self.application,
-				cell = tableView.cellForRow(at: indexPath) as? SelectConectorCell {
+				let cell = tableView.cellForRow(at: indexPath) as? SelectConectorCell {
 				if let connector = cell.connector {
 					application.deleteConnector(connector)
 					tableView.reloadData()

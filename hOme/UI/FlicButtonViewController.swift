@@ -29,7 +29,7 @@ class FlicButtonViewController: UITableViewController {
 			return
 		}
 		
-		if let viewController = segue.destinationViewController as? SelectCommandViewController {
+		if let viewController = segue.destination as? SelectCommandViewController {
 			if segue.identifier == "SelectFlicClickCommandSegue" {
 				viewController.setOnCommandSelected(onSelectClickAction)
 				viewController.setSelectedCommand(button.getButtonAction(actionType: .press))

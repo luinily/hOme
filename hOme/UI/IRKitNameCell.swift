@@ -40,9 +40,9 @@ class IRKitNameCell: UITableViewCell {
 	func textFieldContentChanged() {
 		if let newName = textField.text {
 			if isNameValid(newName) {
-				textField.textColor = UIColor.black()
+				textField.textColor = UIColor.black
 			} else {
-				textField.textColor = UIColor.red()
+				textField.textColor = UIColor.red
 			}
 		}
 	}

@@ -23,11 +23,11 @@ class SequencesViewController: UITableViewController {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? SequenceCell,
-			sequenceVC = segue.destinationViewController as? SequenceViewController {
+			let sequenceVC = segue.destination as? SequenceViewController {
 			if let sequence = cell.sequence {
 				sequenceVC.setSequence(sequence)
 			}
-		} else  if let viewController = segue.destinationViewController as? UINavigationController {
+		} else if let viewController = segue.destination as? UINavigationController {
 			if let newSequenceVC = viewController.visibleViewController as? NewSequenceViewController {
 				newSequenceVC.setOnDone(reloadData)
 			}
@@ -86,7 +86,7 @@ extension SequencesViewController {
 		if (indexPath as NSIndexPath).section == _sectionSequences {
 			cell = tableView.dequeueReusableCell(withIdentifier: "SequenceCell")
 			if let cell = cell as? SequenceCell,
-				application = application {
+				let application = application {
 				cell.setSequence(application.getSequences()[(indexPath as NSIndexPath).row])
 			}
 		} else if (indexPath as NSIndexPath).section == _sectionNewSequence {
@@ -111,7 +111,7 @@ extension SequencesViewController {
 		let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
 			action, indexPath in
 			if let cell = tableView.cellForRow(at: indexPath) as? SequenceCell,
-				application = self.application {
+				let application = self.application {
 				if let sequence = cell.sequence {
 					application.deleteSequence(sequence)
 					tableView.reloadData()

@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-enum CommandManagerClassError: ErrorProtocol {
+enum CommandManagerClassError: Error {
 	case couldNotFindCommandDataInCK
 	case clouldNotFindCommunicator
 	case commandClassInvalid

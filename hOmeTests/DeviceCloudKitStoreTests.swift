@@ -58,7 +58,7 @@ extension DeviceCloudKitStoreTests {
 		XCTAssertEqual(dictionnary1.count, dictionnary2.count)
 		
 		if let name1 = dictionnary1["Name"] as? String,
-			name2 = dictionnary2["Name"] as? String {
+			let name2 = dictionnary2["Name"] as? String {
 			XCTAssertEqual(name1, name2)
 		} else {
 			XCTAssert(false, "problem with Name")
@@ -69,21 +69,21 @@ extension DeviceCloudKitStoreTests {
 		}
 		
 		if let communicatorName1 = dictionnary1["CommunicatorName"] as? String,
-			communicatorName2 = dictionnary2["CommunicatorName"] as? String {
+			let communicatorName2 = dictionnary2["CommunicatorName"] as? String {
 			XCTAssertEqual(communicatorName1, communicatorName2)
 		} else {
 			XCTAssert(false, "problem with CommunicatorName")
 		}
 		
 		if let OnCommandName1 = dictionnary1["OnCommand"] as? String,
-			OnCommandName2 = dictionnary2["OnCommand"] as? String {
+			let OnCommandName2 = dictionnary2["OnCommand"] as? String {
 			XCTAssertEqual(OnCommandName1, OnCommandName2)
 		} else {
 			XCTAssert(false, "problem with OnCommand")
 		}
 		
 		if let OffCommandName1 = dictionnary1["OffCommand"] as? String,
-			OffCommandName2 = dictionnary2["OffCommand"] as? String {
+			let OffCommandName2 = dictionnary2["OffCommand"] as? String {
 			XCTAssertEqual(OffCommandName1, OffCommandName2)
 		} else {
 			XCTAssert(false, "problem with OffCommand")

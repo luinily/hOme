@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-enum SequenceClassError: ErrorProtocol {
+enum SequenceClassError: Error {
     case noNameInRecord
     case noCommandNames
     case recordTimeInvalid

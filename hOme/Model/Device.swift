@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-enum DeviceClassError: ErrorProtocol {
+enum DeviceClassError: Error {
     case noNameInRecord
     case noCommunicatorNameInRecord
     case noCommunicatorOfThisName

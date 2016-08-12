@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-enum ConnectorClassError: ErrorProtocol {
+enum ConnectorClassError: Error {
     case noNameInCKRecord
 }
 

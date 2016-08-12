@@ -33,12 +33,12 @@ class IRKitCommandViewController: UITableViewController {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? IRKitDataCell {
-			if let view = segue.destinationViewController as? IRKitDataViewController {
+			if let view = segue.destination as? IRKitDataViewController {
 				view.setIRKitData(String(cell.data))
 			}
 		} else if let cell = sender as? IRKitDeviceOnOffSettingCell {
-			if let view = segue.destinationViewController as? CommandOnOffSettingViewController,
-				command = cell.command {
+			if let view = segue.destination as? CommandOnOffSettingViewController,
+				let command = cell.command {
 				view.setCommand(command)
 			}
 		}

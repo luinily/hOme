@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-enum SequenceManagerError: ErrorProtocol {
+enum SequenceManagerError: Error {
     case nameAlreadyUsed
     case noNameInCKRecord
     case differentNumberOfSequenceNamesAndSequenceRecordsNames

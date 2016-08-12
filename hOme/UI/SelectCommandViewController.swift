@@ -30,7 +30,7 @@ class SelectCommandViewController: UITableViewController {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		if let cell = sender as? CommandSelectorDeviceCell {
-			if let view = segue.destinationViewController as? SelectDeviceCommandViewController {
+			if let view = segue.destination as? SelectDeviceCommandViewController {
 				if let device = cell.device {
 					view.setDevice(device, onOffCommandIncluded: true)
 					if let command = _selectedCommand as? DeviceCommand {

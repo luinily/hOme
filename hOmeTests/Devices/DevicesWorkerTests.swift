@@ -46,7 +46,7 @@ extension DevicesWorkerTests {
 		func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
 			fetchedDevicesCalled = true
 			let oneSecond = DispatchTime.now() + Double(1 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
-			DispatchQueue.main.after(when: oneSecond) {
+			DispatchQueue.main.asyncAfter(deadline: oneSecond) {
 				completionHandler(devices: [])
 			}
 		}
@@ -67,15 +67,15 @@ extension DevicesWorkerTests {
 		// Given
 		if let spy = sut.deviceStore as? DeviceStoreSpy {
 			// When
-			let expectation = self.expectation(withDescription: "calling fetchDevices should ask the store for the devices")
+			let expectation = self.expectation(description: "calling fetchDevices should ask the store for the devices")
 			sut.fetchDevices() {
 				_ in
 				expectation.fulfill()
 			}
 			// Then
 			XCTAssertTrue(spy.fetchedDevicesCalled)
-			waitForExpectations(withTimeout: 1.1) {
-				(error: NSError?) -> Void in
+			waitForExpectations(timeout: 1.1) {
+				(error: Error?) -> Void in
 				XCTAssert(true, "Calling fetchDevices() should result in the completion handler being called with the fetched devices results")
 			}
 		}

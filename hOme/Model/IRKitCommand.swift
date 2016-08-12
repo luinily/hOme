@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-enum IRKitCommandClassError: ErrorProtocol {
+enum IRKitCommandClassError: Error {
     case noFormatInCKRecord
     case noFrequenceInCKRecord
     case noDataInCKRecord

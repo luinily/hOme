@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-enum CommunicatorManagerClassError: ErrorProtocol {
+enum CommunicatorManagerClassError: Error {
     case noCommunicatorNamesInRecord
     case noCommunicatorRecordNamesInRecord
     case communicatorNamesAndRecordsNumberNotEqual

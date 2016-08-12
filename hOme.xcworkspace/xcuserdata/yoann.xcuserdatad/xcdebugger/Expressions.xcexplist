@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "SequenceManager.getSequenceOfInternalName(String) -&gt; Sequence?:SequenceManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "_sequences[internalName]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlicButton.flicButton(SCLFlicButton, didReceiveButtonDoubleClick : Bool, age : Int) -&gt; ():FlicButton.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CreateDeviceViewController.tableView(UITableView, didSelectRowAtIndexPath : NSIndexPath) -&gt; ():CreateDeviceViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "nameTextField.isFirstResponder()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CloudKitWrapper.((saveRecord in _B26D650B47A1FFF1FFBED84B755F767B)(CKRecord, conpletionHandler : (couldCreateDevice : Bool) -&gt; ()) -&gt; ()).(closure #1):CloudKitWrapper.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "CKErrorCode(rawValue: error!.code)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NewDeviceTableDelegate.(makeConnectorCell in _8C4984109C3EEAF09FB22763F99695B2)(cellForRowAtIndexPath : NSIndexPath) -&gt; UITableViewCell:NewDeviceTableDelegate.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SequenceManager.count.getter:SequenceManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CommandManager.getCommandOfInternalName(String) -&gt; CommandProtocol?:CommandManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DeviceTableDelegate.tableView(UITableView, cellForRowAtIndexPath : NSIndexPath) -&gt; UITableViewCell:DeviceTableDelegate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.section">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlicButton.reconnectButton() -&gt; ():FlicButton.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "_button?.connectionState.rawValue">
+            </PersistentString>
+            <PersistentString
+               value = "_button?.connectionState">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Device.(getOnCommand in _15286C97D96774FF9AA7A8B758743839)() -&gt; DeviceCommand?:Device.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CommandManager.(addCommand in _C3A9D3ACB53567BEE449F6F503E9C6A3)(CommandProtocol) -&gt; ():CommandManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "command.internalName">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CommandManager.((importCommand in _C3A9D3ACB53567BEE449F6F503E9C6A3)(String, getDevice : (internalName : String) -&gt; DeviceProtocol?) -&gt; ()).(closure #1):CommandManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "command.internalName">
+            </PersistentString>
+            <PersistentString
+               value = "String(record[&quot;internalName&quot;])">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DevicesViewController.tableView(UITableView, didSelectRowAtIndexPath : NSIndexPath) -&gt; ():DevicesViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tableView.cellForRowAtIndexPath(indexPath)?.selected">
+            </PersistentString>
+            <PersistentString
+               value = "tableView.cellForRowAtIndexPath(indexPath)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FlicButton.init(ckRecord : CKRecord, getCommandOfUniqueName : (uniqueName : String) -&gt; CommandProtocol?, flicManager : FlicManager) throws -&gt; FlicButton:FlicButton.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SelectCommandViewController.tableView(UITableView, cellForRowAtIndexPath : NSIndexPath) -&gt; UITableViewCell:SelectCommandViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.section">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Schedule.getCommands(day : Weekday, hour : Int, minute : Int) -&gt; [ScheduleCommand]?:Schedule.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "getCommands(day: .wednesday, hour: 08, minute: 10)">
+            </PersistentString>
+            <PersistentString
+               value = "_schedule[day]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DeviceManager.deleteDevice(DeviceProtocol) -&gt; ():DeviceManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "device.internalName">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NewIRKitCommandViewController.(updateView in _A222DB8664E61314D2B0A51269B0C25E)() -&gt; ():NewIRKitCommand.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "isCommandNameUsed(_name)">
+            </PersistentString>
+            <PersistentString
+               value = "createButton.enabled">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SequenceManager.(init(ckRecord : CKRecord, getCommandOfUniqueName : (uniqueName : String) -&gt; CommandProtocol?) throws -&gt; SequenceManager).(closure #1):SequenceManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "record.recordID.recordName">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NewIRKitCommandViewController.tableView(UITableView, didSelectRowAtIndexPath : NSIndexPath) -&gt; ():NewIRKitCommand.swift">
+      </ContextState>
+      <ContextState
+         contextName = "FlicManager.getButtonOfIdentifier(NSUUID) -&gt; SCLFlicButton?:FlicManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "_manager?.knownButtons()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

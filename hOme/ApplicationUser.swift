@@ -15,7 +15,7 @@ protocol ApplicationUser {
 
 extension ApplicationUser {
 	var application: Application? {
-		if let appDelegate = UIApplication.shared().delegate as? AppDelegate {
+		if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
 			return appDelegate.homeApplication
 		} else {
 			return nil

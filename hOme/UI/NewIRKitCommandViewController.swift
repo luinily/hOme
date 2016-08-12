@@ -96,7 +96,7 @@ class NewIRKitCommandViewController: UITableViewController {
 	
 	private func testCommand() {
 		if let irKit = _device?.connector as? IRKitConnector,
-			irSignal = _irSignal {
+			let irSignal = _irSignal {
 				if irSignal.hasSignal() {
 					irKit.sendDataToIRKit(irSignal) {
 						
@@ -130,9 +130,9 @@ class NewIRKitCommandViewController: UITableViewController {
 	}
 	
 	private func createCommand() {
-		if let appDelegate = UIApplication.shared().delegate as? AppDelegate,
-			device = _device,
-			irSignal = _irSignal {
+		if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+			let device = _device,
+			let irSignal = _irSignal {
 				if let command = appDelegate.homeApplication.createNewCommand(device: device, name: _name) as? IRKitCommand {
 					command.setIRSignal(signal: irSignal)
 					_command = command

@@ -117,7 +117,7 @@ extension SequenceViewController {
 			let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
 				action, indexPath in
 				if let cell = tableView.cellForRow(at: indexPath) as? SequenceCommandCell {
-					if let sequence = self._sequence, command = cell.command {
+					if let sequence = self._sequence, let command = cell.command {
 						sequence.removeCommand(time: command.time, commandToRemove: command.command)
 						tableView.reloadData()
 					}

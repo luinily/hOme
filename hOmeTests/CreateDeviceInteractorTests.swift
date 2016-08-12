@@ -89,7 +89,7 @@ extension CreateDeviceInteractorTests {
 		func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
 			fetchedDevicesCalled = true
 			let oneSecond = DispatchTime.now() + Double(1 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
-			DispatchQueue.main.after(when: oneSecond) {
+			DispatchQueue.main.asyncAfter(deadline: oneSecond) {
 				completionHandler(devices: [])
 			}
 		}
@@ -97,7 +97,7 @@ extension CreateDeviceInteractorTests {
 		func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void) {
 			createDeviceCalled = true
 			let oneSecond = DispatchTime.now() + Double(1 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
-			DispatchQueue.main.after(when: oneSecond) {
+			DispatchQueue.main.asyncAfter(deadline: oneSecond) {
 				completionHandler(couldCreateDevice: false)
 			}
 		}

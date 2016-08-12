@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-enum DeviceManagerClassError: ErrorProtocol {
+enum DeviceManagerClassError: Error {
     case noDeviceNamesInRecord
     case couldNotFindDeviceInCK
 }

@@ -39,11 +39,11 @@ class Application: NSObject {
 	private func getCurrentTime() -> (day: Weekday, hour: Int, minute: Int)? {
 		let date = Date()
 		let calendar = Calendar.current
-		let components = calendar.components([.weekday, .hour, .minute], from: date)
+		let components = calendar.dateComponents([.weekday, .hour, .minute], from: date)
 		
 		if let day = Weekday(rawValue: (components.weekday! + 4)%6),
-			   hour = components.hour,
-			   minute = components.minute {
+			   let hour = components.hour,
+			   let minute = components.minute {
 			return (day: day, hour: hour, minute: minute)
 		}
 		

@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-enum SquedulerClassError: ErrorProtocol {
+enum SquedulerClassError: Error {
     case noDataInckRecord
     case couldNotFindSequence
 }
@@ -123,7 +123,7 @@ class Schedule {
 					_schedule[day]?[command.hour]?[command.minute] = [ScheduleCommand]()
 				}
 				if let minuteCommands = _schedule[day]?[command.hour]?[command.minute] {
-					if !minuteCommands.contains({$0 === command}) {
+					if !minuteCommands.contains(where: {$0 === command}) {
 						_schedule[day]?[command.hour]?[command.minute]?.append(command)
 					}
 				}

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ImportError: ErrorProtocol {
+enum ImportError: Error {
 	case errorCouldNotFindElement
 }
 

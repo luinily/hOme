@@ -22,7 +22,7 @@ class ButtonsViewController: UITableViewController {
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
-		if let viewController = segue.destinationViewController as? FlicButtonViewController {
+		if let viewController = segue.destination as? FlicButtonViewController {
 			if let button = _selectedButton as? FlicButton {
 				viewController.setButton(button)
 			}

@@ -16,7 +16,7 @@ protocol CloudKitWrapperProtocol {
 	
 }
 
-enum CloudKitError: ErrorProtocol {
+enum CloudKitError: Error {
 	case couldNotConvertToCKValueType
 	case couldNotFindInternalName
 	case recordAlreadyExisting
@@ -72,7 +72,7 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 	}
 	
 	private func createQueryForRecordType(recordType: String) -> CKQuery {
-		let predicate = Predicate(value: true)
+		let predicate = NSPredicate(value: true)
 		return CKQuery(recordType: "Device", predicate: predicate)
 	}
 	
@@ -100,7 +100,7 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 	
 	private func convertError(error: NSError) -> CloudKitError? {
 		switch error.code {
-		case CKErrorCode.serverRecordChanged.rawValue: return CloudKitError.recordAlreadyExisting
+		case CKError.Code.serverRecordChanged.rawValue: return CloudKitError.recordAlreadyExisting
 		default: return nil
 		}
 	}
