@@ -17,16 +17,14 @@ protocol CloudKitDatabase {
 	func delete(withRecordID recordID: CKRecordID, completionHandler: (CKRecordID?, Error?) -> Void)
 }
 
-extension CKDatabase: CloudKitDatabase {}
-
 enum CloudKitActionType {
 	case save
 	case fetch
 	case delete
 }
 
-typealias CloudKitCompletionHandler = (record: CKRecord?, error: Error?) -> Void
-typealias DeleteCloudKitCompletionHandler = (recordID: CKRecordID?, error: Error?) -> Void
+typealias CloudKitCompletionHandler = (_ record: CKRecord?, _ error: Error?) -> Void
+typealias DeleteCloudKitCompletionHandler = (_ recordID: CKRecordID?, _ error: Error?) -> Void
 typealias CloudKitAction = (record: CKRecord?,
 						    recordID: CKRecordID?,
 							action: CloudKitActionType,
@@ -43,12 +41,12 @@ class CloudKitHelper {
     }
 	
     private var _container: CKContainer
-    private var _dataBase: CloudKitDatabase
+    private var _dataBase: CKDatabase
 	private var _actionsToPerform = [CloudKitAction]()
     private var _isWorking = false
 	
 	private var _workStarted: (() -> Void)?
-	private var _workEnded: ((noError: Bool) -> Void)?
+	private var _workEnded: ((_ noError: Bool) -> Void)?
 	
 	var isWorking: Bool {return _isWorking}
 	var startWork: (() -> Void)? {return _workStarted}
@@ -58,16 +56,16 @@ class CloudKitHelper {
         _dataBase = _container.privateCloudDatabase
     }
 	
-	init(database: CloudKitDatabase) {
+	init(database: CKDatabase) {
 		_container = CKContainer.default()
 		_dataBase = database
 	}
 	
-	func setWorkStarted(_ workStarted: () -> Void) {
+	func setWorkStarted(_ workStarted: @escaping () -> Void) {
 		_workStarted = workStarted
 	}
 	
-	func setWorkEnded(_ workEnded: ((noError: Bool) -> Void)?) {
+	func setWorkEnded(_ workEnded: ((_ noError: Bool) -> Void)?) {
 		_workEnded = workEnded
 	}
 	
@@ -83,20 +81,20 @@ class CloudKitHelper {
 		}		
 	}
 	
-	func importRecord(_ recordName: String, completionHandler: (record: CKRecord?) -> Void) {
+	func importRecord(_ recordName: String, completionHandler: @escaping (_ record: CKRecord?) -> Void) {
 		var action = CloudKitAction(nil, nil, CloudKitActionType.fetch, nil, nil)
 		action.action = CloudKitActionType.fetch
 		action.recordID = CKRecordID(recordName : recordName)
 		action.completionHandler = {
 			(record, error) in
 			if let error = error {
-				completionHandler(record: nil)
+				completionHandler(nil)
 				print("Fetch Error: " + recordName, terminator: "")
 				print(error, terminator: "")
 				self.continueWork()
 			} else {
 				if let record = record {
-					completionHandler(record: record)
+					completionHandler(record)
 					print("Feched: " + record.recordID.recordName, terminator: "")
 					self.continueWork()
 				} else {
@@ -139,12 +137,12 @@ class CloudKitHelper {
 	
 	private func endWorkWithoutError() {
 		_isWorking = false
-		_workEnded?(noError: true)
+		_workEnded?(true)
 	}
 	
 	private func endWorkWithError() {
 		_isWorking = false
-		_workEnded?(noError: false)
+		_workEnded?(false)
 	}
 	
 	private func continueWork() {

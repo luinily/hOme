@@ -14,7 +14,7 @@ enum DeviceManagerClassError: Error {
     case couldNotFindDeviceInCK
 }
 
-class DeviceManager {
+class DeviceManager: Manager, CloudKitObject {
     private var _devices: [String: DeviceProtocol]
 	private var _currentCKRecordName: String?
 	
@@ -32,7 +32,7 @@ class DeviceManager {
         _devices = [String: DeviceProtocol]()
     }
 	
-	func CreateDevice(name: String, connector: Connector, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) -> DeviceProtocol {
+	func CreateDevice(name: String, connector: Connector, getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?, getConnector: @escaping (_ connectorInternalName: String) -> Connector?) -> DeviceProtocol {
 		
 		let newName = Name(name: name, internalName: createNewUniqueName())
 		let newDevice = Device(name: newName, connectorInternalName: connector.internalName, getCommand: getCommand, getConnector: getConnector)
@@ -61,10 +61,7 @@ class DeviceManager {
 		}
 	}
 
-}
-
-//MARK: - Manager
-extension DeviceManager: Manager {
+	//MARK: - Manager
 	func getUniqueNameBase() -> String {
 		return "Device"
 	}
@@ -72,11 +69,9 @@ extension DeviceManager: Manager {
 	func isNameUnique(_ name: String) -> Bool {
 		return _devices.index(forKey: name) == nil
 	}
-}
 
-//MARK: - CloudKitObject
-extension DeviceManager: CloudKitObject {
-	convenience init(ckRecord: CKRecord, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) throws {
+	//MARK: - CloudKitObject
+	convenience init(ckRecord: CKRecord, getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?, getConnector: @escaping (_ connectorInternalName: String) -> Connector?) throws {
 		self.init()
 		
 		_currentCKRecordName = ckRecord.recordID.recordName
@@ -84,7 +79,7 @@ extension DeviceManager: CloudKitObject {
 		importDevicesFromCloudKitStore(getCommand: getCommand, getConnector: getConnector)
 	}
 	
-	private func importDevicesFromCloudKitStore(getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) {
+	private func importDevicesFromCloudKitStore(getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?, getConnector: @escaping (_ connectorInternalName: String) -> Connector?) {
 		let store = DeviceCloudKitStore()
 		store.fetchDevices() {
 			devices in
@@ -94,7 +89,7 @@ extension DeviceManager: CloudKitObject {
 		}
 	}
 	
-	private func createAndAddDevice(deviceInfo: DeviceInfo, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) {
+	private func createAndAddDevice(deviceInfo: DeviceInfo, getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?, getConnector: @escaping (_ connectorInternalName: String) -> Connector?) {
 		let device = Device(deviceInfo: deviceInfo, getCommand: getCommand, getConnector: getConnector)
 		if self._devices.index(forKey: device.internalName) == nil {
 			self._devices[device.internalName] = device
@@ -118,7 +113,7 @@ extension DeviceManager: CloudKitObject {
 		for device in _devices {
 			devicesRecordNames.append(device.1.getNewCKRecordName())
 		}
-		record["devicesRecordNames"] = devicesRecordNames
+		record["devicesRecordNames"] = devicesRecordNames as CKRecordValue?
 	}
 	
 	func updateCloudKit() {

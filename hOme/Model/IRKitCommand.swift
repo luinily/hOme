@@ -15,14 +15,14 @@ enum IRKitCommandClassError: Error {
     case noDataInCKRecord
 }
 
-final class IRKitCommand {
+final class IRKitCommand: Nameable, CommandProtocol, DeviceCommand, Equatable, CloudKitObject {
 	private var _name: Name
     private var _irSignal = IRKITSignal()
 	private var _deviceInternalName: String
-	private var _getDevice: (deviceInternalName: String) -> DeviceProtocol?
+	private var _getDevice: (_ deviceInternalName: String) -> DeviceProtocol?
 	private var _executionEffectOnDevice: ExecutionEffectOnDevice = .none
 	private var _currentCKRecordName: String?
-	private var _notifyDeviceOfExecution: (sender: DeviceCommand) -> Void
+	private var _notifyDeviceOfExecution: (_ sender: DeviceCommand) -> Void
 
 	var irSignal: IRKITSignal {return _irSignal}
 	
@@ -30,7 +30,7 @@ final class IRKitCommand {
 		return .irkitCommand
 	}
 	
-	required init(name: Name, deviceInternalName: String, getDevice:(deviceInternalName: String) -> DeviceProtocol?, notifyDeviceOfExecution: (sender: DeviceCommand) -> Void) {
+	required init(name: Name, deviceInternalName: String, getDevice: @escaping (_ deviceInternalName: String) -> DeviceProtocol?, notifyDeviceOfExecution: @escaping (_ sender: DeviceCommand) -> Void) {
 		_name = name
 		_deviceInternalName = deviceInternalName
 		_getDevice = getDevice
@@ -38,7 +38,7 @@ final class IRKitCommand {
 		updateCloudKit()
     }
 	
-	init(ckRecordName: String, getDevice: (deviceInternalName: String) -> DeviceProtocol?, notifyDeviceOfExecution: (sender: DeviceCommand) -> Void) {
+	init(ckRecordName: String, getDevice: @escaping (_ deviceInternalName: String) -> DeviceProtocol?, notifyDeviceOfExecution: @escaping (_ sender: DeviceCommand) -> Void) {
 		_name = Name(name: "", internalName: "")
 		_currentCKRecordName = ckRecordName
 		_deviceInternalName = ""
@@ -55,7 +55,7 @@ final class IRKitCommand {
 		updateCloudKit()
 	}
 	
-	func reloadIRSignal(completionHandler: () -> Void) {
+	func reloadIRSignal(completionHandler: @escaping () -> Void) {
 		if let irKit = getConnector() {
 			irKit.getData() {
 				irSignal in
@@ -74,13 +74,10 @@ final class IRKitCommand {
 	}
 	
 	private func getDevice() -> DeviceProtocol? {
-		return _getDevice(deviceInternalName: _deviceInternalName)
+		return _getDevice(_deviceInternalName)
 	}
 
-}
-
-//MARK: - Nameable
-extension IRKitCommand: Nameable {
+	//MARK: - Nameable
 	var name: String {
 		get {return _name.name}
 		set {
@@ -98,22 +95,18 @@ extension IRKitCommand: Nameable {
 			return _name.name
 		}
 	}
-}
 
-//MARK: - CommandProtocol
-extension IRKitCommand: CommandProtocol {
+	//MARK: - CommandProtocol
 	func execute() {
 		print("Execute: " + fullName)
 		if let connector = getConnector() {
 			connector.sendDataToIRKit(irSignal) {
-				self._notifyDeviceOfExecution(sender: self)
+				self._notifyDeviceOfExecution(self)
 			}
 		}
 	}
-}
 
-//MARK: - DeviceCommand
-extension IRKitCommand: DeviceCommand {
+	//MARK: - DeviceCommand
 	var deviceInternalName: String {return _deviceInternalName}
 	var device: DeviceProtocol? {return getDevice()}
 	var executionEffectOnDevice: ExecutionEffectOnDevice {
@@ -123,11 +116,9 @@ extension IRKitCommand: DeviceCommand {
 			updateCloudKit()
 		}
 	}
-}
 
-//MARK: - CloudKitObject
-extension IRKitCommand: CloudKitObject {
-	convenience init (ckRecord: CKRecord, getDevice: (deviceInternalName: String) -> DeviceProtocol?, notifyDeviceOfExecution: (sender: DeviceCommand) -> Void) throws {		
+	//MARK: - CloudKitObject
+	convenience init (ckRecord: CKRecord, getDevice: @escaping (_ deviceInternalName: String) -> DeviceProtocol?, notifyDeviceOfExecution: @escaping (_ sender: DeviceCommand) -> Void) throws {
 		self.init(ckRecordName: ckRecord.recordID.recordName, getDevice: getDevice, notifyDeviceOfExecution: notifyDeviceOfExecution)
 
 		
@@ -180,14 +171,14 @@ extension IRKitCommand: CloudKitObject {
 	func setUpCKRecord(_ record: CKRecord) {
 		record["deviceName"] = nil
 		
-		record["type"] = IRKitCommand.getCommandType().rawValue
-		record["name"] = _name.name
-		record["internalName"] = _name.internalName
-		record["deviceInternalName"] = _deviceInternalName
-		record["format"] = _irSignal.format
-		record["frequence"] = _irSignal.frequence
-		record["data"] = _irSignal.data
-		record["OnOffEffect"] = executionEffectOnDevice.rawValue
+		record["type"] = IRKitCommand.getCommandType().rawValue as CKRecordValue?
+		record["name"] = _name.name as CKRecordValue?
+		record["internalName"] = _name.internalName as CKRecordValue?
+		record["deviceInternalName"] = _deviceInternalName as CKRecordValue?
+		record["format"] = _irSignal.format as CKRecordValue?
+		record["frequence"] = _irSignal.frequence as CKRecordValue?
+		record["data"] = _irSignal.data as CKRecordValue?
+		record["OnOffEffect"] = executionEffectOnDevice.rawValue as CKRecordValue?
 	}
 	
 	func getCKRecordType() -> String {
@@ -198,13 +189,10 @@ extension IRKitCommand: CloudKitObject {
 		CloudKitHelper.sharedHelper.export(self)
 		_currentCKRecordName = getNewCKRecordName()
 	}
-}
 
-//MARK: - Equatable
-extension IRKitCommand: Equatable {}
-
-func == (lhs: IRKitCommand, rhs: IRKitCommand) -> Bool {
-	return (lhs._name == rhs._name)
-		&& (lhs._deviceInternalName == rhs._deviceInternalName)
+	static func == (lhs: IRKitCommand, rhs: IRKitCommand) -> Bool {
+		return (lhs._name == rhs._name)
+			&& (lhs._deviceInternalName == rhs._deviceInternalName)
 			&& (lhs._irSignal == rhs._irSignal)
+	}
 }

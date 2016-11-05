@@ -20,16 +20,16 @@ class NameCell: UITableViewCell {
 		}
 	}
 	
-	private var _onNameChanged: ((newName: String) -> Void)?
+	private var _onNameChanged: ((_ newName: String) -> Void)?
 	
 	@IBAction func editingDidEnd(_ sender: AnyObject) {
 		if let newName = edit.text {
 			_name = newName
-			_onNameChanged?(newName: newName)
+			_onNameChanged?(newName)
 		}
 	}
 	
-	func setOnNameChanged(_ onNameChanged: (newName: String) -> Void) {
+	func setOnNameChanged(_ onNameChanged: @escaping (_ newName: String) -> Void) {
 		_onNameChanged = onNameChanged
 	}
 }

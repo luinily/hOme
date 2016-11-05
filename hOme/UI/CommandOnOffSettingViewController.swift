@@ -17,11 +17,8 @@ class CommandOnOffSettingViewController: UITableViewController {
 	func setCommand(_ command: DeviceCommand) {
 		_command = command
 	}
-}
 
-//MARK: Table Data Source
-extension CommandOnOffSettingViewController {
-	
+	//MARK: Table Data Source	
 	//MARK: Sections
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
@@ -72,10 +69,8 @@ extension CommandOnOffSettingViewController {
 	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return false
 	}
-}
 
-// MARK: Table Delegate
-extension CommandOnOffSettingViewController {
+	// MARK: Table Delegate
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if let action = ExecutionEffectOnDevice(rawValue: (indexPath as NSIndexPath).row) {
 			_command?.executionEffectOnDevice = action

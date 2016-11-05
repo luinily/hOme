@@ -9,16 +9,16 @@
 import Foundation
 import CloudKit
 
-class ScheduleCommand {
+class ScheduleCommand: CloudKitObject {
 	private var _commandInternalName: String
 	private var _time: (hour: Int, minute: Int) = (0, 0)
 	private var _days = Set<Weekday>()
 	private var _isOneTimeCommand = false
 	private var _isActive = true
 	private var _currentCKRecordName: String?
-	private var _getCommand: (commandInternalName: String) -> CommandProtocol?
+	private var _getCommand: (_ commandInternalName: String) -> CommandProtocol?
 	var command: CommandProtocol? {
-		get {return _getCommand(commandInternalName: _commandInternalName)}
+		get {return _getCommand(_commandInternalName)}
 	}
 	var isActive: Bool {
 		get {return _isActive}
@@ -30,7 +30,7 @@ class ScheduleCommand {
 	var timeString: String {return String(hour) + ":" + String(minute)}
 	var isOneTimeCommand: Bool {return _isOneTimeCommand}
 	
-	init (commandInternalName: String, days: Set<Weekday>, time:(hour: Int, minute: Int), getCommand: (commandInternalName: String) -> CommandProtocol?) {
+	init (commandInternalName: String, days: Set<Weekday>, time:(hour: Int, minute: Int), getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?) {
 		_commandInternalName = commandInternalName
 		_time = time
 		_days = days
@@ -39,7 +39,7 @@ class ScheduleCommand {
 		updateCloudKit()
 	}
 	
-	init (oneTimeCommandInternalName: String, day: Weekday, time: (hour: Int, minute: Int), getCommand: (commandInternalName: String) -> CommandProtocol?) {
+	init (oneTimeCommandInternalName: String, day: Weekday, time: (hour: Int, minute: Int), getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?) {
 		_commandInternalName = oneTimeCommandInternalName
 		_time = time
 		_days = [day]
@@ -114,13 +114,11 @@ class ScheduleCommand {
 	}
 	
 	func getCommand() -> CommandProtocol? {
-		return _getCommand(commandInternalName: _commandInternalName)
+		return _getCommand(_commandInternalName)
 	}
-}
 
-//MARK: - CloudKitObject
-extension ScheduleCommand: CloudKitObject {
-	convenience init (ckRecord: CKRecord, getCommand: (commandInternalName: String) -> CommandProtocol?) throws {
+	//MARK: - CloudKitObject
+	convenience init (ckRecord: CKRecord, getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?) throws {
 		self.init(oneTimeCommandInternalName: "", day: .monday, time: (hour: 0, minute: 0), getCommand: getCommand)
 		
 		_currentCKRecordName = ckRecord.recordID.recordName
@@ -161,10 +159,10 @@ extension ScheduleCommand: CloudKitObject {
 	}
 	
 	func setUpCKRecord(_ record: CKRecord) {
-		record["commandName"] = _commandInternalName
-		record["days"] = makeDaysStringArray()
-		record["hour"] = _time.hour
-		record["minute"] = _time.minute
+		record["commandName"] = _commandInternalName as CKRecordValue?
+		record["days"] = makeDaysStringArray() as CKRecordValue?
+		record["hour"] = _time.hour as CKRecordValue?
+		record["minute"] = _time.minute as CKRecordValue?
 	}
 	
 	func updateCloudKit() {

@@ -19,7 +19,7 @@ protocol DevicesViewControllerOutput {
 
 
 
-class DevicesViewController: UITableViewController {
+class DevicesViewController: UITableViewController, DevicesViewControllerInput, DevicesPresenterOutput {
 	var output: DevicesViewControllerOutput!
 	var router: DevicesRouterInput!
 	
@@ -57,13 +57,9 @@ class DevicesViewController: UITableViewController {
 	func reloadTableDataInMainThread() {
 		DispatchQueue.main.async(execute: tableView.reloadData)
 	}
-}
 
-extension DevicesViewController: DevicesViewControllerInput { }
-
-
-// MARK: UITableDataSource
-extension DevicesViewController {
+	// MARK: - DevicesViewControllerInput
+	// MARK: UITableDataSource
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 2
 	}
@@ -86,7 +82,7 @@ extension DevicesViewController {
 		
 	}
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let cell = sender as? DeviceCell {
 			if let device = cell.device {
 				router.passDataToDeviceView(segue: segue, device: device)
@@ -126,9 +122,7 @@ extension DevicesViewController {
 		
 		return cell
 	}
-}
 
-extension DevicesViewController {
 	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 		let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
 			action, indexPath in
@@ -139,9 +133,7 @@ extension DevicesViewController {
 		return [delete]
 	}
 
-}
-
-extension DevicesViewController: DevicesPresenterOutput {
+	// MARK: - DevicesPresenterOutput
 	func displayFetchedDevices(viewModel: Devices_FetchDevices_ViewModel) {
 		_displayDevices = viewModel.displayedDevices
 		//need to do the reload on the main thread or it gets very slow

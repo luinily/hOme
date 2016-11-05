@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SelectCommandViewController: UITableViewController {
+class SelectCommandViewController: UITableViewController, ApplicationUser {
 	
 	@IBOutlet var table: UITableView!
 	private let _deviceSection = 0
@@ -18,7 +18,7 @@ class SelectCommandViewController: UITableViewController {
 	
 	private var _selectedCommand: CommandProtocol?
 	
-	private var _onCommandSelected: ((command: CommandProtocol?) -> Void)?
+	private var _onCommandSelected: ((_ command: CommandProtocol?) -> Void)?
 	
 	var selectedCommand: CommandProtocol? { return _selectedCommand}
 	
@@ -28,7 +28,7 @@ class SelectCommandViewController: UITableViewController {
 	}
 	
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let cell = sender as? CommandSelectorDeviceCell {
 			if let view = segue.destination as? SelectDeviceCommandViewController {
 				if let device = cell.device {
@@ -50,24 +50,17 @@ class SelectCommandViewController: UITableViewController {
 		_selectedCommand = selectedCommand
 	}
 	
-	func setOnCommandSelected(_ onCommandSelected: (command: CommandProtocol?) -> Void) {
+	func setOnCommandSelected(_ onCommandSelected: @escaping (_ command: CommandProtocol?) -> Void) {
 		_onCommandSelected = onCommandSelected
 	}
 	
 	private func onCommandSelected(_ command: CommandProtocol?) {
 		_selectedCommand = command
 		table.reloadData()
-		_onCommandSelected?(command: command)
+		_onCommandSelected?(command)
 	}
-}
 
-//MARK: - ApplicationUser
-extension SelectCommandViewController: ApplicationUser {
-	
-}
-
-//MARK: - Table Data Source
-extension SelectCommandViewController {
+	//MARK: - Table Data Source
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 3
 	}
@@ -116,10 +109,8 @@ extension SelectCommandViewController {
 			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
-}
 
-//MARK: - Table Delegate
-extension SelectCommandViewController {
+	//MARK: - Table Delegate
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if (indexPath as NSIndexPath).section == _sequenceSection {
 			if let cell = tableView.cellForRow(at: indexPath) as? CommandSelectorSequenceCell {

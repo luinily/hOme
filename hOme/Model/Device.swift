@@ -19,21 +19,24 @@ enum DeviceClassError: Error {
 
 
 
-class Device {
+class Device: DeviceProtocol, Nameable {
     private var _name: Name
     private var _connectorInternalName: String
 	private var _currentCKRecordName: String?
 	private var _isOn = false
 	private var _onCommandInternalName: String?
 	private var _offCommandInternalName: String?
-	private var _getCommand: (commandInternalName: String) -> CommandProtocol?
-	private var _getConnector: (connectorInternalName: String) -> Connector?
+	private var _getCommand: (_ commandInternalName: String) -> CommandProtocol?
+	private var _getConnector: (_ connectorInternalName: String) -> Connector?
 	
 	
 	var onCommandName: String? {return _onCommandInternalName}
 	var offCommandName: String? {return _offCommandInternalName}
 	
-	init (name: Name, connectorInternalName: String, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) {
+	init (name: Name,
+	      connectorInternalName: String,
+	      getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?,
+	      getConnector: @escaping (_ connectorInternalName: String) -> Connector?) {
 		_name = name
         _connectorInternalName = connectorInternalName
 		_getCommand = getCommand
@@ -42,7 +45,9 @@ class Device {
 		updateCloudKit()
     }
 	
-	init (ckRecordName: String, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) {
+	init (ckRecordName: String,
+	      getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?,
+	      getConnector: @escaping (_ connectorInternalName: String) -> Connector?) {
 		_name = Name(name: "", internalName: "")
 		_connectorInternalName = ""
 		_getCommand = getCommand
@@ -51,7 +56,9 @@ class Device {
 
 	}
 	
-	init (deviceInfo: DeviceInfo, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) {
+	init (deviceInfo: DeviceInfo,
+	      getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?,
+	      getConnector: @escaping (_ connectorInternalName: String) -> Connector?) {
 		_name = deviceInfo.name
 		_connectorInternalName = deviceInfo.communicatorInternalName
 		_onCommandInternalName = deviceInfo.onCommandInternalName
@@ -71,26 +78,23 @@ class Device {
 	
 	private func getOffCommand() -> DeviceCommand? {
 		if let commandName = _offCommandInternalName {
-			return _getCommand(commandInternalName: commandName) as? DeviceCommand
+			return _getCommand(commandName) as? DeviceCommand
 		}
 		return nil
 	}
 	
 	private func getOnCommand() -> DeviceCommand? {
 		if let commandName = _onCommandInternalName {
-			return _getCommand(commandInternalName: commandName) as? DeviceCommand
+			return _getCommand(commandName) as? DeviceCommand
 		}
 		return nil
 	}
 	
 	private func getConnector() -> Connector? {
-		return _getConnector(connectorInternalName: _connectorInternalName)
+		return _getConnector(_connectorInternalName)
 	}
-}
 
-//MARK: - Nameable
-
-extension Device: Nameable {
+	//MARK: - Nameable
 	var name: String {
 		get {return _name.name}
 		set {
@@ -101,11 +105,8 @@ extension Device: Nameable {
 	var fullName: String {return _name.name}
 	
 	var internalName: String {return _name.internalName}
-	
-}
 
-//MARK: - CloudKitObject
-extension Device: DeviceProtocol {
+	//MARK: - CloudKitObject
 	var connector: Connector? {
 		get {return getConnector()}
 	}
@@ -153,15 +154,16 @@ extension Device: DeviceProtocol {
 			_isOn = false
 		}
 	}
-	
-}
 
-//MARK: - CloudKitObject
-extension Device {
-	convenience init(ckRecord: CKRecord, getCommand: (commandInternalName: String) -> CommandProtocol?, getConnector: (connectorInternalName: String) -> Connector?) throws {
+	//MARK: - CloudKitObject
+	convenience init(ckRecord: CKRecord,
+	                 getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?,
+	                 getConnector: @escaping (_ connectorInternalName: String) -> Connector?) throws {
 		
 		var needUpdateRecord = false
-		self.init(ckRecordName: ckRecord.recordID.recordName, getCommand: getCommand, getConnector: getConnector)
+		self.init(ckRecordName: ckRecord.recordID.recordName,
+		          getCommand: getCommand,
+		          getConnector: getConnector)
 			
 		guard let name = ckRecord["Name"] as? String else {
 			throw DeviceClassError.noNameInRecord
@@ -199,11 +201,11 @@ extension Device {
 	}
 	
 	func setUpCKRecord(_ record: CKRecord) {
-		record["Name"] = _name.name
-		record["internalName"] = _name.internalName
-		record["CommunicatorName"] = _connectorInternalName
-		record["OnCommand"] = _onCommandInternalName
-		record["OffCommand"] = _offCommandInternalName
+		record["Name"] = _name.name as CKRecordValue?
+		record["internalName"] = _name.internalName as CKRecordValue?
+		record["CommunicatorName"] = _connectorInternalName as CKRecordValue?
+		record["OnCommand"] = _onCommandInternalName as CKRecordValue?
+		record["OffCommand"] = _offCommandInternalName as CKRecordValue?
 	}
 	
 	func exportValues() {

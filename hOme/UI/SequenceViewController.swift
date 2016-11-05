@@ -43,10 +43,8 @@ class SequenceViewController: UITableViewController {
 		
 		_commands = sequenceArray
 	}
-}
 
-//MARK: - Table Data Source
-extension SequenceViewController {
+	//MARK: - Table Data Source
 	//MARK: Sections
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 3
@@ -107,11 +105,8 @@ extension SequenceViewController {
 			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
-}
 
-
-//MARK: - Table Delegate
-extension SequenceViewController {
+	//MARK: - Table Delegate
 	override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 		if (indexPath as NSIndexPath).section == _sectionCommands {
 			let delete = UITableViewRowAction(style: .destructive, title: "Delete") {

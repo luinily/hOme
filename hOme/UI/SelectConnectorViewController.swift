@@ -8,11 +8,11 @@
 
 import UIKit
 
-class SelectConnectorViewController: UITableViewController {
+class SelectConnectorViewController: UITableViewController, ApplicationUser {
 	private var _selectedConnector: Connector?
 	private var _parentReloadData: (() -> Void)?
 	private var _connectorType: ConnectorType = .irKit
-	private var _onConnectorSelected: ((connector: Connector) -> Void)?
+	private var _onConnectorSelected: ((_ connector: Connector) -> Void)?
 	private var _connectors = [Connector]()
 	
 	var connectorType: ConnectorType {
@@ -28,7 +28,7 @@ class SelectConnectorViewController: UITableViewController {
 	override func viewDidLoad() {
 	}
 	
-	func setOnConnectorSelected(_ onConnectorSelected: (connector: Connector) -> Void) {
+	func setOnConnectorSelected(_ onConnectorSelected: @escaping (_ connector: Connector) -> Void) {
 		_onConnectorSelected = onConnectorSelected
 	}
 	
@@ -47,17 +47,9 @@ class SelectConnectorViewController: UITableViewController {
 		
 		return [IRKitConnector]()
 	}
-	
-}
 
-//MARK: - ApplicationUser
-extension SelectConnectorViewController: ApplicationUser {
-	
-}
+	//MARK: - UITableViewDataSource
 
-//MARK: - UITableViewDataSource
-extension SelectConnectorViewController {
-	
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
@@ -88,10 +80,8 @@ extension SelectConnectorViewController {
 		}
 		return cell
 	}
-}
 
-//MARK - UITableViewDelegate
-extension SelectConnectorViewController {
+	//MARK - UITableViewDelegate
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let cell = tableView.cellForRow(at: indexPath) as? SelectConectorCell
 		_selectedConnector = cell?.connector

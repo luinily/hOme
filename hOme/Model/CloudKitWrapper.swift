@@ -10,9 +10,9 @@ import Foundation
 import CloudKit
 
 protocol CloudKitWrapperProtocol {
-	func fetchRecordsOfType(type: String, completionHandler: (records: [[String: Any]]) -> Void)
-	func createRecordOfType(type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void)
-	func deleteRecord(recordName: String, completionHandler: (couldDeleteRecord: Bool) -> Void)
+	func fetchRecordsOfType(type: String, completionHandler: @escaping (_ records: [[String: Any]]) -> Void)
+	func createRecordOfType(type: String, data: [String: Any], conpletionHandler: @escaping (_ couldCreateDevice: Bool, _ error: CloudKitError?) -> Void)
+	func deleteRecord(recordName: String, completionHandler: @escaping (_ couldDeleteRecord: Bool) -> Void)
 	
 }
 
@@ -30,26 +30,26 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 		_container = CKContainer(identifier: "iCloud.com.YoannColdefy.IRKitApp")
 		_dataBase = _container.privateCloudDatabase
 	}
-	
-	func fetchRecordsOfType(type: String, completionHandler: (records: [[String: Any]]) -> Void) {
+
+	func fetchRecordsOfType(type: String, completionHandler: @escaping (_ records: [[String: Any]]) -> Void) {
 		let query = createQueryForRecordType(recordType: type)
 		performQuery(query: query, completionHandler: completionHandler)
 	}
-	
-	private func performQuery(query: CKQuery, completionHandler: (records: [[String: Any]]) -> Void) {
+
+	private func performQuery(query: CKQuery, completionHandler: @escaping (_ records: [[String: Any]]) -> Void) {
 		_dataBase.perform(query, inZoneWith: nil) {
 			(records, error) in
-			self.receivedRecordsFromCloudkit(records: records, error: error, completionHandler: completionHandler)
+			self.receivedRecordsFromCloudkit(records: records, error: error as NSError?, completionHandler: completionHandler)
 		}
 	}
 	
-	private func receivedRecordsFromCloudkit(records: [CKRecord]?, error: NSError?, completionHandler: (records: [[String: Any]]) -> Void) {
+	private func receivedRecordsFromCloudkit(records: [CKRecord]?, error: Error?, completionHandler: (_ records: [[String: Any]]) -> Void) {
 		if let records = records {
 			let dics = convertRecordsToDic(records: records)
-			completionHandler(records: dics)
+			completionHandler(dics)
 		} else {
-			print(error)
-			completionHandler(records: [])
+			print(error.debugDescription)
+			completionHandler([])
 		}
 	}
 	
@@ -76,24 +76,27 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 		return CKQuery(recordType: "Device", predicate: predicate)
 	}
 	
-	func createRecordOfType(type: String, data: [String: Any], conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
+	func createRecordOfType(type: String,
+	                        data: [String: Any],
+	                        conpletionHandler: @escaping (_ couldCreateDevice: Bool, _ error: CloudKitError?) -> Void) {
 		do {
 			let record = try convertDicToRecord(recordType: type, data: data)
 			saveRecord(record: record, conpletionHandler: conpletionHandler)
 		} catch {
-			conpletionHandler(couldCreateDevice: false, error: nil)
+			conpletionHandler(false, nil)
 		}
 		
 	}
 	
-	private func saveRecord(record: CKRecord, conpletionHandler: (couldCreateDevice: Bool, error: CloudKitError?) -> Void) {
+	private func saveRecord(record: CKRecord, 
+	                        conpletionHandler: @escaping (_ couldCreateDevice: Bool, _ error: CloudKitError?) -> Void) {
 		_dataBase.save(record) {
 			(record, error) in
 			if let error = error {
-				let cloudKitError = self.convertError(error: error)
-				conpletionHandler(couldCreateDevice: false, error: cloudKitError)
+				let cloudKitError = self.convertError(error: error as NSError)
+				conpletionHandler(false, cloudKitError)
 			} else {
-				conpletionHandler(couldCreateDevice: true, error: nil)
+				conpletionHandler(true, nil)
 			}
 		}
 	}
@@ -135,11 +138,11 @@ class CloudKitWrapper: CloudKitWrapperProtocol {
 		}
 	}
 	
-	func deleteRecord(recordName: String, completionHandler: (couldDeleteRecord: Bool) -> Void) {
+	func deleteRecord(recordName: String, completionHandler: @escaping (_ couldDeleteRecord: Bool) -> Void) {
 		let id = makeRecordID(recordName: recordName)
 		_dataBase.delete(withRecordID: id) {
 			deletedRecordID, error in
-			completionHandler(couldDeleteRecord: deletedRecordID != nil)
+			completionHandler(deletedRecordID != nil)
 		}
 	}
 	

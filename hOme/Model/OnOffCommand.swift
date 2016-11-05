@@ -9,28 +9,26 @@
 import Foundation
 import CloudKit
 
-struct OnOffCommand {
+struct OnOffCommand: Nameable, CommandProtocol, DeviceCommand {
 	private let _name = "OnOffCommand"
 	private let _deviceInternalName: String
-	private let _getDevice: (deviceInternalName: String) -> DeviceProtocol?
+	private let _getDevice: (_ deviceInternalName: String) -> DeviceProtocol?
 	var device: DeviceProtocol? {
 		get {
-			return _getDevice(deviceInternalName: _deviceInternalName)
+			return _getDevice(_deviceInternalName)
 		}
 	}
 	
-	init (deviceInternalName: String, getDevice: (deviceInternalName: String) -> DeviceProtocol?) {
+	init (deviceInternalName: String, getDevice: @escaping (_ deviceInternalName: String) -> DeviceProtocol?) {
 		_deviceInternalName = deviceInternalName
 		_getDevice = getDevice
 	}
 	
 	func getDeviceName() -> String? {
-		return _getDevice(deviceInternalName: _deviceInternalName)?.name
+		return _getDevice(_deviceInternalName)?.name
 	}
-}
 
-//MARK: - Nameable
-extension OnOffCommand: Nameable {
+	//MARK: - Nameable
 	var name: String {
 		get {return _name}
 		set(name) {
@@ -47,10 +45,8 @@ extension OnOffCommand: Nameable {
 	}
 	
 	var internalName: String {return _deviceInternalName+":"+name}
-}
 
-//MARK: - CommandProtocol
-extension OnOffCommand: CommandProtocol {
+	//MARK: - CommandProtocol
 	func execute() {
 		if let device = device {
 			if device.isOn {
@@ -60,10 +56,8 @@ extension OnOffCommand: CommandProtocol {
 			}
 		}
 	}
-}
 
-//MARK: - DeviceCommand
-extension OnOffCommand: DeviceCommand {
+	//MARK: - DeviceCommand
 	var deviceInternalName: String {return _deviceInternalName}
 	var executionEffectOnDevice: ExecutionEffectOnDevice {
 		get {return .none}

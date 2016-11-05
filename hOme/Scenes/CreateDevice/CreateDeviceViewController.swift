@@ -28,7 +28,7 @@ protocol CreateDeviceViewControllerOutput {
 
 
 //MARK:- CreateDeviceViewController
-class CreateDeviceViewController: UITableViewController {
+class CreateDeviceViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, CreateDeviceViewControllerInput {
 	var output: CreateDeviceViewControllerOutput!
 	var router: CreateDeviceRouter!
 	@IBOutlet weak var connectorPicker: UIPickerView!
@@ -137,10 +137,8 @@ class CreateDeviceViewController: UITableViewController {
 		connectorTextField.resignFirstResponder()
 	}
 	// MARK: Display logic
-}
 
-//MARK: - UITableViewDelegate
-extension CreateDeviceViewController {
+	//MARK: - UITableViewDelegate
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		DispatchQueue.main.async {
 			if indexPath == self._nameCellPath {
@@ -150,11 +148,8 @@ extension CreateDeviceViewController {
 			}
 		}
 	}
-}
 
-
-//MARK: - PickerView dataSource/delegate
-extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+	//MARK: - PickerView dataSource/delegatE
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
 		return 2
 	}
@@ -191,10 +186,8 @@ extension CreateDeviceViewController: UIPickerViewDataSource, UIPickerViewDelega
 		_selectedConnector = _connectors[_currentConnectorTypeRow][row]
 		connectorTextField.text = _selectedConnector?.name
 	}
-}
 
-//MARK: - CreateDeviceViewControllerInput
-extension CreateDeviceViewController: CreateDeviceViewControllerInput {
+	//MARK: - CreateDeviceViewControllerInput
 	func displayConnectors(_ connectorsInfo: CreateDevice_GetConnectors_ViewModel) {
 		_connectorsTypes = connectorsInfo.connectorsTypes
 		_connectors = connectorsInfo.connectors

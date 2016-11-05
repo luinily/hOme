@@ -24,7 +24,7 @@ class FlicButtonViewController: UITableViewController {
 		nameTextField.becomeFirstResponder()
 	}
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		guard let button = _button else {
 			return
 		}
@@ -57,7 +57,7 @@ class FlicButtonViewController: UITableViewController {
 		_button = button
 	}
 	
-	func setOnReturnToParent(_ onReturnToParent: () -> Void) {
+	func setOnReturnToParent(_ onReturnToParent: @escaping () -> Void) {
 		_onReturnToParent = onReturnToParent
 	}
 	

@@ -13,7 +13,7 @@ enum ButtonType: Int {
 	case flic = 1
 }
 
-class ButtonManager {
+class ButtonManager: CloudKitObject, Manager {
 	private var _buttons = [String: Button]()
 	private var _flicManager = FlicManager()
 	
@@ -33,7 +33,7 @@ class ButtonManager {
 		_flicManager.setOnButtonGrabbed(flicGrabbed)
 	}
 	
-	func createNewButton(buttonType: ButtonType, name: String, completionHandler: () -> Void) {
+	func createNewButton(buttonType: ButtonType, name: String, completionHandler: @escaping () -> Void) {
 		if buttonType == .flic {
 			createNewFlic(completionHandler: completionHandler)
 		}
@@ -49,11 +49,9 @@ class ButtonManager {
 	func getButton(internalName: String) -> Button? {
 		return _buttons[internalName]
 	}
-}
 
-//MARK - flic functions
-extension ButtonManager {
-	private func createNewFlic(completionHandler: () -> Void) {
+	//MARK - flic functions
+	private func createNewFlic(completionHandler: @escaping () -> Void) {
 		_onNewFlic = completionHandler
 		_flicManager.grabButton()
 	}
@@ -65,11 +63,9 @@ extension ButtonManager {
 			updateCloudKit()
 		}
 	}
-}
 
-//MARK: - CloudKitObject
-extension ButtonManager: CloudKitObject {
-	convenience init(ckRecord: CKRecord, getCommandOfUniqueName: (uniqueName: String) -> CommandProtocol?) throws {
+	//MARK: - CloudKitObject
+	convenience init(ckRecord: CKRecord, getCommandOfUniqueName: @escaping (_ uniqueName: String) -> CommandProtocol?) throws {
 		self.init()
 		_currentCKRecordName = ckRecord.recordID.recordName
 		
@@ -131,7 +127,7 @@ extension ButtonManager: CloudKitObject {
 		}
 		
 		if !buttonList.isEmpty {
-			record["buttonData"] = buttonList
+			record["buttonData"] = buttonList as CKRecordValue?
 		}
 	}
 	
@@ -139,10 +135,8 @@ extension ButtonManager: CloudKitObject {
 		CloudKitHelper.sharedHelper.export(self)
 		_currentCKRecordName = getNewCKRecordName()
 	}
-}
 
-//MARK: - Manager
-extension ButtonManager: Manager {
+	//MARK: - Manager
 	func getUniqueNameBase() -> String {
 		return "Button"
 	}

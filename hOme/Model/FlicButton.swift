@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-class FlicButton: NSObject, SCLFlicButtonDelegate {
+class FlicButton: NSObject, SCLFlicButtonDelegate, Nameable, Button, CloudKitObject {
 	private var _button: SCLFlicButton?
 	private let _actionTypes: Set<ButtonActionType> = [ButtonActionType.press, ButtonActionType.doublePress, ButtonActionType.longPress]
 	private var _actions = [ButtonActionType: CommandProtocol]()
@@ -96,10 +96,8 @@ class FlicButton: NSObject, SCLFlicButtonDelegate {
 		
 		reconnectButton()
 	}
-}
 
-//MARK: - Nameable
-extension FlicButton: Nameable {
+	//MARK: - Nameable
 	var name: String {
 		get {return _name}
 		set {
@@ -114,10 +112,8 @@ extension FlicButton: Nameable {
 	var fullName: String {return _name}
 	
 	var internalName: String {return _flicName}
-}
 
-//MARK: - Button
-extension FlicButton: Button {
+	//MARK: - Button
 	func getButtonAction(actionType: ButtonActionType) -> CommandProtocol? {
 		return _actions[actionType]
 	}
@@ -131,12 +127,9 @@ extension FlicButton: Button {
 		_onPressedForUI = onPress
 	}
 	
-}
-
-//MARK: - CloudKitObject
-extension FlicButton: CloudKitObject {
+	//MARK: - CloudKitObject
 	
-	convenience init (ckRecord: CKRecord, getCommandOfUniqueName: (uniqueName: String) -> CommandProtocol?, getButtonOfIdentifier: (identifier: UUID) -> SCLFlicButton?) throws {
+	convenience init (ckRecord: CKRecord, getCommandOfUniqueName: (_ uniqueName: String) -> CommandProtocol?, getButtonOfIdentifier: (_ identifier: UUID) -> SCLFlicButton?) throws {
 
 		guard let name = ckRecord["name"] as? String else {
 			throw CommandClassError.noDeviceNameInCKRecord
@@ -151,15 +144,15 @@ extension FlicButton: CloudKitObject {
 		_flicName = flicName
 		
 		if let pressAction = ckRecord["pressAction"] as? String {
-			_actions[ButtonActionType.press] = getCommandOfUniqueName(uniqueName: pressAction)
+			_actions[ButtonActionType.press] = getCommandOfUniqueName(pressAction)
 		}
 		
 		if let doublePressAction = ckRecord["doublePressAction"] as? String {
-			_actions[ButtonActionType.doublePress] = getCommandOfUniqueName(uniqueName: doublePressAction)
+			_actions[ButtonActionType.doublePress] = getCommandOfUniqueName(doublePressAction)
 		}
 		
 		if let longPressAction = ckRecord["longPressAction"] as? String {
-			_actions[ButtonActionType.longPress] = getCommandOfUniqueName(uniqueName: longPressAction)
+			_actions[ButtonActionType.longPress] = getCommandOfUniqueName(longPressAction)
 		}
 		
 		if let identifier = ckRecord["identifier"] as? String {
@@ -168,7 +161,7 @@ extension FlicButton: CloudKitObject {
 		_currentCKRecordName = ckRecord.recordID.recordName
 		
 		if let identifier = _identifier {
-			_button = getButtonOfIdentifier(identifier: identifier)
+			_button = getButtonOfIdentifier(identifier)
 			_button?.delegate = self
 			_button?.triggerBehavior = SCLFlicButtonTriggerBehavior.clickAndDoubleClickAndHold
 			_button?.connect()
@@ -188,8 +181,8 @@ extension FlicButton: CloudKitObject {
 	}
 	
 	func setUpCKRecord(_ record: CKRecord) {
-		record["type"] = FlicButton.getButtonType().rawValue
-		record["identifier"] = _identifier?.uuidString
+		record["type"] = FlicButton.getButtonType().rawValue as CKRecordValue?
+		record["identifier"] = _identifier?.uuidString as CKRecordValue?
 
 		
 		var data = [String]()
@@ -197,12 +190,14 @@ extension FlicButton: CloudKitObject {
 			(actionType, command) in
 				data.append(command.internalName)
 		}
-		record["name"] = _name
-		record["flicName"] = _flicName
+		record["name"] = _name as CKRecordValue?
+		record["flicName"] = _flicName as CKRecordValue?
 		
-		record["pressAction"] = _actions[ButtonActionType.press]?.internalName
-		record["doublePressAction"] = _actions[ButtonActionType.doublePress]?.internalName
-		record["longPressAction"] = _actions[ButtonActionType.longPress]?.internalName
+		record["pressAction"] = data[0] as CKRecordValue?
+		record["doublePressAction"] = data[1] as CKRecordValue?
+		record["longPressAction"] = data[2] as CKRecordValue?
+
+		
 	}
 	
 	func getCKRecordType() -> String {

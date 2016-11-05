@@ -9,13 +9,13 @@
 import Foundation
 import UIKit
 
-class SelectDeviceCommandViewController: UITableViewController {
+class SelectDeviceCommandViewController: UITableViewController, ApplicationUser {
 	@IBOutlet var table: UITableView!
 	
 	private var _device: DeviceProtocol?
 	private var _commands = [CommandProtocol]()
 	private var _selectedCommand: CommandProtocol?
-	private var _onCommandSelected: ((command: CommandProtocol) -> Void)?
+	private var _onCommandSelected: ((_ command: CommandProtocol) -> Void)?
 	
 	var selectedCommand: CommandProtocol? {
 		get {return _selectedCommand}
@@ -31,7 +31,7 @@ class SelectDeviceCommandViewController: UITableViewController {
 	
 	override func willMove(toParentViewController parent: UIViewController?) {
 		if let selectedCommand = _selectedCommand {
-			_onCommandSelected?(command: selectedCommand)
+			_onCommandSelected?(selectedCommand)
 		}
 	}
 	
@@ -51,19 +51,11 @@ class SelectDeviceCommandViewController: UITableViewController {
 		}
 	}
 	
-	func setOnCommandSelected(_ onCommandSelected: (command: CommandProtocol) -> Void) {
+	func setOnCommandSelected(_ onCommandSelected: @escaping (_ command: CommandProtocol) -> Void) {
 		_onCommandSelected = onCommandSelected
 	}
-}
 
-//MARK: - ApplicationUser
-extension SelectDeviceCommandViewController: ApplicationUser {
-	
-}
-
-//MARK: - Table Data Source
-extension SelectDeviceCommandViewController {
-	
+	//MARK: - Table Data Source
 	//MARK: Sections
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
@@ -95,10 +87,8 @@ extension SelectDeviceCommandViewController {
 	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return false
 	}
-}
 
-//MARK: - Table Delegate
-extension SelectDeviceCommandViewController {
+	//MARK: - Table Delegate
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		_selectedCommand = _commands[(indexPath as NSIndexPath).row]
 		tableView.reloadData()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DeviceViewController: UITableViewController {
+class DeviceViewController: UITableViewController, ApplicationUser {
 
 	@IBOutlet weak var commandTable: UITableView!
 	
@@ -42,7 +42,7 @@ class DeviceViewController: UITableViewController {
 		updateView()
 	}
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let cell = sender as? SelectConectorCell,
 				let view = segue.destination as? SelectConnectorViewController {
 			if let connector = cell.connector {
@@ -121,15 +121,8 @@ class DeviceViewController: UITableViewController {
 	private func updateView() {
 		commandTable.reloadData()
 	}
-}
 
-//MARK: - ApplicationUser
-extension DeviceViewController: ApplicationUser {
-	
-}
-
-//MARK: - Table Data Source
-extension DeviceViewController {
+	//MARK: - Table Data Source
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 4
 	}
@@ -247,11 +240,8 @@ extension DeviceViewController {
 	private func makeNewCommandCell() -> UITableViewCell? {
 		return tableView.dequeueReusableCell(withIdentifier: "DeviceAddNewCommandCell")
 	}
-}
 
-// MARK: Table Delegate
-extension DeviceViewController {
-	
+	// MARK: Table Delegate
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if let cell = tableView.cellForRow(at: indexPath) as? DeviceCommandCell {
 			cell.command?.execute()

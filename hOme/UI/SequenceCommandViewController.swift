@@ -20,11 +20,8 @@ class SequenceCommandViewController: UITableViewController {
 	private func onTimeChange(_ newTime: CommandTime) {
 		_time = newTime
 	}
-	
-}
 
-//Mark: - Table Data Source
-extension SequenceCommandViewController {
+	//Mark: - Table Data Source
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
@@ -59,9 +56,4 @@ extension SequenceCommandViewController {
 			return UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Cell")
 		}
 	}
-}
-
-//Mark: - Table Delegate
-extension SequenceCommandViewController {
-	
 }

@@ -17,7 +17,7 @@ enum IRKitConnectorClassError: Error {
 	case noBonjourName
 }
 
-final class IRKitConnector: NSObject {
+final class IRKitConnector: NSObject, Nameable, Connector, CloudKitObject {
     static let bonjourServiceName = "_irkit._tcp."
 	
 	private var _name: String
@@ -63,37 +63,32 @@ final class IRKitConnector: NSObject {
 			doSendData()
 		}
 	}
-    
-    func getDataFromIRKit(_ onComplete: (data: IRKITSignal) -> Void) {
-        _gotData = false
+
+	func getDataFromIRKit(_ onComplete: @escaping (_ data: IRKITSignal) -> Void) {
+		_gotData = false
 		if let ipAddress = _ipAddress {
 			let url = "http://" + ipAddress + "/messages"
-			_ = Alamofire.request(
-								url,
-								withMethod: .get,
-								parameters: nil,
-								encoding: ParameterEncoding.json,
-								headers: ["X-Requested-With": "curl"]
-				).responseJSON {
-				response in
-				print("request : ")
-				print(response.request)  // original URL request
-				print("response : ")
-				print(response.response) // URL response
-				print("data : ")
-				print(response.data)     // server data
-				print("result : ")
-				print(response.result)   // result of response serialization
-				
-				var data = IRKITSignal()
-				data.setFromJSON(response.data)
-				onComplete(data: data)
-				
+			//headers: ["X-Requested-With": "curl"]
+			_ = Alamofire.request(url).responseJSON {
+					response in
+					print("request : ")
+					print(response.request.debugDescription)  // original URL request
+					print("response : ")
+					print(response.response.debugDescription) // URL response
+					print("data : ")
+					print(response.data.debugDescription)     // server data
+					print("result : ")
+					print(response.result)   // result of response serialization
+
+					var data = IRKITSignal()
+					data.setFromJSON(response.data)
+					onComplete(data)
+
 			}
 		}
-    }
+	}
 
-    func getData(_ onComplete : (data: IRKITSignal) -> Void) {
+    func getData(_ onComplete : @escaping (_ data: IRKITSignal) -> Void) {
         getDataFromIRKit(onComplete)
     }
 	
@@ -106,16 +101,17 @@ final class IRKitConnector: NSObject {
 				let url = "http://" + ipAddress + "/messages"
 				_ = Alamofire.upload(json,
 				                     to: url,
-				                     withMethod: .post,
-				                     headers: ["X-Requested-With": "curl"]).responseJSON {
-					response in
-					print("Send IRkit Data")
-					data.completionHandler?()
-					if self._dataToSend.isEmpty {
-						self._sendingData = false
-					} else {
-						self.doSendData()
-					}
+				                     method: .post,
+				                     headers: ["X-Requested-With": "curl"]
+					).responseJSON {
+						response in
+						print("Send IRkit Data")
+						data.completionHandler?()
+						if self._dataToSend.isEmpty {
+							self._sendingData = false
+						} else {
+							self.doSendData()
+						}
 				}
 			} else {
 				_dataToSend.removeAll()
@@ -130,7 +126,7 @@ final class IRKitConnector: NSObject {
 		findIP(completionHandler: {})
 	}
 	
-	func findIP(completionHandler: () -> Void) {
+	func findIP(completionHandler: @escaping () -> Void) {
 		_bonjourHelper = nil //in case the ip has not be found the connector stays..
 		_bonjourHelper = BonjourHelper()
 		_bonjourHelper?.searchIPOfServiceOfServiceType(IRKitConnector.bonjourServiceName, serviceName: _bonjourName) {
@@ -140,9 +136,8 @@ final class IRKitConnector: NSObject {
 			completionHandler()
 		}
 	}
-}
 
-extension IRKitConnector: Nameable {
+	// MARK: - Nameable
 	var name: String {
 		get {return _name}
 		set {
@@ -153,19 +148,15 @@ extension IRKitConnector: Nameable {
 	var fullName: String {return _bonjourName}
 	
 	var internalName: String {return _bonjourName}
-}
 
-//MARK: - Connector
-extension IRKitConnector: Connector {
+	//MARK: - Connector
 	var connectorType: ConnectorType {return ConnectorType.irKit}
 	
 	func getCommandType() -> CommandType {
 		return IRKitCommand.getCommandType()
 	}
-}
 
-//MARK: - CloudKitObject
-extension IRKitConnector: CloudKitObject {
+	//MARK: - CloudKitObject
 	convenience init(ckRecord: CKRecord) throws {
 		self.init(ckRecordName: ckRecord.recordID.recordName, name: Name(name: "", internalName: ""))
 		
@@ -195,9 +186,9 @@ extension IRKitConnector: CloudKitObject {
 	}
 	
 	func setUpCKRecord(_ record: CKRecord) {
-		record["ConnectorType"] = getCommandType().rawValue
-		record["Name"] = _name
-		record["BonjourName"] = _bonjourName
+		record["ConnectorType"] = getCommandType().rawValue as CKRecordValue?
+		record["Name"] = _name as CKRecordValue?
+		record["BonjourName"] = _bonjourName as CKRecordValue?
 
 	}
 	

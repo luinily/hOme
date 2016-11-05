@@ -71,7 +71,7 @@ class NewIRKitCommandViewController: UITableViewController {
 		_device = device
 	}
 	
-	func setOnClose(_ onClose: () -> Void) {
+	func setOnClose(_ onClose: @escaping () -> Void) {
 		_onClose = onClose
 	}
 	
@@ -109,7 +109,7 @@ class NewIRKitCommandViewController: UITableViewController {
 		if let irSignal = _irSignal {
 			format.text = irSignal.format
 			frequence.text = String(irSignal.frequence)
-			data.text = String(irSignal.data)
+			data.text = String(describing: irSignal.data)
 		} else {
 			format.text = "None"
 			frequence.text = "None"

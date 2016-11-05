@@ -21,7 +21,7 @@ class ButtonsViewController: UITableViewController {
 		_tableDelegate.setShowButtonView(showButtonView)
 	}
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let viewController = segue.destination as? FlicButtonViewController {
 			if let button = _selectedButton as? FlicButton {
 				viewController.setButton(button)

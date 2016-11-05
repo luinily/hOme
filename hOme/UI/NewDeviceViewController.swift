@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class NewDeviceViewController: UIViewController {
+class NewDeviceViewController: UIViewController, ApplicationUser, UITableViewDataSource {
 	
 	@IBOutlet var doneButton: UIBarButtonItem!
 	@IBOutlet var table: UITableView!
@@ -22,7 +22,7 @@ class NewDeviceViewController: UIViewController {
 		doneButton.isEnabled = false
 	}
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let cell = sender as? SelectConectorCell {
 			if let viewController = segue.destination as? SelectConnectorViewController {
 				viewController.setOnConnectorSelected(onSelectedConnector)
@@ -31,7 +31,7 @@ class NewDeviceViewController: UIViewController {
 		}
 	}
 	
-	func setOnClose(_ onClose: () -> Void) {
+	func setOnClose(_ onClose: @escaping () -> Void) {
 		_onClose = onClose
 	}
 	
@@ -67,15 +67,8 @@ class NewDeviceViewController: UIViewController {
 	private func updateView() {
 		table.reloadData()
 	}
-}
 
-//MARK: - ApplicationUser
-extension NewDeviceViewController: ApplicationUser {
-	
-}
-
-//MARK: - UITableViewDataSource
-extension NewDeviceViewController: UITableViewDataSource {
+	//MARK: - UITableViewDataSource
 	func numberOfSections(in tableView: UITableView) -> Int {
 		return 1
 	}
@@ -114,11 +107,5 @@ extension NewDeviceViewController: UITableViewDataSource {
 			return cell
 		}
 		return UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: "NotFoundCell")
-	}
-}
-
-//MARK: - UITableViewDelegate
-extension NewDeviceViewController: UITableViewDelegate {
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 	}
 }

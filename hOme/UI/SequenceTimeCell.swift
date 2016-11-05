@@ -23,7 +23,7 @@ class SequenceTimeCell: UITableViewCell {
 		if let newTime = _timeEditor.text {
 			_time?.time = newTime
 			if let time = _time {
-				_onChange?(newValue: time)
+				_onChange?(time)
 			}
 		}
 	}
@@ -37,8 +37,8 @@ class SequenceTimeCell: UITableViewCell {
 		}
 	}
 	
-	private var _onChange: ((newValue: CommandTime) -> Void)?
-	var onChange: ((newValue: CommandTime) -> Void)? {
+	private var _onChange: ((_ newValue: CommandTime) -> Void)?
+	var onChange: ((_ newValue: CommandTime) -> Void)? {
 		get {return _onChange}
 		set {
 			_onChange = newValue

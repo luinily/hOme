@@ -15,7 +15,7 @@ enum CommandManagerClassError: Error {
 	case commandClassInvalid
 }
 
-class CommandManager {
+class CommandManager: Manager, CloudKitObject {
 	private var _commands: [String: CommandProtocol]
 	private var _currentCKRecordName: String?
 	
@@ -28,7 +28,9 @@ class CommandManager {
 		_currentCKRecordName = ckRecordName
 	}
 	
-	func createCommand(_ device: DeviceProtocol, name: String, commandType: CommandType?, getDevice: (deviceInternalName: String) -> DeviceProtocol?) -> CommandProtocol? {
+	func createCommand(_ device: DeviceProtocol,
+	                   name: String,
+	                   commandType: CommandType?, getDevice: @escaping (_ deviceInternalName: String) -> DeviceProtocol?) -> CommandProtocol? {
 		
 		func createCommand(name: Name, device: DeviceProtocol, commandType: CommandType) -> DeviceCommand {
 			var newCommand: DeviceCommand
@@ -92,11 +94,8 @@ class CommandManager {
 	func getCommandCountForDevice(deviceInternalName: String) -> Int {
 		return getCommandsOfDevice(deviceInternalName: deviceInternalName).count
 	}
-	
-}
 
-//MARK: - Manager
-extension CommandManager: Manager {
+	//MARK: - Manager
 	func getUniqueNameBase() -> String {
 		return "Command"
 	}
@@ -104,11 +103,9 @@ extension CommandManager: Manager {
 	func isNameUnique(_ name: String) -> Bool {
 		return _commands.index(forKey: name) == nil
 	}
-}
 
-//MARK: - CloudKitObject
-extension CommandManager: CloudKitObject {
-	convenience init(ckRecord: CKRecord, getDevice: (internalName: String) -> DeviceProtocol?, getConnector: (deviceName: String) -> Connector?) throws {
+	//MARK: - CloudKitObject
+	convenience init(ckRecord: CKRecord, getDevice: @escaping (_ internalName: String) -> DeviceProtocol?, getConnector: (_ deviceName: String) -> Connector?) throws {
 		self.init(ckRecordName: ckRecord.recordID.recordName)
 		
 		if let commandList = ckRecord["commandData"] as? [String] {
@@ -118,7 +115,7 @@ extension CommandManager: CloudKitObject {
 		}
 	}
 	
-	private func importCommand(_ commandRecordName: String, getDevice: (internalName: String) -> DeviceProtocol?) {
+	private func importCommand(_ commandRecordName: String, getDevice: @escaping (_ internalName: String) -> DeviceProtocol?) {
 		CloudKitHelper.sharedHelper.importRecord(commandRecordName) {
 			(record) in
 			do {
@@ -130,8 +127,8 @@ extension CommandManager: CloudKitObject {
 					}
 					
 					
-					var commandExecutionNotifier: ((sender: DeviceCommand) -> Void)?
-					if let device = getDevice(internalName: deviceInternalName) {
+					var commandExecutionNotifier: ((_ sender: DeviceCommand) -> Void)?
+					if let device = getDevice(deviceInternalName) {
 						commandExecutionNotifier = device.notifyCommandExecution
 						
 						self.addOnOffCommand(deviceInternalName, getDevice: getDevice) //Adds the command only if it does not exist already
@@ -177,7 +174,7 @@ extension CommandManager: CloudKitObject {
 		return commandType
 	}
 	
-	private func addOnOffCommand(_ deviceInternalName: String, getDevice: (internalName: String) -> DeviceProtocol?) {
+	private func addOnOffCommand(_ deviceInternalName: String, getDevice: @escaping (_ internalName: String) -> DeviceProtocol?) {
 		if _commands[deviceInternalName] == nil {
 			let command = OnOffCommand(deviceInternalName: deviceInternalName, getDevice: getDevice)
 			addCommand(command)
@@ -204,7 +201,7 @@ extension CommandManager: CloudKitObject {
 			}
 		}
 		
-		record["commandData"] = commandList
+		record["commandData"] = commandList as CKRecordValue?
 	}
 	
 	func getCKRecordType() -> String {

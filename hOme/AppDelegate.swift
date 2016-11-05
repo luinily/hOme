@@ -15,16 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var window: UIWindow?
 	var homeApplication = Application()
 
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+	func application(_ application: UIApplication,
+	                 didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		// Override point for customization after application launch.
 		homeApplication.start()
 		return true
 	}
-	
-	func application(_ app: UIApplication, open url: URL, options: [String : AnyObject]) -> Bool {
+
+	func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
 		return homeApplication.handleOpenURL(url)
 	}
-
+	
 	func applicationWillResignActive(_ application: UIApplication) {
 		// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
 		// Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -74,8 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	    } catch {
 	        // Report any error we got.
 	        var dict = [String: AnyObject]()
-	        dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
-	        dict[NSLocalizedFailureReasonErrorKey] = failureReason
+	        dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
+	        dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
 
 	        dict[NSUnderlyingErrorKey] = error as NSError
 	        let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)

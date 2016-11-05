@@ -12,9 +12,12 @@
 import UIKit
 
 protocol DeviceStore {
-	func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void)
-	func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void)
-	func deleteDevice(internalName: String, completionHandler: (couldDeleteDevice: Bool) -> Void)
+	func fetchDevices(completionHandler: @escaping (_ devices: [DeviceInfo]) -> Void)
+	func createDevice(name: String,
+	                  connectorInternalName: String,
+	                  completionHandler: @escaping (_ couldCreateDevice: Bool) -> Void)
+	func deleteDevice(internalName: String,
+	                  completionHandler: @escaping (_ couldDeleteDevice: Bool) -> Void)
 }
 
 class DevicesWorker {
@@ -27,15 +30,19 @@ class DevicesWorker {
 		_deviceStore = deviceStore
 	}
 	
-	func fetchDevices(completionHandler: (devices: [DeviceInfo]) -> Void) {
+	func fetchDevices(completionHandler: @escaping (_ devices: [DeviceInfo]) -> Void) {
 		_deviceStore.fetchDevices(completionHandler: completionHandler)
 	}
 	
-	func createDevice(name: String, connectorInternalName: String, completionHandler: (couldCreateDevice: Bool) -> Void) {
-		_deviceStore.createDevice(name: name, connectorInternalName: connectorInternalName, completionHandler: completionHandler)
+	func createDevice(name: String, connectorInternalName: String,
+	                  completionHandler: @escaping (_ couldCreateDevice: Bool) -> Void) {
+		_deviceStore.createDevice(name: name,
+		                          connectorInternalName: connectorInternalName,
+		                          completionHandler: completionHandler)
 	}
 	
-	func deleteDevice(internalName: String, completionHandler: (couldDeleteDevice: Bool) -> Void) {
+	func deleteDevice(internalName: String,
+	                  completionHandler: @escaping (_ couldDeleteDevice: Bool) -> Void) {
 		_deviceStore.deleteDevice(internalName: internalName, completionHandler: completionHandler)
 	}
 }

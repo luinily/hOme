@@ -14,7 +14,7 @@ class NewDeviceNameCell: UITableViewCell {
 	@IBOutlet weak var textEdit: UITextField!
 	
 	private var _name: String = "New Device"
-	private var _onNameChanged: ((newName: String) -> Void)?
+	private var _onNameChanged: ((_ newName: String) -> Void)?
 	
 	var name: String {
 		get {return _name}
@@ -24,7 +24,7 @@ class NewDeviceNameCell: UITableViewCell {
 		}
 	}
 	
-	var onNameChanged: ((newName: String) -> Void)? {
+	var onNameChanged: ((_ newName: String) -> Void)? {
 		get {return _onNameChanged}
 		set {
 			_onNameChanged = newValue
@@ -34,7 +34,7 @@ class NewDeviceNameCell: UITableViewCell {
 	@IBAction func onValueChanged(_ sender: AnyObject) {
 		if let newName = textEdit.text {
 			_name = newName
-			_onNameChanged?(newName: newName)
+			_onNameChanged?(newName)
 		}
 	}
 	

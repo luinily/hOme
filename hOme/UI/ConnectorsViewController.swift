@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ConnectorsViewController: UITableViewController {
+class ConnectorsViewController: UITableViewController, ApplicationUser {
 	
 	@IBOutlet weak var connectorsTable: UITableView!
 	
@@ -22,7 +22,7 @@ class ConnectorsViewController: UITableViewController {
 
 	}
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let cell = sender as? SelectConectorCell {
 			if let connector = cell.connector as? IRKitConnector {
 				if let viewController = segue.destination as? IRKitConnectorEditor {
@@ -31,15 +31,8 @@ class ConnectorsViewController: UITableViewController {
 			}
 		}
 	}
-}
 
-//MARK: - ApplicationUser
-extension ConnectorsViewController: ApplicationUser {
-	
-}
-
-//MARK: - Table Data Source
-extension ConnectorsViewController {
+	//MARK: - Table Data Source
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 2
 	}

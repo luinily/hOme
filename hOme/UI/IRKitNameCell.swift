@@ -12,7 +12,7 @@ import UIKit
 class IRKitNameCell: UITableViewCell {
 	@IBOutlet weak var textField: UITextField!
 	private var _nameableObject: Nameable?
-	private var _isNameValid: ((name: String) -> Bool)?
+	private var _isNameValid: ((_ name: String) -> Bool)?
 	
 	
 
@@ -27,7 +27,7 @@ class IRKitNameCell: UITableViewCell {
 		}
 	}
 	
-	func setIsNameValid(_ isNameValid: (name: String) -> Bool) {
+	func setIsNameValid(_ isNameValid: @escaping (_ name: String) -> Bool) {
 		_isNameValid = isNameValid
 	}
 	
@@ -49,11 +49,7 @@ class IRKitNameCell: UITableViewCell {
 	
 	private func isNameValid(_ name: String) -> Bool {
 		if let isNameValid = _isNameValid {
-			if isNameValid(name: name) {
-				return true
-			} else {
-				return false
-			}
+			return isNameValid(name)
 		} else {
 			return true
 		}

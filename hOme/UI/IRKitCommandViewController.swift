@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class IRKitCommandViewController: UITableViewController {
+class IRKitCommandViewController: UITableViewController, ApplicationUser {
 	private var _command: IRKitCommand?
 	
 	private let _numberOfSections = 2
@@ -31,10 +31,10 @@ class IRKitCommandViewController: UITableViewController {
 		tableView.reloadData()
 	}
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let cell = sender as? IRKitDataCell {
 			if let view = segue.destination as? IRKitDataViewController {
-				view.setIRKitData(String(cell.data))
+				view.setIRKitData(String(describing: cell.data))
 			}
 		} else if let cell = sender as? IRKitDeviceOnOffSettingCell {
 			if let view = segue.destination as? CommandOnOffSettingViewController,
@@ -52,16 +52,7 @@ class IRKitCommandViewController: UITableViewController {
 		return !name.isEmpty
 	}
 
-}
-
-//MARK: - ApplicationUser
-extension IRKitCommandViewController: ApplicationUser {
-	
-}
-
-//MARK: Table Data Source
-extension IRKitCommandViewController {
-	
+	//MARK: Table Data Source
 	//MARK: Sections
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return _numberOfSections
@@ -180,10 +171,8 @@ extension IRKitCommandViewController {
 	override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return false
 	}
-}
 
-// MARK: Table Delegate
-extension IRKitCommandViewController {
+	// MARK: Table Delegate
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if indexPath == _dataReloadCellIndexPath {
 			reloadCommandData()

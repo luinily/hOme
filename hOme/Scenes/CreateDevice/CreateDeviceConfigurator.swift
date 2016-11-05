@@ -14,8 +14,10 @@ import UIKit
 // MARK: Connect View, Interactor, and Presenter
 
 extension CreateDeviceViewController: CreateDevicePresenterOutput {
-	override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
+
+	func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
 		router.passDataToNextScene(segue)
+
 	}
 }
 

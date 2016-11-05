@@ -14,10 +14,10 @@ class ButtonsTableDelegate: NSObject, UITableViewDataSource, UITableViewDelegate
 	private let _sectionButtons = 0
 	private let _sectionNewButton = 1
 	private var _showNewButtonView: (() -> Void)?
-	private var _showButtonView: ((button: Button) -> Void)?
+	private var _showButtonView: ((_ button: Button) -> Void)?
 	private var _buttons = [Button]()
 	
-	func setShowButtonView(_ showButtonView: (button: Button) -> Void) {
+	func setShowButtonView(_ showButtonView: @escaping (_ button: Button) -> Void) {
 		_showButtonView = showButtonView
 	}
 	
@@ -66,7 +66,7 @@ class ButtonsTableDelegate: NSObject, UITableViewDataSource, UITableViewDelegate
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		if (indexPath as NSIndexPath).section == _sectionButtons {
-				_showButtonView?(button: _buttons[(indexPath as NSIndexPath).row])
+				_showButtonView?(_buttons[(indexPath as NSIndexPath).row])
 		} else if (indexPath as NSIndexPath).section == _sectionNewButton {
 			_showNewButtonView?()
 			application?.createNewButton(ButtonType.flic, name: "button") {

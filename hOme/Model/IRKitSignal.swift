@@ -19,7 +19,7 @@ struct IRKITSignal {
 	
 	mutating func setFromJSON(_ jsonData: Foundation.Data?) {
 		if let jsonData = jsonData {
-			let jsonObject: AnyObject!
+			let jsonObject: Any!
 			do {
 				jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.mutableContainers)
 				
@@ -43,7 +43,7 @@ struct IRKITSignal {
 	}
 	
 	func getJSON() -> Foundation.Data? {
-		var jsonDictionnary = [String: AnyObject]()
+		var jsonDictionnary = [String: Any]()
 		
 		jsonDictionnary["format"] = format
 		jsonDictionnary["freq"] = frequence

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class NewSequenceViewController: UITableViewController {
+class NewSequenceViewController: UITableViewController, ApplicationUser {
 	private var _name: String = "New Sequence"
 	private var _onDone: (() -> Void)?
 	
@@ -32,22 +32,15 @@ class NewSequenceViewController: UITableViewController {
 		self.dismiss(animated: true, completion: nil)
 	}
 	
-	func setOnDone(_ onDone: () -> Void) {
+	func setOnDone(_ onDone: @escaping () -> Void) {
 		_onDone = onDone
 	}
 	
 	private func onNameChanged(_ newName: String) {
 		doneButton.isEnabled = newName != ""
 	}
-}
 
-//MARK: - ApplicationUser
-extension NewSequenceViewController: ApplicationUser {
-	
-}
-
-//MARK: - Table Data Source
-extension NewSequenceViewController {
+	//MARK: - Table Data Source
 	//MARK: Sections
 	override func numberOfSections(in tableView: UITableView) -> Int {
 		return 1

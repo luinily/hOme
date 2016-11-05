@@ -18,7 +18,7 @@ enum Weekday: Int {
 	case monday = 0, tuesday, wednesday, thursday, friday, saturday, sunday
 }
 
-class Schedule {
+class Schedule: CloudKitObject {
 	private var _commands = [ScheduleCommand]()
 	
     private var _schedule = [Weekday: [Int: [Int: [ScheduleCommand]]]]()
@@ -32,7 +32,7 @@ class Schedule {
 		_currentCKRecordName = currentCKRecordName
 	}
 	
-	func createAndAddNewScheduleCommand(_ command: CommandProtocol, days: Set<Weekday>, hour: Int, minute: Int, getCommand: (commandInternalName: String) -> CommandProtocol?) -> ScheduleCommand {
+	func createAndAddNewScheduleCommand(_ command: CommandProtocol, days: Set<Weekday>, hour: Int, minute: Int, getCommand: @escaping (_ commandInternalName: String) -> CommandProtocol?) -> ScheduleCommand {
 		let newCommand = ScheduleCommand(commandInternalName: command.internalName, days: days, time: (hour, minute), getCommand: getCommand)
 		_commands.append(newCommand)
 		addCommandToSchedule(newCommand)
@@ -149,10 +149,7 @@ class Schedule {
 		}
 	}
 	
-}
-
-extension Schedule: CloudKitObject {
-	convenience init(ckRecord: CKRecord, getCommandOfUniqueName: (commandInternalName: String) -> CommandProtocol?) throws {
+	convenience init(ckRecord: CKRecord, getCommandOfUniqueName: @escaping (_ commandInternalName: String) -> CommandProtocol?) throws {
 		self.init()
 		
 		_currentCKRecordName = ckRecord.recordID.recordName
@@ -194,7 +191,7 @@ extension Schedule: CloudKitObject {
 		for command in _commands {
 			commandRecordNames.append(command.getNewCKRecordName())
 		}
-		record["commandRecordNames"] = commandRecordNames
+		record["commandRecordNames"] = commandRecordNames as CKRecordValue?
 		
 	}
 	

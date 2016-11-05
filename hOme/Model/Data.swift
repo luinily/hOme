@@ -72,10 +72,8 @@ class Data {
 			}
 		}
 	}
-}
 
-//MARK: - DeviceManager
-extension Data {
+	//MARK: - DeviceManager
 	func createAndAddNewDeviceOfName(_ name: String, connector: Connector) -> DeviceProtocol {
 		return _deviceManager.CreateDevice(name: name, connector: connector, getCommand: self.getCommand, getConnector: self.getConnector)
 	}
@@ -96,7 +94,7 @@ extension Data {
 		return _deviceManager.getDevices()
 	}
 	
- 	private func tryImportDeviceManager(_ completionHandler: (deviceManager: DeviceManager?) -> Void) {
+ 	private func tryImportDeviceManager(_ completionHandler: @escaping (_ deviceManager: DeviceManager?) -> Void) {
 		CloudKitHelper.sharedHelper.importRecord("DeviceManager") {
 			(record) in
 			do {
@@ -108,17 +106,14 @@ extension Data {
 						getConnector: self.getConnector
 					)
 				}
-				completionHandler(deviceManager: deviceManager)
+				completionHandler(deviceManager)
 			} catch {
 				
 			}
 		}
 	}
-}
 
-//MARK: - CommandManager SequenceManager
-extension Data {
-	
+	//MARK: - CommandManager SequenceManager
 	func createAndAddNewCommand(device: DeviceProtocol, name: String, commandType: CommandType?) -> CommandProtocol? {
 		return _commandManager.createCommand(device, name: name, commandType: commandType, getDevice: self.getDeviceOfInternalName)
 	}
@@ -168,7 +163,7 @@ extension Data {
 		_sequenceManager.deleteSequence(sequence)
 	}
 	
-	private func tryImportCommandManager(completionHandler: (commandManager: CommandManager?) -> Void) {
+	private func tryImportCommandManager(completionHandler: @escaping (_ commandManager: CommandManager?) -> Void) {
 		CloudKitHelper.sharedHelper.importRecord("CommandManager") {
 			(record) in
 			do {
@@ -180,14 +175,14 @@ extension Data {
 						getConnector: self.getConnector
 					)
 				}
-				completionHandler(commandManager: commandManager)
+				completionHandler(commandManager)
 			} catch {
 				
 			}
 		}
 	}
 	
-	private func tryImportSequenceManager(completionHandler: (sequenceManager: SequenceManager?) -> Void) {
+	private func tryImportSequenceManager(completionHandler: @escaping (_ sequenceManager: SequenceManager?) -> Void) {
 		CloudKitHelper.sharedHelper.importRecord("SequenceManager") {
 			(record) in
 			do {
@@ -198,17 +193,14 @@ extension Data {
 						getCommandOfUniqueName: self.getCommand
 					)
 				}
-				completionHandler(sequenceManager: sequenceManager)
+				completionHandler(sequenceManager)
 			} catch {
 				
 			}
 		}
 	}
-}
 
-//MARK: - ConnectorManager
-extension Data {
-	
+	//MARK: - ConnectorManager
 	func createAndAddNewConnector(_ type: ConnectorType, name: String, internalName: String) -> Connector? {
 		return _connectorManager.createConnector(type: type, name: name, internalName: internalName)
 	}
@@ -245,7 +237,7 @@ extension Data {
 		return _connectorManager.getConnectors(type: type)
 	}
 	
-	private func tryImportConnectorManager(completionHandler: (communicatorManager: ConnectorManager?) -> Void) {
+	private func tryImportConnectorManager(completionHandler: @escaping (_ communicatorManager: ConnectorManager?) -> Void) {
 		CloudKitHelper.sharedHelper.importRecord("CommunicatorManager") {
 			(record) in
 			do {
@@ -253,16 +245,14 @@ extension Data {
 				if let record = record {
 					communicatorManager = try ConnectorManager(ckRecord: record)
 				}
-				completionHandler(communicatorManager: communicatorManager)
+				completionHandler(communicatorManager)
 			} catch {
 				
 			}
 		}
 	}
-}
 
-//MARK: - Schedule
-extension Data {
+	//MARK: - Schedule
 	func getSchedule() -> [Weekday: [ScheduleCommand]] {
 		return _schedule.getSchedule()
 	}
@@ -271,7 +261,7 @@ extension Data {
 		return _schedule.createAndAddNewScheduleCommand(command, days: days, hour: hour, minute: minute, getCommand: self.getCommand)
 	}
 	
-	private func tryImportSequdule(_ completionHandler: (schedule: Schedule?) -> Void) {
+	private func tryImportSequdule(_ completionHandler: @escaping (_ schedule: Schedule?) -> Void) {
 		CloudKitHelper.sharedHelper.importRecord("Schedule") {
 			(record) in
 			do {
@@ -279,17 +269,15 @@ extension Data {
 				if let record = record {
 					schedule = try Schedule(ckRecord: record, getCommandOfUniqueName: self.getCommand)
 				}
-				completionHandler(schedule: schedule)
+				completionHandler(schedule)
 			} catch {
 				
 			}
 		}
 	}
-}
 
-//MARK: - ButtonManager
-extension Data {
-	func createAndAddNewButton(_ buttonType: ButtonType, name: String, completionHandler: () -> Void) {
+	//MARK: - ButtonManager
+	func createAndAddNewButton(_ buttonType: ButtonType, name: String, completionHandler: @escaping () -> Void) {
 		return _buttonManager.createNewButton(buttonType: buttonType, name: name, completionHandler: completionHandler)
 	}
 	
@@ -309,7 +297,7 @@ extension Data {
 		return _buttonManager.getButton(internalName: internalName)
 	}
 	
-	private func tryImportButtonManager(_ completionHandler: (buttonManager: ButtonManager?) -> Void) {
+	private func tryImportButtonManager(_ completionHandler: @escaping (_ buttonManager: ButtonManager?) -> Void) {
 		CloudKitHelper.sharedHelper.importRecord("ButtonManager") {
 			(record) in
 			do {
@@ -317,7 +305,7 @@ extension Data {
 				if let record = record {
 					buttonManager = try ButtonManager(ckRecord: record, getCommandOfUniqueName: self.getCommand)
 				}
-				completionHandler(buttonManager: buttonManager)
+				completionHandler(buttonManager)
 			} catch {
 				
 			}
@@ -328,10 +316,8 @@ extension Data {
 //		return _buttonManager.handleOpenURL(url)
 		return true
 	}
-}
 
-//MARK: - Schedule
-extension Data {
+	//MARK: - Schedule
 	func getScheduleCommandForTime(day: Weekday, hour: Int, minute: Int) -> [ScheduleCommand] {
 		return _schedule.getCommands(day: day, hour: hour, minute: minute)
 	}

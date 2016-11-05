@@ -16,7 +16,7 @@ enum SequenceManagerError: Error {
     case couldNotFindRecord
 }
 
-class SequenceManager {
+class SequenceManager: Manager, CloudKitObject {
     
     private var _sequences: [String: Sequence]
 	private var _currentCKRecordName: String?
@@ -53,10 +53,8 @@ class SequenceManager {
 		updateCloudKit()
 		CloudKitHelper.sharedHelper.remove(sequence)
 	}
-}
 
-//MARK: - Manager
-extension SequenceManager: Manager {
+	//MARK: - Manager
 	func getUniqueNameBase() -> String {
 		return "Sequence"
 	}
@@ -64,11 +62,9 @@ extension SequenceManager: Manager {
 	func isNameUnique(_ name: String) -> Bool {
 		return _sequences.index(forKey: name) == nil
 	}
-}
 
-//MARK: - CloudKitObject
-extension SequenceManager: CloudKitObject {
-	convenience init(ckRecord: CKRecord, getCommandOfUniqueName: (uniqueName: String) -> CommandProtocol?) throws {
+	//MARK: - CloudKitObject
+	convenience init(ckRecord: CKRecord, getCommandOfUniqueName: @escaping (_ uniqueName: String) -> CommandProtocol?) throws {
 		self.init()
 		
 		_currentCKRecordName = ckRecord.recordID.recordName
@@ -114,13 +110,11 @@ extension SequenceManager: CloudKitObject {
 			sequenceRecordNames.append(sequence.getNewCKRecordName())
 		})
 		
-		record["sequenceRecordNames"] = sequenceRecordNames
+		record["sequenceRecordNames"] = sequenceRecordNames as CKRecordValue?
 	}
 	
 	func updateCloudKit() {
 		CloudKitHelper.sharedHelper.export(self)
 		_currentCKRecordName = getNewCKRecordName()
 	}
-	// =========================================
-
 }

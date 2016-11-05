@@ -18,7 +18,7 @@ enum CommunicatorManagerClassError: Error {
 
 
 
-class ConnectorManager {
+class ConnectorManager: Manager, CloudKitObject {
     private var _connectors: [String: Connector]
 	private var _currentCKRecordName: String?
 	
@@ -95,9 +95,8 @@ class ConnectorManager {
     func getCommunicator(internalName: String) -> Connector? {
         return _connectors[internalName]
     }
-}
 
-extension ConnectorManager: Manager {
+	// MARK: - Manager
 	func getUniqueNameBase() -> String {
 		return "Connector"
 	}
@@ -105,10 +104,8 @@ extension ConnectorManager: Manager {
 	func isNameUnique(_ name: String) -> Bool {
 		return _connectors.index(forKey: name) == nil
 	}
-}
 
-extension ConnectorManager: CloudKitObject {
-	
+	// MARK:- CloudKitObject
 	convenience init(ckRecord: CKRecord) throws {
 		self.init()
 		
@@ -173,7 +170,7 @@ extension ConnectorManager: CloudKitObject {
 			}
 		})
 		
-		record["communicatorRecordsNames"] = connectorRecordsNames
+		record["communicatorRecordsNames"] = connectorRecordsNames as CKRecordValue?
 	}
 	
 	func updateCloudKit() {

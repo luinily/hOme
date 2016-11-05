@@ -14,7 +14,7 @@ enum SequenceClassError: Error {
     case noCommandNames
     case recordTimeInvalid
 }
-class Sequence: NSObject {
+class Sequence: NSObject, Nameable, CommandProtocol, CloudKitObject {
     private var _name: Name
     private var _commands = [Int: [CommandProtocol]]()
     private var _timer: Timer?
@@ -101,10 +101,8 @@ class Sequence: NSObject {
 			_time = 0
 		}
 	}
-}
 
-//MARK: - Nameable
-extension Sequence: Nameable {
+	//MARK: - Nameable
 	var name: String {
 		get {return _name.name}
 		set {
@@ -115,21 +113,17 @@ extension Sequence: Nameable {
 	var fullName: String {return "Sequence: " + _name.name}
 	
 	var internalName: String {return _name.internalName}
-}
 
-//MARK: - CommandProtocol
-extension Sequence: CommandProtocol {
+	//MARK: - CommandProtocol
 	func execute () {
 		_time = 0
 		_timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(Sequence.executeTaskForTimer(_:)), userInfo: nil, repeats: true)
 		_timer?.fire()
 		
 	}
-}
 
-//MARK: - CloudKitObject
-extension Sequence: CloudKitObject {
-	convenience init (record: CKRecord, getCommand: (internalName: String) -> CommandProtocol?) throws {
+	//MARK: - CloudKitObject
+	convenience init (record: CKRecord, getCommand: @escaping (_ internalName: String) -> CommandProtocol?) throws {
 		self.init(iCloudRecordName: record.recordID.recordName)
 		
 		guard let name = record["Name"] as? String else {
@@ -147,7 +141,7 @@ extension Sequence: CloudKitObject {
 							_commands[time] = [CommandProtocol]()
 						}
 						
-						if let command = getCommand(internalName: str) {
+						if let command = getCommand(str) {
 							_commands[time]?.append(command)
 							
 						}
@@ -181,8 +175,8 @@ extension Sequence: CloudKitObject {
 	}
 	
 	func setUpCKRecord(_ record: CKRecord) {
-		record["Name"] = _name.name
-		record["InternalName"] = _name.internalName
+		record["Name"] = _name.name as CKRecordValue?
+		record["InternalName"] = _name.internalName as CKRecordValue?
 		var data = [String]()
 		_commands.forEach {
 			(time, commands) in
@@ -192,7 +186,7 @@ extension Sequence: CloudKitObject {
 			}
 		}
 		if data.count > 0 {
-			record["Data"] = data
+			record["Data"] = data as CKRecordValue?
 		}
 	}
 	

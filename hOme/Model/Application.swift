@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-class Application: NSObject {
+class Application: NSObject, ConnectorUser {
     private var _data = Data()
 
     private var _mainTimer = Timer()
@@ -64,12 +64,8 @@ class Application: NSObject {
 		_mainTimer.invalidate()
 		_isRunning = false
 	}
-}
 
-//MARK: - Schedule
-extension Application {
-
-	//--- schedule
+	//MARK: - Schedule
 	func getSchedule() -> [Weekday: [ScheduleCommand]] {
 		return _data.getSchedule()
 	}
@@ -77,11 +73,8 @@ extension Application {
 	func createAndAddNewScheduleCommand(command: CommandProtocol, days: Set<Weekday>, hour: Int, minute: Int) -> ScheduleCommand {
 		return _data.createAndAddNewScheduleCommand(command, days: days, hour: hour, minute: minute)
 	}
-}
 
-//MARK: - Commands
-extension Application {
-	//---- commands
+	//MARK: - Commands
 	func getCommandsOfDevice(deviceInternalName: String) -> [CommandProtocol]? {
 		return _data.getCommandsOfDevice(deviceInternalName: deviceInternalName)
 	}
@@ -101,10 +94,8 @@ extension Application {
 	func deleteCommand(_ command: CommandProtocol) {
 		_data.deleteCommand(command)
 	}
-}
 
-//MARK: - Sequences
-extension Application {
+	//MARK: - Sequences
 	func getSequences() -> [Sequence] {
 		return _data.getSequences()
 	}
@@ -124,10 +115,8 @@ extension Application {
 	func deleteSequence(_ sequence: Sequence) {
 		_data.deleteSequence(sequence)
 	}
-}
 
-//MARK: - Devices
-extension Application {
+	//MARK: - Devices
 	func createNewDevice(name: String, connector: Connector) -> DeviceProtocol {
 		let device = _data.createAndAddNewDeviceOfName(name, connector: connector)
 		_ = _data.createAndAddNewCommand(device: device, name: "OnOffCommand", commandType: .onOffCommand)
@@ -143,9 +132,9 @@ extension Application {
 		return _data.getDevices()
 	}
 	
-	func fetchDevices(completionHandler: (devices: [DeviceProtocol]) -> Void) {
+	func fetchDevices(completionHandler: (_ devices: [DeviceProtocol]) -> Void) {
 		let devices = _data.getDevices()
-		completionHandler(devices: devices)
+		completionHandler(devices)
 	}
 	
 	func getDevice(internalName: String) -> DeviceProtocol? {
@@ -155,10 +144,8 @@ extension Application {
 	func deleteDevice(_ device: DeviceProtocol) {
 		_data.deleteDevice(device)
 	}
-}
 
-//MARK: - Connectors
-extension Application: ConnectorUser {
+	//MARK: - Connectors
 	func createAndAddNewConnector(type: ConnectorType, name: String, internalName: String) -> Connector? {
 		return _data.createAndAddNewConnector(type, name: name, internalName: internalName)
 	}
@@ -194,13 +181,9 @@ extension Application: ConnectorUser {
 	func getConnector(internalName: String) -> Connector? {
 		return _data.getConnector(internalName: internalName)
 	}
-	
-}
 
-//MARK: - Buttons
-extension Application {
-	//--- buttons ----
-	func createNewButton(_ type: ButtonType, name: String, completionHandler: () -> Void) {
+	//MARK: - Buttons
+	func createNewButton(_ type: ButtonType, name: String, completionHandler: @escaping () -> Void) {
 		_data.createAndAddNewButton(type, name: name, completionHandler: completionHandler)
 	}
 	
